@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Proyecto IPN</string>
+    <string name="crearcuenta">CREAR CUENTA</string>
+    <string name="entrar">ENTRAR</string>
+    <string name="nombre">NOMBRE COMPLETO</string>
+    <string name="email">EMAIL</string>
+    <string name="pass">CONTRASEÑA</string>
+    <string name="passtwo">CONFIRMAR CONTRASEÑA</string>
+    <string name="registrar_con_fb">Registrarse con Facebook</string>
+    <string name="ingresar_con_fb">Ingresar con Facebook</string>
+    <string name="telefono">TELEFONO</string>
+    <string name="facebook_app_id">635682446597830</string>
+    <string name="cerrar_sersion">Cerrar sesión</string>
+    <string name="tv_name">Nombre</string>
+    <string name="editar_perfil">Editar perfil</string>
+    <string name="edad">EDAD</string>
+    <string name="fecha">FECHA DE NACIMIENTO</string>
+    <string name="tv_tipo">Tipo</string>
+</resources>

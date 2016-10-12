@@ -1,19 +1,22 @@
 <resources>
     <string name="app_name">Proyecto IPN</string>
-    <string name="crearcuenta">CREAR CUENTA</string>
-    <string name="entrar">ENTRAR</string>
-    <string name="nombre">NOMBRE COMPLETO</string>
-    <string name="email">EMAIL</string>
-    <string name="pass">CONTRASEÑA</string>
-    <string name="passtwo">CONFIRMAR CONTRASEÑA</string>
+    <string name="crearcuenta">Crear cuenta</string>
+    <string name="entrar">Entrar</string>
+    <string name="nombre">Nnombre completo</string>
+    <string name="email">Email</string>
+    <string name="pass">Contraseña</string>
+    <string name="passtwo">Confirmar contraseña</string>
     <string name="registrar_con_fb">Registrarse con Facebook</string>
     <string name="ingresar_con_fb">Ingresar con Facebook</string>
-    <string name="telefono">TELEFONO</string>
+    <string name="telefono">Teléfono</string>
     <string name="facebook_app_id">635682446597830</string>
     <string name="cerrar_sersion">Cerrar sesión</string>
     <string name="tv_name">Nombre</string>
     <string name="editar_perfil">Editar perfil</string>
-    <string name="edad">EDAD</string>
-    <string name="fecha">FECHA DE NACIMIENTO</string>
+    <string name="edad">Edad</string>
+    <string name="fecha">Fecha de nacimiento</string>
     <string name="tv_tipo">Tipo</string>
+    <string name="tipo_de_sangre">Tipo de sangre</string>
+    <string name="grupo">Grupo</string>
+    <string name="agregar_alumno">Agregar estudiante</string>
 </resources>

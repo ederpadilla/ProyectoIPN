@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:text="@string/tv_name"
-                android:id="@+id/tv_name"
+                android:id="@+id/tv_perfil_name"
                 android:textStyle="bold"/>
             <TextView
                 android:layout_width="match_parent"
@@ -110,14 +110,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-
-            <!--
-              This is yours target view with children (ommited for simplisity)
-              ...
-            -->
-
+            android:layout_height="match_parent">
         </android.support.v7.widget.RecyclerView>
 
         <!-- This is our FabView -->
@@ -131,6 +124,7 @@
             android:background="@drawable/my_cardview_back_ripple"
             app:fabSize="normal"
             app:borderWidth="0dp"
+            android:scaleType="center"
             app:elevation="16dp"
             android:backgroundTint="@color/red"
             app:pressedTranslationZ="12dp"

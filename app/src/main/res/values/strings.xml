@@ -2,7 +2,7 @@
     <string name="app_name">Proyecto IPN</string>
     <string name="crearcuenta">Crear cuenta</string>
     <string name="entrar">Entrar</string>
-    <string name="nombre">Nnombre completo</string>
+    <string name="nombre">Nombre completo</string>
     <string name="email">Email</string>
     <string name="pass">Contraseña</string>
     <string name="passtwo">Confirmar contraseña</string>
@@ -19,4 +19,13 @@
     <string name="tipo_de_sangre">Tipo de sangre</string>
     <string name="grupo">Grupo</string>
     <string name="agregar_alumno">Agregar estudiante</string>
+    <string name="nombre_simple">Nombre:</string>
+    <string name="edad_simple">Edad:</string>
+    <string name="fecha_simple">Fecha:</string>
+    <string name="telefono_simple">Télefono: </string>
+    <string name="grupo_simple">Grupo :</string>
+    <string name="tipo_de_sangre_simple">Tipo de sangre:</string>
+    <string name="codigo">Código</string>
+    <string name="buscar_estudiante">Ingrese el código del estudiante que va a buscar</string>
+    <string name="buscar">Buscar</string>
 </resources>

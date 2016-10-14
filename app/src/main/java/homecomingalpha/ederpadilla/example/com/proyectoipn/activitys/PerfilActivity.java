@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -26,6 +27,8 @@ public class PerfilActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     @BindView(R.id.fab)
     FloatingActionButton floatingActionButton;
+    @BindView(R.id.tv_perfil_name)
+    TextView tv_perfil_name;
     private List<Alumnos> alumnosList;
     private AlumnosAdapter alumnosAdapter;
 

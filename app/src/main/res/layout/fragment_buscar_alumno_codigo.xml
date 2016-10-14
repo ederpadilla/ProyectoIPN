@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    android:layout_width="300dp"
+    android:layout_height="150dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="6dp"
+    android:layout_gravity="top"
+    android:id="@+id/cardview_profile"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="16dp"
+    android:layout_alignParentTop="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@drawable/my_cardview_back_ripple">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:text="@string/buscar_estudiante"/>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/white">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fragment_et_codigo_buscar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/codigo"
+                android:imeOptions="actionDone"
+                app:paddingStart="10dp"
+                android:inputType="textCapSentences"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_fragment_buscar"
+        android:layout_width="120dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/my_red_btn_ripple"
+        android:text="@string/buscar"
+        android:textColor="@color/white"
+        android:textStyle="bold"/>
+
+</android.support.v7.widget.CardView>

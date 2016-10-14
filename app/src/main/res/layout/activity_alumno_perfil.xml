@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_alumno_perfil"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,6 +9,98 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context="homecomingalpha.ederpadilla.example.com.proyectoipn.activitys.AlumnoPerfilActivity">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:src="@mipmap/ic_arrow_back"
+        android:id="@+id/img_arrow_back"/>
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:clickable="true"
+        android:id="@+id/alumno_photo"
+        android:layout_gravity="center"
+        android:src="@drawable/com_facebook_profile_picture_blank_portrait" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="50"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/nombre_simple"
+                android:id="@+id/tv_alumno_perfil_nombre"
+                style="@style/myt_profile_tv_style"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/edad_simple"
+                android:id="@+id/tv_alumno_perfil_edad"
+                style="@style/myt_profile_tv_style"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/tipo_de_sangre_simple"
+                android:id="@+id/tv_alumno_perfil_tipo_de_sangre"
+                style="@style/myt_profile_tv_style"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="50"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/fecha_simple"
+                android:id="@+id/tv_alumno_perfil_fecha"
+                style="@style/myt_profile_tv_style"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/telefono_simple"
+                android:id="@+id/tv_alumno_perfil_telefono"
+                style="@style/myt_profile_tv_style"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/grupo_simple"
+                android:id="@+id/tv_alumno_perfil_grupo"
+                style="@style/myt_profile_tv_style"/>
 
-</RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/codigo"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:text="EP2016"
+        android:textAlignment="center"
+        android:inputType=""/>
+
+</LinearLayout>

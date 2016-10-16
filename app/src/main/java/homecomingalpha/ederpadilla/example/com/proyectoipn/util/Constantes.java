@@ -16,9 +16,11 @@ public class Constantes {
     public static final int INPUT_INVALID_EMAIL = -1;
     public static final int INPUT_OK = 1;
     public static final int INPUT_EMPTY_PASSWORD = 0;
-    public static final int INPUT_INVALID_PHONE = 1;
+    public static final int INPUT_INVALID_PHONE = 0;
     public static final int INPUT_FIELD_EMPTY=0;
     public static final int INPUT_FIELD_OK=1;
+    public static final int USUARIO_PADRE_MADRE=0;
+    public static final int USUARIO_PROFESOR=1;
 
     public static final String EMPTYFIELD="CAMPO VACIO";
 }

@@ -64,7 +64,6 @@ public class Util {
         int STATUS_OF_FIELD=0;
         String value = editText.getText().toString();
         if (value.equals("")||value.isEmpty()){
-            editText.setError(Constantes.EMPTYFIELD);
             STATUS_OF_FIELD=0;
         }else {
             STATUS_OF_FIELD=1;

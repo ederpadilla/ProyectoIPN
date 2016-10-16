@@ -19,7 +19,7 @@ import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Util;
 public class SplashActivity extends Activity {
     private Thread splashTread;
     @BindView(R.id.lilnear)
-    LinearLayout l;
+    LinearLayout linearLayout;
     @BindView(R.id.splash)
     ImageView logo;
     public void onAttachedToWindow() {
@@ -42,8 +42,8 @@ public class SplashActivity extends Activity {
     private void StartAnimations() {
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.alpha);
         anim.reset();
-        l.clearAnimation();
-        l.startAnimation(anim);
+        linearLayout.clearAnimation();
+        linearLayout.startAnimation(anim);
         /** We call the animation that says form where to where its gonna move. */
         anim = AnimationUtils.loadAnimation(this, R.anim.translate);
         anim.reset();

@@ -1,14 +1,12 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.fragments;
 
-import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +26,7 @@ public class BuscarEstudianteFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         /** Inflamos nuestra vista */
-        View view = inflater.inflate(R.layout.fragment_buscar_alumno_codigo, container);
+        View view = inflater.inflate(R.layout.fragment_buscar_alumno_codigo, container,false);
         ButterKnife.bind(this, view);
         return view;
     }

@@ -1,6 +1,7 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.activitys;
 
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.R;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.adapters.AlumnosAdapter;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.fragments.BuscarEstudianteFragment;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.models.Alumnos;
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
@@ -71,9 +73,15 @@ public class PerfilActivity extends AppCompatActivity {
 
     @OnClick(R.id.fab)
     public void add_alumns(){
-        Alumnos alumnos = new Alumnos("Brenda Morales Peña", "40 años","2/02/1894");
-        alumnosList.add(0,alumnos);
-        alumnosAdapter.notifyDataSetChanged();
+     showDialog();
+      //  Alumnos alumnos = new Alumnos("Brenda Morales Peña", "40 años","2/02/1894");
+      //  alumnosList.add(0,alumnos);
+      //  alumnosAdapter.notifyDataSetChanged();
+    }
+    private void showDialog() {
+        DialogFragment newFragment = BuscarEstudianteFragment.newInstance();
+        newFragment.show(getSupportFragmentManager(),"buscar niño");
+
     }
 
 

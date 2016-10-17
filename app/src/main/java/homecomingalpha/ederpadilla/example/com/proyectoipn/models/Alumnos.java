@@ -1,44 +1,107 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.models;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by ederpadilla on 12/10/16.
  */
 
-public class Alumnos {
-    private String nombreCompleto;
-    private String edad;
-    private String fechaNacimiento;
+public class Alumnos extends RealmObject {
+    private String nombreCompletoAlumno;
+    private String edadAlumno;
+    private String fechaNacimientoAlumno;
+    private String tipoDeSangreAlumno;
+    private String telefonoAlumno;
+    private String grupoAlumno;
+    @PrimaryKey
+    private String codigoAlumno;
 
     public Alumnos() {
     }
 
     public Alumnos(String nombreCompleto, String edad, String fechaNacimiento) {
-        this.nombreCompleto = nombreCompleto;
-        this.edad = edad;
-        this.fechaNacimiento = fechaNacimiento;
+        this.nombreCompletoAlumno = nombreCompleto;
+        this.edadAlumno = edad;
+        this.fechaNacimientoAlumno = fechaNacimiento;
     }
 
-    public String getNombreCompleto() {
-        return nombreCompleto;
+    public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String codigoAlumno) {
+        this.nombreCompletoAlumno = nombreCompletoAlumno;
+        this.edadAlumno = edadAlumno;
+        this.fechaNacimientoAlumno = fechaNacimientoAlumno;
+        this.tipoDeSangreAlumno = tipoDeSangreAlumno;
+        this.telefonoAlumno = telefonoAlumno;
+        this.grupoAlumno = grupoAlumno;
+        this.codigoAlumno = codigoAlumno;
     }
 
-    public void setNombreCompleto(String nombreCompleto) {
-        this.nombreCompleto = nombreCompleto;
+    public String getNombreCompletoAlumno() {
+        return nombreCompletoAlumno;
     }
 
-    public String getEdad() {
-        return edad;
+    public void setNombreCompletoAlumno(String nombreCompletoAlumno) {
+        this.nombreCompletoAlumno = nombreCompletoAlumno;
     }
 
-    public void setEdad(String edad) {
-        this.edad = edad;
+    public String getEdadAlumno() {
+        return edadAlumno;
     }
 
-    public String getFechaNacimiento() {
-        return fechaNacimiento;
+    public void setEdadAlumno(String edadAlumno) {
+        this.edadAlumno = edadAlumno;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
+    public String getFechaNacimientoAlumno() {
+        return fechaNacimientoAlumno;
+    }
+
+    public void setFechaNacimientoAlumno(String fechaNacimientoAlumno) {
+        this.fechaNacimientoAlumno = fechaNacimientoAlumno;
+    }
+
+    public String getTipoDeSangreAlumno() {
+        return tipoDeSangreAlumno;
+    }
+
+    public void setTipoDeSangreAlumno(String tipoDeSangreAlumno) {
+        this.tipoDeSangreAlumno = tipoDeSangreAlumno;
+    }
+
+    public String getTelefonoAlumno() {
+        return telefonoAlumno;
+    }
+
+    public void setTelefonoAlumno(String telefonoAlumno) {
+        this.telefonoAlumno = telefonoAlumno;
+    }
+
+    public String getGrupoAlumno() {
+        return grupoAlumno;
+    }
+
+    public void setGrupoAlumno(String grupoAlumno) {
+        this.grupoAlumno = grupoAlumno;
+    }
+
+    public String getCodigoAlumno() {
+        return codigoAlumno;
+    }
+
+    public void setCodigoAlumno(String codigoAlumno) {
+        this.codigoAlumno = codigoAlumno;
+    }
+
+    @Override
+    public String toString() {
+        return "Alumnos{" +
+                "codigoAlumno='" + codigoAlumno + '\'' +
+                ", grupoAlumno='" + grupoAlumno + '\'' +
+                ", telefonoAlumno='" + telefonoAlumno + '\'' +
+                ", tipoDeSangreAlumno='" + tipoDeSangreAlumno + '\'' +
+                ", fechaNacimientoAlumno='" + fechaNacimientoAlumno + '\'' +
+                ", edadAlumno='" + edadAlumno + '\'' +
+                ", nombreCompletoAlumno='" + nombreCompletoAlumno + '\'' +
+                '}';
     }
 }

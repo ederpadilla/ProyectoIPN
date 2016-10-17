@@ -17,7 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:src="@mipmap/ic_arrow_back"
-        android:id="@+id/img_arrow_back"/>
+        android:id="@+id/img_arrow_back"
+        android:clickable="true"/>
     <com.mikhaellopez.circularimageview.CircularImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -33,7 +34,7 @@
         android:textColorHint="@color/white">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/agregar_alumno_nombre"
+            android:id="@+id/et_agregar_alumno_nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -54,7 +55,7 @@
         android:textColorHint="@color/white">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/agregar_alumno_edad"
+            android:id="@+id/et_agregar_alumno_edad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -76,7 +77,7 @@
         android:textColorHint="@color/white">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/agregar_alumno_fecha"
+            android:id="@+id/et_agregar_alumno_fecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -91,7 +92,7 @@
 
      </android.support.design.widget.TextInputLayout>
     <com.jaredrummler.materialspinner.MaterialSpinner
-      android:id="@+id/spinner_sangre"
+      android:id="@+id/agregar_alumno_spinner_sangre"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/tipo_de_sangre"
@@ -106,7 +107,7 @@
         android:textColorHint="@color/white">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/agregar_alumno_telefono"
+            android:id="@+id/et_agregar_alumno_telefono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -127,7 +128,7 @@
         android:textColorHint="@color/white">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/agregar_alumno_grupo"
+            android:id="@+id/et_agregar_alumno_grupo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -142,7 +143,7 @@
 
     </android.support.design.widget.TextInputLayout>
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_agregar_estudiante"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_gravity="center"

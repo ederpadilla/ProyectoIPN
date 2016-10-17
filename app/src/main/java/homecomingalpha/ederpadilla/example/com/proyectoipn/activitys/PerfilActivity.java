@@ -1,5 +1,6 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.activitys;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,8 @@ import homecomingalpha.ederpadilla.example.com.proyectoipn.R;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.adapters.AlumnosAdapter;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.fragments.BuscarEstudianteFragment;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.models.Alumnos;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.models.User;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Constantes;
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
 public class PerfilActivity extends AppCompatActivity {
@@ -33,6 +36,7 @@ public class PerfilActivity extends AppCompatActivity {
     TextView tv_perfil_name;
     private List<Alumnos> alumnosList;
     private AlumnosAdapter alumnosAdapter;
+    User user;
 
 
     @Override
@@ -41,6 +45,7 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
         ButterKnife.bind(this);
         recViewInit();
+        user = new User("Eder","5532453223","eder.padilla97@gmail.com","12341231",1);
     }
 
     /**Iniciamos el reciclerview*/
@@ -73,10 +78,20 @@ public class PerfilActivity extends AppCompatActivity {
 
     @OnClick(R.id.fab)
     public void add_alumns(){
-     showDialog();
-      //  Alumnos alumnos = new Alumnos("Brenda Morales Peña", "40 años","2/02/1894");
-      //  alumnosList.add(0,alumnos);
-      //  alumnosAdapter.notifyDataSetChanged();
+        switch (user.getTipoDeUuario()){
+            case Constantes.USUARIO_PADRE_MADRE:
+                showDialog();
+                break;
+            case Constantes.USUARIO_PROFESOR:
+                Intent intent = new Intent(PerfilActivity.this,
+                        AgregarAlumnoActivity.class);
+                startActivity(intent);
+              //  Alumnos alumnos = new Alumnos("Brenda Morales Peña", "40 años","2/02/1894");
+              //  alumnosList.add(0,alumnos);
+              //  alumnosAdapter.notifyDataSetChanged();
+              //  break;
+        }
+
     }
     private void showDialog() {
         DialogFragment newFragment = BuscarEstudianteFragment.newInstance();

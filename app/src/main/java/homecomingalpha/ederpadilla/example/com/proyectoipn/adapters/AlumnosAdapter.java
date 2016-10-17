@@ -94,9 +94,9 @@ public class AlumnosAdapter extends RecyclerView.Adapter<AlumnosAdapter.Titulare
 
         public void bindTitular(Alumnos alumno) {
 
-                tv_nombre.setText(alumno.getNombreCompleto());
-                tv_edad.setText(alumno.getEdad());
-                tv_fecha_de_nacimiento.setText(alumno.getFechaNacimiento());
+                tv_nombre.setText(alumno.getNombreCompletoAlumno());
+                tv_edad.setText(alumno.getEdadAlumno());
+                tv_fecha_de_nacimiento.setText(alumno.getFechaNacimientoAlumno());
         }
 
 

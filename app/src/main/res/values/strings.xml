@@ -28,7 +28,7 @@
 	<string name="registrar_con_fb">Registrarse con Facebook</string>
 	<string name="telefono_simple">Télefono: </string>
 	<string name="app_name">Proyecto IPN</string>
-	<string name="fecha">Fecha de nacimiento</string>
+	<string name="fecha">Fecha de nacimiento en el formato dd/MM/YYYY</string>
 	<string name="tv_name">Nombre</string>
 	<string name="buscar">Buscar</string>
 	<string name="edad_simple">Edad:</string>
@@ -38,4 +38,12 @@
 	<string name="padre">Padre</string>
 	<string name="madre">Madre</string>
 	<string name="tipo_de_usuario">Tipo de usuario</string>
+	<string name="A_POSITIVO_TIPODESANGRE">A+</string>
+	<string name="B_POSITIVO_TIPODESANGRE">B+</string>
+	<string name="AB_POSITIVO_TIPODESANGRE">AB+</string>
+	<string name="O_POSITIVO_TIPODESANGRE">O+</string>
+	<string name="A_NEGATIVO_TIPODESANGRE">-A</string>
+	<string name="B_NEGATIVO_TIPODESANGRE">-B</string>
+	<string name="AB_NEGATIVO_TIPODESANGRE">-AB</string>
+	<string name="O_NEGATIVO_TIPODESANGRE">-O</string>
 </resources>

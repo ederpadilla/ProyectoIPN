@@ -170,7 +170,9 @@ public class PerfilActivity extends AppCompatActivity {
 
     }
     public void getAllAlumnosinRealm(){
+            alumnosList.clear();
         RealmResults<Alumnos> todosLosAlumnos = realm.where(Alumnos.class).findAll();
+        Util.showLog("Todos los alumnos que hay "+todosLosAlumnos);
         for (Alumnos alumnos : todosLosAlumnos) {
             alumnosList.add(alumnos);
         }
@@ -180,6 +182,7 @@ public class PerfilActivity extends AppCompatActivity {
             Util.showLog("Esta entrando pa aca");
             alumnosRealmList =
                     alumnosRealmList = new RealmList<>();
+            alumnosAdapter.notifyDataSetChanged();
 
             for (int i = 0; i < alumnosList.size(); i++) {
                 alumnosRealmList.add(alumnosList.get(i));
@@ -214,11 +217,13 @@ public class PerfilActivity extends AppCompatActivity {
          botondeempleados.setImageBitmap(bitmap);*/
         //Bitmap bitmap = BitmapFactory.decodeByteArray(user.getBytes(),0,user.getBytes().length);
         //cimgv_profile.setImageBitmap(bitmap);
+            alumnosList.clear();
+        alumnosAdapter.notifyDataSetChanged();
         tv_perfil_name.setText(user.getNombre());
         String tipoEnString="";
-
         for (int i =0 ;i<user.getAlumnosRealmList().size();i++)
             alumnosList.add(user.getAlumnosRealmList().get(i));
+        alumnosAdapter.notifyDataSetChanged();
         Util.showLog("Lista es "+user.getAlumnosRealmList());
         switch (user.getTipoDeUuario()){
             case Constantes.USUARIO_PADRE_MADRE:

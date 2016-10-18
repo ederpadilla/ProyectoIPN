@@ -15,6 +15,7 @@ public class Alumnos extends RealmObject {
     private String telefonoAlumno;
     private String grupoAlumno;
     private byte[]bytes;
+    private String idDelProfesor;
     @PrimaryKey
     private String codigoAlumno;
 
@@ -25,6 +26,29 @@ public class Alumnos extends RealmObject {
         this.nombreCompletoAlumno = nombreCompleto;
         this.edadAlumno = edad;
         this.fechaNacimientoAlumno = fechaNacimiento;
+    }
+
+    public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String idDelProfesor, String codigoAlumno) {
+        this.nombreCompletoAlumno = nombreCompletoAlumno;
+        this.edadAlumno = edadAlumno;
+        this.fechaNacimientoAlumno = fechaNacimientoAlumno;
+        this.tipoDeSangreAlumno = tipoDeSangreAlumno;
+        this.telefonoAlumno = telefonoAlumno;
+        this.grupoAlumno = grupoAlumno;
+        this.idDelProfesor = idDelProfesor;
+        this.codigoAlumno = codigoAlumno;
+    }
+
+    public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, byte[] bytes, String idDelProfesor, String codigoAlumno) {
+        this.nombreCompletoAlumno = nombreCompletoAlumno;
+        this.edadAlumno = edadAlumno;
+        this.fechaNacimientoAlumno = fechaNacimientoAlumno;
+        this.tipoDeSangreAlumno = tipoDeSangreAlumno;
+        this.telefonoAlumno = telefonoAlumno;
+        this.grupoAlumno = grupoAlumno;
+        this.bytes = bytes;
+        this.idDelProfesor = idDelProfesor;
+        this.codigoAlumno = codigoAlumno;
     }
 
     public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String codigoAlumno) {
@@ -46,6 +70,14 @@ public class Alumnos extends RealmObject {
         this.grupoAlumno = grupoAlumno;
         this.bytes = bytes;
         this.codigoAlumno = codigoAlumno;
+    }
+
+    public String getIdDelProfesor() {
+        return idDelProfesor;
+    }
+
+    public void setIdDelProfesor(String idDelProfesor) {
+        this.idDelProfesor = idDelProfesor;
     }
 
     public byte[] getBytes() {

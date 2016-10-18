@@ -171,17 +171,22 @@ public class PerfilActivity extends AppCompatActivity {
     }
     public void getAllAlumnosinRealm(){
             alumnosList.clear();
-        RealmResults<Alumnos> todosLosAlumnos = realm.where(Alumnos.class).findAll();
-        Util.showLog("Todos los alumnos que hay "+todosLosAlumnos);
-        for (Alumnos alumnos : todosLosAlumnos) {
-            alumnosList.add(alumnos);
-        }
+       // for (Alumnos alumnos : user.getAlumnosRealmList()){
+       //     alumnosList.add(alumnos);
+       // }
+       RealmResults<Alumnos> todosLosAlumnos = realm.where(Alumnos.class).findAll();
+       Util.showLog("Todos los alumnos que hay "+todosLosAlumnos);
+       for (Alumnos alumnos : todosLosAlumnos) {
+           if (alumnos.getIdDelProfesor().equals(user.getId())){
+           alumnosList.add(alumnos);
+           }
+
+       }
         if (alumnosList.size()<1){
         Util.showLog("no esta agarrando ni madres");
         }else {
             Util.showLog("Esta entrando pa aca");
-            alumnosRealmList =
-                    alumnosRealmList = new RealmList<>();
+            alumnosRealmList = alumnosRealmList = new RealmList<>();
             alumnosAdapter.notifyDataSetChanged();
 
             for (int i = 0; i < alumnosList.size(); i++) {
@@ -196,22 +201,7 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
-    /**   private void actualizarUsuario(User usuarioActualizado){
-     usuarioActualizado=realm.where(User.class)
-     .equalTo(Constantes.LLAVE_USUARIO_ID,buscarUsuario().getId())
-     .findFirst();
-     String nuevoNombre =et_nombre.getText().toString();
-     String nuevoTelefono=et_telefono.getText().toString();
-     String nuevoMail=et_mail.getText().toString();
-     String nuevaContraseña=et_mail.getText().toString();
-     realm.beginTransaction();
-     usuarioActualizado.setNombre(nuevoNombre);
-     usuarioActualizado.setTelefono(nuevoTelefono);
-     usuarioActualizado.setEmail(nuevoMail);
-     usuarioActualizado.setContraseña(nuevaContraseña);
-     realm.copyToRealmOrUpdate(usuarioActualizado);
-     realm.commitTransaction();
-     }*/
+
     private void setTextViews(){
         /**  Bitmap bitmap = BitmapFactory.decodeByteArray(allEmpleados.get(i).getBytes(), 0, allEmpleados.get(i).getBytes().length);
          botondeempleados.setImageBitmap(bitmap);*/

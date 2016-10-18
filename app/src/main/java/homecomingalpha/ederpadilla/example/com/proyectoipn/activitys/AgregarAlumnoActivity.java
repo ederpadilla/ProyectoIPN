@@ -151,7 +151,7 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
         fecha=et_agregar_alumno_fecha.getText().toString();
         telefono=et_agregar_alumno_telefono.getText().toString();
         grupo=et_agregar_alumno_grupo.getText().toString();
-        Alumnos alumnoCreado= new Alumnos(nombre,edad,fecha,tipoDeSangre,telefono,grupo,generarCodigo());
+        Alumnos alumnoCreado= new Alumnos(nombre,edad,fecha,tipoDeSangre,telefono,grupo,Util.getSharerPreferencesUserId(getApplicationContext()),generarCodigo());
         return alumnoCreado;
     }
     private void crearAlumno(Alumnos alumnos){

@@ -1,21 +1,34 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.models;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by ederpadilla on 10/10/16.
  */
 
-public class User {
+public class User extends RealmObject {
     private String nombre;
     private String telefono;
     private String email;
     private String contraseña;
     private int tipoDeUuario;
+    private RealmList<Alumnos> alumnosRealmList;
     @PrimaryKey
     String id;
 
     public User() {
+    }
+
+    public User(String nombre, String telefono, String email, String contraseña, int tipoDeUuario, RealmList<Alumnos> alumnosRealmList, String id) {
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.email = email;
+        this.contraseña = contraseña;
+        this.tipoDeUuario = tipoDeUuario;
+        this.alumnosRealmList = alumnosRealmList;
+        this.id = id;
     }
 
     public User(String nombre, String telefono, String email, String contraseña, int tipoDeUuario, String id) {
@@ -83,6 +96,14 @@ public class User {
         this.id = id;
     }
 
+    public RealmList<Alumnos> getAlumnosRealmList() {
+        return alumnosRealmList;
+    }
+
+    public void setAlumnosRealmList(RealmList<Alumnos> alumnosRealmList) {
+        this.alumnosRealmList = alumnosRealmList;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -91,6 +112,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", contraseña='" + contraseña + '\'' +
                 ", tipoDeUuario=" + tipoDeUuario +
+                ", alumnosRealmList=" + alumnosRealmList +
                 ", id='" + id + '\'' +
                 '}';
     }

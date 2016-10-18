@@ -2,6 +2,7 @@ package homecomingalpha.ederpadilla.example.com.proyectoipn.activitys;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.R;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Constantes;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Util;
 
 public class SplashActivity extends Activity {
@@ -30,13 +32,24 @@ public class SplashActivity extends Activity {
     /**
      * Called when the activity is first created.
      */
+    SharedPreferences sharedPreferences;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-        StartAnimations();
+        sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
+        checkForUserLogIn();
 
+    }
+    private void checkForUserLogIn(){
+        if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
+            Intent intent = new Intent(SplashActivity.this,PerfilActivity.class);
+            startActivity(intent);
+            SplashActivity.this.finish();
+        }else {
+            StartAnimations();
+        }
     }
     /** Here we star the animation. */
     private void StartAnimations() {
@@ -58,19 +71,6 @@ public class SplashActivity extends Activity {
 
                     /** Pause the execution of the code for 3.5 secs. **/
                     sleep(1500);
-                    /** We check if there is a user log in or not. **/
-                    //String unm= sharedPreferences.getString(getResources().getString(R.string.Shared_Preferences_User), null);
-                    /**if(sharedPreferences.contains(getResources().getString(R.string.Shared_Preferences_User))){
-                     Log.e("entra al if","if false");
-                     Intent intent = new Intent(Splash.this,
-                     CalendarActivity.class);intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                     startActivity(intent);
-                     }else{
-                     Log.e("entra al else","else");
-                     Intent intent = new Intent(Splash.this,
-                     LoginActivity.class);intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                     startActivity(intent);
-                     }**/
                     Intent intent = new Intent(SplashActivity.this,
                             MainActivity.class);
                     startActivity(intent);

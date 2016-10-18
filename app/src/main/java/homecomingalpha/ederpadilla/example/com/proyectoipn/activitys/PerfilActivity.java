@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -23,6 +25,10 @@ import homecomingalpha.ederpadilla.example.com.proyectoipn.fragments.BuscarEstud
 import homecomingalpha.ederpadilla.example.com.proyectoipn.models.Alumnos;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.models.User;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Constantes;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Util;
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
 public class PerfilActivity extends AppCompatActivity {
@@ -36,7 +42,9 @@ public class PerfilActivity extends AppCompatActivity {
     TextView tv_perfil_name;
     private List<Alumnos> alumnosList;
     private AlumnosAdapter alumnosAdapter;
-    User user;
+    private User user;
+    private Bundle bundle;
+    private Realm realm;
 
 
     @Override
@@ -45,7 +53,35 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
         ButterKnife.bind(this);
         recViewInit();
-        user = new User("Eder","5532453223","eder.padilla97@gmail.com","12341231",1);
+        realm = Realm.getDefaultInstance();
+        //user = new User("Eder","5532453223","eder.padilla97@gmail.com","12341231",1);
+        checkForUserType();
+    }
+
+    private void checkForUserType() {
+        if (Util.getSharerPreferencesUserType(getApplicationContext())==Constantes.USUARIO_PROFESOR){
+            usuarioTipoProfesor();
+        }else {
+            usuarioTipoPadreMadre();
+        }
+    }
+
+    private void usuarioTipoProfesor() {
+    getAllAlumnosinRealm();
+
+    }
+
+    private void usuarioTipoPadreMadre() {
+
+    }
+
+    @OnClick(R.id.tv_editar_perfil)
+    public void editPerfil(){
+        super.onBackPressed();
+        Intent intent = new Intent(PerfilActivity.this,
+                RegistrarseActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     /**Iniciamos el reciclerview*/
@@ -74,6 +110,18 @@ public class PerfilActivity extends AppCompatActivity {
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
+        alumnosAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("Perfil activity", "Pulsado el elemento " + recyclerView.getChildAdapterPosition(v));
+                Alumnos alumno = alumnosList.get(recyclerView.getChildAdapterPosition(v));
+                Intent intent = new Intent(PerfilActivity.this,
+                            AlumnoPerfilActivity.class);
+                intent.putExtra(Constantes.LLAVE_ALUMNO_CODIGO,alumno.getCodigoAlumno());
+                startActivity(intent);
+                PerfilActivity.this.finish();
+            }
+        });
     }
 
     @OnClick(R.id.fab)
@@ -86,6 +134,8 @@ public class PerfilActivity extends AppCompatActivity {
                 Intent intent = new Intent(PerfilActivity.this,
                         AgregarAlumnoActivity.class);
                 startActivity(intent);
+                finish();
+                break;
               //  Alumnos alumnos = new Alumnos("Brenda Morales Peña", "40 años","2/02/1894");
               //  alumnosList.add(0,alumnos);
               //  alumnosAdapter.notifyDataSetChanged();
@@ -96,6 +146,27 @@ public class PerfilActivity extends AppCompatActivity {
     private void showDialog() {
         DialogFragment newFragment = BuscarEstudianteFragment.newInstance();
         newFragment.show(getSupportFragmentManager(),"buscar niño");
+
+    }
+    public void getAllAlumnosinRealm(){
+        RealmResults<Alumnos> todosLosAlumnos=realm.where(Alumnos.class).findAll();
+        for (Alumnos alumnos:todosLosAlumnos){
+            alumnosList.add(alumnos);
+        }
+        alumnosAdapter.notifyDataSetChanged();
+        RealmList<Alumnos> alumnosRealmList=
+                alumnosRealmList= new RealmList<>();;
+        for (int i =0;i<=alumnosList.size();i++){
+            alumnosRealmList.add(alumnosList.get(i));
+        }
+        user.setAlumnosRealmList(alumnosRealmList);
+        actulizarUsuario(user);
+
+    }
+    private void actulizarUsuario(User user){
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(user);
+        realm.commitTransaction();
 
     }
 

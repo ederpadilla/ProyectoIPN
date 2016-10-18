@@ -5,17 +5,22 @@ import android.content.SharedPreferences;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.util.Random;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.R;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.models.User;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Constantes;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Util;
+import io.realm.Realm;
 
 public class RegistrarseActivity extends AppCompatActivity {
     @BindView(R.id.img_photo)
@@ -30,8 +35,8 @@ public class RegistrarseActivity extends AppCompatActivity {
     TextInputEditText et_password;
     @BindView(R.id.spinner)
     MaterialSpinner spinner;
-    @BindView(R.id.btn_entrar)
-    Button btn_entrar;
+    @BindView(R.id.btn_crearcuenta)
+    Button btn_crearcuenta;
     private int tipoDeUsuario=3;
     private String userType="";
 
@@ -41,11 +46,32 @@ public class RegistrarseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrarse);
         ButterKnife.bind(this);
-        spinnerAdapter();
+        spinner.setVisibility(View.GONE);
+        checkForUserLogIn();
     }
-    @OnClick(R.id.btn_entrar)
-    public void entrar(){
-        validateEmptyFields();
+
+    private void checkForUserLogIn() {
+        SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
+        if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
+            et_nombre.setText(Util.getSharerPreferencesUserName(getApplicationContext()));
+            et_telefono.setText(Util.getSharerPreferencesUsePhone(getApplicationContext()));
+            et_mail.setText(Util.getSharerPreferencesUserMail(getApplicationContext()));
+            et_password.setText(Util.getSharerPreferencesUserPass(getApplicationContext()));
+            btn_crearcuenta.setText(getString(R.string.actualizar));
+        }else{
+            spinner.setVisibility(View.VISIBLE);
+            spinnerAdapter();
+        }
+
+    }
+
+    @OnClick(R.id.btn_crearcuenta)
+    public void entrar(){ SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
+        if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
+
+        }else{
+            validateEmptyFields();
+        }
 
     }
 
@@ -72,6 +98,7 @@ public class RegistrarseActivity extends AppCompatActivity {
                 }
 
             }else {
+                createUser(usuarioConParametros());
                 Intent intent = new Intent(RegistrarseActivity.this,
                         PerfilActivity.class);
                 startActivity(intent);
@@ -112,5 +139,22 @@ public class RegistrarseActivity extends AppCompatActivity {
                 MainActivity.class);
         startActivity(intent);
         finish();
+    }
+    private void createUser(User user){
+    Realm realm =Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(user);
+        realm.commitTransaction();
+
+    }
+    private User usuarioConParametros(){
+        String id = Util.randomInt(0,1000)+"";
+        String nombre=et_nombre.getText().toString();
+        String telefono= et_telefono.getText().toString();
+        String email=et_mail.getText().toString();
+        String pass=et_password.getText().toString();
+        User user = new User(nombre,telefono,email,pass,tipoDeUsuario,id);
+        Util.showLog("EL usuario que se crea "+user.toString());
+        return user;
     }
 }

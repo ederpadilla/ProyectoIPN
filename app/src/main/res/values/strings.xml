@@ -28,7 +28,7 @@
 	<string name="registrar_con_fb">Registrarse con Facebook</string>
 	<string name="telefono_simple">Télefono: </string>
 	<string name="app_name">Proyecto IPN</string>
-	<string name="fecha">Fecha de nacimiento en el formato dd/MM/YYYY</string>
+	<string name="fecha">Fecha Nacimiento(formato dd/MM/YYYY)</string>
 	<string name="tv_name">Nombre</string>
 	<string name="buscar">Buscar</string>
 	<string name="edad_simple">Edad:</string>
@@ -46,4 +46,12 @@
 	<string name="B_NEGATIVO_TIPODESANGRE">-B</string>
 	<string name="AB_NEGATIVO_TIPODESANGRE">-AB</string>
 	<string name="O_NEGATIVO_TIPODESANGRE">-O</string>
+	<string name="checkout">Check out</string>
+	<string name="en_camino">En camino</string>
+	<string name="retardo">Voy retrasado</string>
+	<string name="alguienmas">Alguien mas lo recogerá</string>
+	<string name="nombre_de_la_persona_que_recoge">Nombre de la persona que va a realizar el checkout</string>
+	<string name="persona_check_out">Nombre</string>
+	<string name="estado_de_salida_del_niño">El estado de la salida del niño es :</string>
+	<string name="actualizar">Actualizar</string>
 </resources>

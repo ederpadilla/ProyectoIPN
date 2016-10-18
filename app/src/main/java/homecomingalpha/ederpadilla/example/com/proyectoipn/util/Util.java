@@ -1,13 +1,17 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.util.Patterns;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import homecomingalpha.ederpadilla.example.com.proyectoipn.models.User;
 
 /**
  * Created by ederpadilla on 10/10/16.
@@ -28,6 +32,17 @@ public class Util {
             return Constantes.INPUT_INVALID_EMAIL;
         }
         return Constantes.INPUT_OK;
+    }
+    public static int randomInt(int min, int max) {
+
+        // Usually this can be a field rather than a method variable
+        Random rand = new Random();
+
+        // nextInt is normally exclusive of the top value,
+        // so add 1 to make it inclusive
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
     }
 
     public static int isEmptyText(String text) {
@@ -78,5 +93,36 @@ public class Util {
     }
     public static void showLog(String log){
         Log.e("MyLog for Debbugging",log);
+    }
+
+    public static void saveSharedPreferences(Context context,User usuario){
+        SharedPreferences mSharedPreferences =  context.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(Constantes.LLAVE_NOMBRE,usuario.getNombre());
+        editor.putString(Constantes.LLAVE_TELEFONO,usuario.getTelefono());
+        editor.putString(Constantes.LLAVE_EMAIL,usuario.getTelefono());
+        editor.putString(Constantes.LLAVE_CONTRASEÑA,usuario.getContraseña());
+        editor.putInt(Constantes.LLAVE_TIPO_DE_USUARIO,usuario.getTipoDeUuario());
+        editor.commit();
+    }
+    public static String getSharerPreferencesUserName(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
+        return sharedPreferences.getString(Constantes.LLAVE_NOMBRE,"");
+    }
+    public static String getSharerPreferencesUsePhone(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
+        return sharedPreferences.getString(Constantes.LLAVE_TELEFONO,"");
+    }
+    public static String getSharerPreferencesUserMail(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
+        return sharedPreferences.getString(Constantes.LLAVE_EMAIL,"");
+    }
+    public static String getSharerPreferencesUserPass(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
+        return sharedPreferences.getString(Constantes.LLAVE_CONTRASEÑA,"");
+    }
+    public static int getSharerPreferencesUserType(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
+        return sharedPreferences.getInt(Constantes.LLAVE_TIPO_DE_USUARIO,3);
     }
 }

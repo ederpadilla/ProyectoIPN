@@ -16,7 +16,8 @@
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:src="@mipmap/ic_arrow_back"
-        android:id="@+id/img_arrow_back"/>
+        android:id="@+id/img_arrow_back"
+        android:clickable="true"/>
     <com.mikhaellopez.circularimageview.CircularImageView
         android:layout_width="110dp"
         android:layout_height="110dp"
@@ -27,10 +28,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="50"
             android:orientation="vertical">
             <TextView
@@ -56,8 +57,8 @@
                 style="@style/myt_profile_tv_style"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="50"
             android:orientation="vertical">
             <TextView
@@ -83,8 +84,8 @@
                 style="@style/myt_profile_tv_style"/>
 
         </LinearLayout>
-
     </LinearLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -92,7 +93,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="30dp"
         android:textSize="20sp"/>
     <EditText
         android:layout_width="match_parent"
@@ -100,7 +101,59 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         android:text="EP2016"
+        android:id="@+id/et_alumno_perfil_codigo"
         android:textAlignment="center"
         android:inputType=""/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_perfil_alumno_encamino"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/my_red_btn_ripple"
+            android:text="@string/en_camino"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+        <Button
+            android:id="@+id/btn_perfil_alumno_retardo"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/my_red_btn_ripple"
+            android:text="@string/retardo"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+
+
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_perfil_alumno_alguien_mas_recogera"
+        android:layout_width="220dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/my_red_btn_ripple"
+        android:text="@string/alguienmas"
+        android:textColor="@color/white"
+        android:textStyle="bold"/>
+    <Button
+        android:id="@+id/btn_perfil_alumno_checkout"
+        android:layout_width="130dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/my_red_btn_ripple"
+        android:text="@string/checkout"
+        android:textColor="@color/white"
+        android:textStyle="bold"/>
 
 </LinearLayout>

@@ -21,6 +21,13 @@ public class Constantes {
     public static final int INPUT_FIELD_OK=1;
     public static final int USUARIO_PADRE_MADRE=0;
     public static final int USUARIO_PROFESOR=1;
+    public static final String LLAVE_LOGIN="LLAVE_LOGIN";
+    public static final String LLAVE_NOMBRE="NOMBRE";
+    public static final String LLAVE_TELEFONO="TELEFONO";
+    public static final String LLAVE_EMAIL="EMAIL";
+    public static final String LLAVE_TIPO_DE_USUARIO="TIPO DE USUARIO";
+    public static final String LLAVE_CONTRASEÑA="PASS";
+    public static final String LLAVE_ALUMNO_CODIGO="CODIGO";
 
     public static final String EMPTYFIELD="CAMPO VACIO";
 }

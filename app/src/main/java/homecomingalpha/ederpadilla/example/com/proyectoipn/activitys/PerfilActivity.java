@@ -171,9 +171,7 @@ public class PerfilActivity extends AppCompatActivity {
     }
     public void getAllAlumnosinRealm(){
             alumnosList.clear();
-       // for (Alumnos alumnos : user.getAlumnosRealmList()){
-       //     alumnosList.add(alumnos);
-       // }
+
        RealmResults<Alumnos> todosLosAlumnos = realm.where(Alumnos.class).findAll();
        Util.showLog("Todos los alumnos que hay "+todosLosAlumnos);
        for (Alumnos alumnos : todosLosAlumnos) {

@@ -105,7 +105,6 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:text="EP2016"
         android:id="@+id/et_alumno_perfil_codigo"
         android:textAlignment="center"
         android:inputType=""/>

@@ -176,7 +176,7 @@ public class RegistrarseActivity extends AppCompatActivity {
         String nuevoNombre =et_nombre.getText().toString();
         String nuevoTelefono=et_telefono.getText().toString();
         String nuevoMail=et_mail.getText().toString();
-        String nuevaContraseña=et_mail.getText().toString();
+        String nuevaContraseña=et_password.getText().toString();
         realm.beginTransaction();
         usuarioActualizado.setNombre(nuevoNombre);
         usuarioActualizado.setTelefono(nuevoTelefono);
@@ -201,78 +201,34 @@ public class RegistrarseActivity extends AppCompatActivity {
                 .findFirst();
         return userFound;
     }
-  // public boolean requestPermissions() {
-  //     int cameraPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+    @OnClick(R.id.img_photo)
+    public void takePic(){
+       // if (requestPermission()) {
+       //     Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+       //     startActivityForResult(intent, Constantes.REQUEST_IMAGE_CAPTURE);
+       // }
+    }
+    public boolean requestPermission() {
+        int cameraPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
 
-  //     List<String> listPermissionsNeeded = new ArrayList<>();
-  //           if (cameraPermission != PackageManager.PERMISSION_GRANTED) {
-  //         listPermissionsNeeded.add(Manifest.permission.CAMERA);
-  //     }
-  //     if (!listPermissionsNeeded.isEmpty()) {
-  //         ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), Constantes.REQUEST_PERMMISSION_STATUS);
-  //         return false;
-  //     }
-  //     return true;
-  // }
-  // public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        List<String> listPermissionsNeeded = new ArrayList<>();
 
-  //     switch (requestCode) {
-  //         case Constantes.REQUEST_PERMMISSION_STATUS: {
 
-  //             Map<String, Integer> perms = new HashMap<>();
-  //             // Initialize the map with both permissions
-
-  //             perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
-
-  //             // Fill with actual results from user
-  //             if (grantResults.length > 0) {
-  //                 for (int i = 0; i < permissions.length; i++)
-  //                     perms.put(permissions[i], grantResults[i]);
-  //                 // Check for all permissions
-  //                 if (perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-  //                         && perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-  //                         && perms.get(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-
-  //                     // process the normal flow
-  //                     //else any one or both the permissions are not granted
-  //                 } else {
-
-  //                     //permission is denied (this is the first time, when "never ask again" is not checked) so ask again explaining the usage of permission
-  //                     //show the dialog or snackbar saying its necessary and try again otherwise proceed with setup.
-  //                     if ( ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-  //                         // request again
-  //                         requestPermissions();
-  //                     } else {
-  //                         //permission is denied (and never ask again is  checked)
-  //                         //shouldShowRequestPermissionRationale will return false
-  //                         //proceed with denied access app.
-  //                     }
-  //                     // shouldShowRequestPermissionRationale will return true
-  //                     return;
-  //                 }
-  //             }
-  //         }
-  //     }
-  // }
-  //  @OnClick(R.id.img_photo)
-  //  public void getPhoto(){
-  //      if (requestPermissions()) {
-  //          Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-  //          startActivityForResult(intent, Constantes.REQUEST_IMAGE_CAPTURE);
-  //      }
-  //  }
-  //  @Override
-  //  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-  //      if (requestCode == Constantes.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-  //          Bundle extras = data.getExtras();
-  //          Bitmap imageBitmap = (Bitmap) extras.get("data");
-  //          img_photo.setImageBitmap(imageBitmap);
-  //          ByteArrayOutputStream stream= new ByteArrayOutputStream();
-  //          imageBitmap.compress(Bitmap.CompressFormat.PNG,500,stream);
-  //          realm.beginTransaction();
-  //          buscarUsuario().setBytes(stream.toByteArray());
-  //          realm.copyToRealmOrUpdate(buscarUsuario());
-  //          realm.commitTransaction();
-  //      }
-  //  }
+        if (cameraPermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.CAMERA);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), Constantes.REQUEST_PERMMISSION_STATUS);
+            return false;
+        }
+        return true;
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constantes.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            img_photo.setImageBitmap(imageBitmap);
+        }
+    }
 }

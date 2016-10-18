@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/nombre_simple"
+                android:textIsSelectable="true"
                 android:id="@+id/tv_alumno_perfil_nombre"
                 style="@style/myt_profile_tv_style"/>
             <TextView
@@ -46,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/edad_simple"
+                android:textIsSelectable="true"
                 android:id="@+id/tv_alumno_perfil_edad"
                 style="@style/myt_profile_tv_style"/>
             <TextView
@@ -66,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/fecha_simple"
+                android:textIsSelectable="true"
                 android:id="@+id/tv_alumno_perfil_fecha"
                 style="@style/myt_profile_tv_style"/>
             <TextView
@@ -74,12 +77,14 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/telefono_simple"
                 android:id="@+id/tv_alumno_perfil_telefono"
+                android:clickable="true"
                 style="@style/myt_profile_tv_style"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/grupo_simple"
+                android:textIsSelectable="true"
                 android:id="@+id/tv_alumno_perfil_grupo"
                 style="@style/myt_profile_tv_style"/>
 

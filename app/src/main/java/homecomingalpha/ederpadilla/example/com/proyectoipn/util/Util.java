@@ -103,6 +103,7 @@ public class Util {
         editor.putString(Constantes.LLAVE_EMAIL,usuario.getTelefono());
         editor.putString(Constantes.LLAVE_CONTRASEÑA,usuario.getContraseña());
         editor.putInt(Constantes.LLAVE_TIPO_DE_USUARIO,usuario.getTipoDeUuario());
+        editor.putString(Constantes.LLAVE_USUARIO_ID,usuario.getId());
         editor.commit();
     }
     public static String getSharerPreferencesUserName(Context context){
@@ -126,6 +127,10 @@ public class Util {
         return sharedPreferences.getInt(Constantes.LLAVE_TIPO_DE_USUARIO,3);
     }
 
+    public static String getSharerPreferencesUserId(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
+        return sharedPreferences.getString(Constantes.LLAVE_USUARIO_ID,"");
+    }
     public static void borrarSharedPreferences(Context context) {
         SharedPreferences sp = context.getSharedPreferences(Constantes.LLAVE_LOGIN, 0);
         SharedPreferences.Editor editor = sp.edit();

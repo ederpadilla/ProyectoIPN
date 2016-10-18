@@ -37,7 +37,7 @@
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:textAlignment="center"
-                android:id="@+id/tv_tv_nombre"
+                android:id="@+id/tv_nombre"
                 android:text="Nombre"/>
             <TextView
                 android:layout_width="match_parent"
@@ -50,12 +50,14 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_check"/>
+                android:src="@mipmap/ic_check"
+                android:id="@+id/img_dialog_estado_niño"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold"
+                android:id="@+id/tv_fecha_dialogo"
                 android:textSize="18sp"
                 android:textAlignment="center"
                 android:text="15/02/2016"/>
@@ -64,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold"
+                android:id="@+id/tv_hora"
                 android:textSize="18sp"
                 android:textAlignment="center"
                 android:text="13:10"/>

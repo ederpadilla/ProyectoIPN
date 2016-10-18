@@ -1,8 +1,13 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.activitys;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +16,11 @@ import android.widget.Button;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -39,6 +49,7 @@ public class RegistrarseActivity extends AppCompatActivity {
     Button btn_crearcuenta;
     private int tipoDeUsuario=3;
     private String userType="";
+    private Realm realm;
 
 
     @Override
@@ -47,17 +58,16 @@ public class RegistrarseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registrarse);
         ButterKnife.bind(this);
         spinner.setVisibility(View.GONE);
+        realm=Realm.getDefaultInstance();
         checkForUserLogIn();
     }
 
     private void checkForUserLogIn() {
         SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
         if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
-            et_nombre.setText(Util.getSharerPreferencesUserName(getApplicationContext()));
-            et_telefono.setText(Util.getSharerPreferencesUsePhone(getApplicationContext()));
-            et_mail.setText(Util.getSharerPreferencesUserMail(getApplicationContext()));
-            et_password.setText(Util.getSharerPreferencesUserPass(getApplicationContext()));
+            editarPerfil(buscarUsuario());
             btn_crearcuenta.setText(getString(R.string.actualizar));
+
         }else{
             spinner.setVisibility(View.VISIBLE);
             spinnerAdapter();
@@ -66,13 +76,26 @@ public class RegistrarseActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.btn_crearcuenta)
-    public void entrar(){ SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
+    public void entrar(){
+        SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
         if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
+            actualizarUsuario(buscarUsuario());
+            Intent intent = new Intent(RegistrarseActivity.this,
+                    PerfilActivity.class);
+            startActivity(intent);
+            finish();
 
         }else{
             validateEmptyFields();
         }
 
+    }
+
+    private void editarPerfil(User user) {
+        et_nombre.setText(user.getNombre());
+        et_mail.setText(user.getEmail());
+        et_telefono.setText(user.getTelefono());
+        et_password.setText(user.getContraseña());
     }
 
     private void validateEmptyFields() {
@@ -100,7 +123,7 @@ public class RegistrarseActivity extends AppCompatActivity {
             }else {
                 createUser(usuarioConParametros());
                 Intent intent = new Intent(RegistrarseActivity.this,
-                        PerfilActivity.class);
+                        EntrarActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -146,6 +169,22 @@ public class RegistrarseActivity extends AppCompatActivity {
         realm.copyToRealmOrUpdate(user);
         realm.commitTransaction();
     }
+    private void actualizarUsuario(User usuarioActualizado){
+        usuarioActualizado=realm.where(User.class)
+                .equalTo(Constantes.LLAVE_USUARIO_ID,buscarUsuario().getId())
+                .findFirst();
+        String nuevoNombre =et_nombre.getText().toString();
+        String nuevoTelefono=et_telefono.getText().toString();
+        String nuevoMail=et_mail.getText().toString();
+        String nuevaContraseña=et_mail.getText().toString();
+        realm.beginTransaction();
+        usuarioActualizado.setNombre(nuevoNombre);
+        usuarioActualizado.setTelefono(nuevoTelefono);
+        usuarioActualizado.setEmail(nuevoMail);
+        usuarioActualizado.setContraseña(nuevaContraseña);
+        realm.copyToRealmOrUpdate(usuarioActualizado);
+        realm.commitTransaction();
+    }
     private User usuarioConParametros(){
         String id = Util.randomInt(0,1000)+"";
         String nombre=et_nombre.getText().toString();
@@ -156,4 +195,84 @@ public class RegistrarseActivity extends AppCompatActivity {
         Util.showLog("EL usuario que se crea "+user.toString());
         return user;
     }
+    private User buscarUsuario() {
+        User userFound = realm.where(User.class).
+                equalTo(Constantes.LLAVE_USUARIO_ID,Util.getSharerPreferencesUserId(getApplicationContext()))
+                .findFirst();
+        return userFound;
+    }
+  // public boolean requestPermissions() {
+  //     int cameraPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+
+  //     List<String> listPermissionsNeeded = new ArrayList<>();
+  //           if (cameraPermission != PackageManager.PERMISSION_GRANTED) {
+  //         listPermissionsNeeded.add(Manifest.permission.CAMERA);
+  //     }
+  //     if (!listPermissionsNeeded.isEmpty()) {
+  //         ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), Constantes.REQUEST_PERMMISSION_STATUS);
+  //         return false;
+  //     }
+  //     return true;
+  // }
+  // public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+  //     switch (requestCode) {
+  //         case Constantes.REQUEST_PERMMISSION_STATUS: {
+
+  //             Map<String, Integer> perms = new HashMap<>();
+  //             // Initialize the map with both permissions
+
+  //             perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
+
+  //             // Fill with actual results from user
+  //             if (grantResults.length > 0) {
+  //                 for (int i = 0; i < permissions.length; i++)
+  //                     perms.put(permissions[i], grantResults[i]);
+  //                 // Check for all permissions
+  //                 if (perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+  //                         && perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+  //                         && perms.get(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+
+  //                     // process the normal flow
+  //                     //else any one or both the permissions are not granted
+  //                 } else {
+
+  //                     //permission is denied (this is the first time, when "never ask again" is not checked) so ask again explaining the usage of permission
+  //                     //show the dialog or snackbar saying its necessary and try again otherwise proceed with setup.
+  //                     if ( ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+  //                         // request again
+  //                         requestPermissions();
+  //                     } else {
+  //                         //permission is denied (and never ask again is  checked)
+  //                         //shouldShowRequestPermissionRationale will return false
+  //                         //proceed with denied access app.
+  //                     }
+  //                     // shouldShowRequestPermissionRationale will return true
+  //                     return;
+  //                 }
+  //             }
+  //         }
+  //     }
+  // }
+  //  @OnClick(R.id.img_photo)
+  //  public void getPhoto(){
+  //      if (requestPermissions()) {
+  //          Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+  //          startActivityForResult(intent, Constantes.REQUEST_IMAGE_CAPTURE);
+  //      }
+  //  }
+  //  @Override
+  //  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+  //      if (requestCode == Constantes.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+  //          Bundle extras = data.getExtras();
+  //          Bitmap imageBitmap = (Bitmap) extras.get("data");
+  //          img_photo.setImageBitmap(imageBitmap);
+  //          ByteArrayOutputStream stream= new ByteArrayOutputStream();
+  //          imageBitmap.compress(Bitmap.CompressFormat.PNG,500,stream);
+  //          realm.beginTransaction();
+  //          buscarUsuario().setBytes(stream.toByteArray());
+  //          realm.copyToRealmOrUpdate(buscarUsuario());
+  //          realm.commitTransaction();
+  //      }
+  //  }
 }

@@ -14,6 +14,7 @@ public class Alumnos extends RealmObject {
     private String tipoDeSangreAlumno;
     private String telefonoAlumno;
     private String grupoAlumno;
+    private byte[]bytes;
     @PrimaryKey
     private String codigoAlumno;
 
@@ -34,6 +35,25 @@ public class Alumnos extends RealmObject {
         this.telefonoAlumno = telefonoAlumno;
         this.grupoAlumno = grupoAlumno;
         this.codigoAlumno = codigoAlumno;
+    }
+
+    public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, byte[] bytes, String codigoAlumno) {
+        this.nombreCompletoAlumno = nombreCompletoAlumno;
+        this.edadAlumno = edadAlumno;
+        this.fechaNacimientoAlumno = fechaNacimientoAlumno;
+        this.tipoDeSangreAlumno = tipoDeSangreAlumno;
+        this.telefonoAlumno = telefonoAlumno;
+        this.grupoAlumno = grupoAlumno;
+        this.bytes = bytes;
+        this.codigoAlumno = codigoAlumno;
+    }
+
+    public byte[] getBytes() {
+        return bytes;
+    }
+
+    public void setBytes(byte[] bytes) {
+        this.bytes = bytes;
     }
 
     public String getNombreCompletoAlumno() {

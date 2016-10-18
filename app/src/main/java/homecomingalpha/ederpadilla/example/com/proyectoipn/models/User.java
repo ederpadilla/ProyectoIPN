@@ -14,11 +14,23 @@ public class User extends RealmObject {
     private String email;
     private String contraseña;
     private int tipoDeUuario;
+    private byte[]bytes;
     private RealmList<Alumnos> alumnosRealmList;
     @PrimaryKey
     String id;
 
     public User() {
+    }
+
+    public User(String nombre, String telefono, String email, String contraseña, int tipoDeUuario, byte[] bytes, RealmList<Alumnos> alumnosRealmList, String id) {
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.email = email;
+        this.contraseña = contraseña;
+        this.tipoDeUuario = tipoDeUuario;
+        this.bytes = bytes;
+        this.alumnosRealmList = alumnosRealmList;
+        this.id = id;
     }
 
     public User(String nombre, String telefono, String email, String contraseña, int tipoDeUuario, RealmList<Alumnos> alumnosRealmList, String id) {
@@ -46,6 +58,14 @@ public class User extends RealmObject {
         this.email = email;
         this.contraseña = contraseña;
         this.tipoDeUuario = tipoDeUuario;
+    }
+
+    public byte[] getBytes() {
+        return bytes;
+    }
+
+    public void setBytes(byte[] bytes) {
+        this.bytes = bytes;
     }
 
     public String getNombre() {

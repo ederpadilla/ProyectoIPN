@@ -12,6 +12,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.R;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.activitys.PerfilActivity;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.models.Alumnos;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Constantes;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Util;
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 
 /**
  * Created by ederpadilla on 13/10/16.
@@ -22,12 +29,14 @@ public class BuscarEstudianteFragment extends DialogFragment {
     Button btn_fragment_buscar;
     @BindView(R.id.fragment_et_codigo_buscar)
     TextInputEditText fragment_et_codigo_buscar;
+    private Realm realm;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         /** Inflamos nuestra vista */
         View view = inflater.inflate(R.layout.fragment_buscar_alumno_codigo, container,false);
         ButterKnife.bind(this, view);
+        realm=Realm.getDefaultInstance();
         return view;
     }
     public static BuscarEstudianteFragment newInstance(){
@@ -38,5 +47,29 @@ public class BuscarEstudianteFragment extends DialogFragment {
     public void buscarAlumno()
     {
 
+        Util.showLog("Se encuentra "+conseguirAlumnos(fragment_et_codigo_buscar.getText().toString().trim().toUpperCase()));
+
+            ((PerfilActivity)getActivity()).alumnosList.add(conseguirAlumnos(fragment_et_codigo_buscar.getText().toString().trim().toUpperCase()));
+
+        if (((PerfilActivity)getActivity()).alumnosList.size()<1){
+
+        }else{
+            RealmList<Alumnos> alumnosRealmList= new RealmList<>();
+            for (int i=0;i<((PerfilActivity)getActivity()).alumnosList.size();i++){
+                alumnosRealmList.add((((PerfilActivity) getActivity()).alumnosList.get(i)));
+            }
+            ((PerfilActivity)getActivity()).alumnosAdapter.notifyDataSetChanged();
+
+            realm.beginTransaction();
+            ((PerfilActivity)getActivity()).user.setAlumnosRealmList(alumnosRealmList);
+            realm.copyToRealmOrUpdate(((PerfilActivity)getActivity()).user);
+            realm.commitTransaction();
+
+        }
+        dismiss();
+
+    }
+    public Alumnos conseguirAlumnos(String codigo) {
+        return realm.where(Alumnos.class).equalTo(Constantes.LLAVE_ALUMNO_CODIGO,codigo).findFirst();
     }
 }

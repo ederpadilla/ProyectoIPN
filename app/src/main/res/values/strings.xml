@@ -28,7 +28,7 @@
 	<string name="registrar_con_fb">Registrarse con Facebook</string>
 	<string name="telefono_simple">Télefono: </string>
 	<string name="app_name">Proyecto IPN</string>
-	<string name="fecha">Fecha Nacimiento(formato dd/MM/YYYY)</string>
+	<string name="fecha">dd/MM/YYYY)</string>
 	<string name="tv_name">Nombre</string>
 	<string name="buscar">Buscar</string>
 	<string name="edad_simple">Edad:</string>

@@ -1,6 +1,8 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.activitys;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -42,12 +44,14 @@ public class PerfilActivity extends AppCompatActivity {
     TextView tv_perfil_name;
     @BindView(R.id.tv_cerrarsion)
     TextView tv_cerrarSesion;
-    private List<Alumnos> alumnosList;
-    private AlumnosAdapter alumnosAdapter;
-    private User user;
-    private Bundle bundle;
+    @BindView(R.id.tv_tipo)
+    TextView tv_tipo;
+    public List<Alumnos> alumnosList;
+    public AlumnosAdapter alumnosAdapter;
+    public User user;
     private Realm realm;
     private String idObtenido;
+    public RealmList<Alumnos> alumnosRealmList;
 
 
     @Override
@@ -57,10 +61,10 @@ public class PerfilActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         recViewInit();
         realm = Realm.getDefaultInstance();
-        bundle=getIntent().getExtras();
-        idObtenido=bundle.getString(Constantes.LLAVE_USUARIO_ID);
+        idObtenido=Util.getSharerPreferencesUserId(getApplicationContext());
         user=conseguirUsuario(idObtenido);
         checkForUserType(user);
+        setTextViews();
     }
 
     private User conseguirUsuario(String idd) {
@@ -81,7 +85,7 @@ public class PerfilActivity extends AppCompatActivity {
     }
 
     private void usuarioTipoPadreMadre() {
-
+        alumnosAdapter.notifyDataSetChanged();
     }
 
     @OnClick(R.id.tv_editar_perfil)
@@ -166,25 +170,65 @@ public class PerfilActivity extends AppCompatActivity {
 
     }
     public void getAllAlumnosinRealm(){
-        RealmResults<Alumnos> todosLosAlumnos=realm.where(Alumnos.class).findAll();
-        for (Alumnos alumnos:todosLosAlumnos){
+        RealmResults<Alumnos> todosLosAlumnos = realm.where(Alumnos.class).findAll();
+        for (Alumnos alumnos : todosLosAlumnos) {
             alumnosList.add(alumnos);
         }
-        alumnosAdapter.notifyDataSetChanged();
-        RealmList<Alumnos> alumnosRealmList=
-                alumnosRealmList= new RealmList<>();;
-        for (int i =0;i<=alumnosList.size();i++){
-            alumnosRealmList.add(alumnosList.get(i));
+        if (alumnosList.size()<1){
+        Util.showLog("no esta agarrando ni madres");
+        }else {
+            Util.showLog("Esta entrando pa aca");
+            alumnosRealmList =
+                    alumnosRealmList = new RealmList<>();
+
+            for (int i = 0; i < alumnosList.size(); i++) {
+                alumnosRealmList.add(alumnosList.get(i));
+                Util.showLog("Lista"+alumnosList.get(i));
+            }
+            alumnosAdapter.notifyDataSetChanged();
+            realm.beginTransaction();
+            user.setAlumnosRealmList(alumnosRealmList);
+            realm.copyToRealmOrUpdate(user);
+            realm.commitTransaction();
         }
-        user.setAlumnosRealmList(alumnosRealmList);
-        actulizarUsuario(user);
-
     }
-    private void actulizarUsuario(User user){
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(user);
-        realm.commitTransaction();
 
+    /**   private void actualizarUsuario(User usuarioActualizado){
+     usuarioActualizado=realm.where(User.class)
+     .equalTo(Constantes.LLAVE_USUARIO_ID,buscarUsuario().getId())
+     .findFirst();
+     String nuevoNombre =et_nombre.getText().toString();
+     String nuevoTelefono=et_telefono.getText().toString();
+     String nuevoMail=et_mail.getText().toString();
+     String nuevaContraseña=et_mail.getText().toString();
+     realm.beginTransaction();
+     usuarioActualizado.setNombre(nuevoNombre);
+     usuarioActualizado.setTelefono(nuevoTelefono);
+     usuarioActualizado.setEmail(nuevoMail);
+     usuarioActualizado.setContraseña(nuevaContraseña);
+     realm.copyToRealmOrUpdate(usuarioActualizado);
+     realm.commitTransaction();
+     }*/
+    private void setTextViews(){
+        /**  Bitmap bitmap = BitmapFactory.decodeByteArray(allEmpleados.get(i).getBytes(), 0, allEmpleados.get(i).getBytes().length);
+         botondeempleados.setImageBitmap(bitmap);*/
+        //Bitmap bitmap = BitmapFactory.decodeByteArray(user.getBytes(),0,user.getBytes().length);
+        //cimgv_profile.setImageBitmap(bitmap);
+        tv_perfil_name.setText(user.getNombre());
+        String tipoEnString="";
+
+        for (int i =0 ;i<user.getAlumnosRealmList().size();i++)
+            alumnosList.add(user.getAlumnosRealmList().get(i));
+        Util.showLog("Lista es "+user.getAlumnosRealmList());
+        switch (user.getTipoDeUuario()){
+            case Constantes.USUARIO_PADRE_MADRE:
+                tipoEnString="Padre o madre de alumno";
+                tv_tipo.setText(tipoEnString);
+                break;
+            case Constantes.USUARIO_PROFESOR:
+                tv_tipo.setText(getString(R.string.profesor));
+                break;
+        }
     }
 
 

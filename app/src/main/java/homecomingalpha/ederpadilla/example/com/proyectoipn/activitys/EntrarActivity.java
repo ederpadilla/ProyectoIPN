@@ -27,6 +27,7 @@ public class EntrarActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         realm=Realm.getDefaultInstance();
     }
+
     @OnClick(R.id.btn_login)
     public void entrar(){
         validarCamposVacios();
@@ -59,12 +60,10 @@ public class EntrarActivity extends AppCompatActivity {
             }
         }
     }
-
     private User buscarUsuario() {
         User userFound = realm.where(User.class).equalTo(Constantes.LLAVE_LOGIN_MAIL,et_mail.getText().toString()).findFirst();
        return userFound;
     }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();

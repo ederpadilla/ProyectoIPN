@@ -41,7 +41,7 @@
             android:layout_marginRight="30dp"
             android:hint="@string/nombre"
             android:imeOptions="actionNext"
-            android:inputType="textCapSentences"
+            android:inputType="textCapWords"
             android:textSize="15sp"
             android:maxLines="1"
             android:textColor="@color/white"

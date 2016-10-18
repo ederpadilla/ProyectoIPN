@@ -11,7 +11,6 @@ public class Constantes {
 
     public static final int REQUEST_IMAGE_CAPTURE = 100;
 
-    public static final int REQUEST_PERMMISSION_STATUS = 150;
     public static final int INPUT_EMPTY_EMAIL = 0;
     public static final int INPUT_INVALID_EMAIL = -1;
     public static final int INPUT_OK = 1;
@@ -27,9 +26,11 @@ public class Constantes {
     public static final String LLAVE_EMAIL="EMAIL";
     public static final String LLAVE_TIPO_DE_USUARIO="TIPO DE USUARIO";
     public static final String LLAVE_CONTRASEÑA="PASS";
-    public static final String LLAVE_ALUMNO_CODIGO="CODIGO";
+    public static final String LLAVE_ALUMNO_CODIGO="codigoAlumno";
     public static final String LLAVE_LOGIN_MAIL="email";
     public static final String LLAVE_USUARIO_ID="id";
+
+    public static final int REQUEST_PERMMISSION_STATUS = 150;
 
     public static final String EMPTYFIELD="CAMPO VACIO";
 }

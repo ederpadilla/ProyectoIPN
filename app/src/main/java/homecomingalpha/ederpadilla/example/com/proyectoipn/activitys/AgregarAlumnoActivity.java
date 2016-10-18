@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextWatcher;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.util.Calendar;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -81,6 +83,7 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
                    Util.showToast(getApplicationContext(),"Falta especificar el tipo de sangre");
                }else {
                  crearAlumno(asignarValoresRealesAlumno());
+                   Util.showLog("Se crea "+asignarValoresRealesAlumno().toString());
                    Intent intent = new Intent(AgregarAlumnoActivity.this,
                            PerfilActivity.class);
                    startActivity(intent);
@@ -156,4 +159,5 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
         realm.copyToRealmOrUpdate(alumnos);
         realm.commitTransaction();
     }
+
 }

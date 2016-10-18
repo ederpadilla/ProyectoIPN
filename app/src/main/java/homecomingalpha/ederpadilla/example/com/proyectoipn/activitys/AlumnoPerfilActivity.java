@@ -1,11 +1,13 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.activitys;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,7 +34,7 @@ public class AlumnoPerfilActivity extends AppCompatActivity {
     @BindView(R.id.tv_alumno_perfil_grupo)
     TextView tv_alumno_perfil_grupo;
     @BindView(R.id.et_alumno_perfil_codigo)
-    TextInputEditText et_alumno_perfil_codigo;
+    EditText et_alumno_perfil_codigo;
     @BindView(R.id.btn_perfil_alumno_checkout)
     Button btn_perfil_alumno_checkout;
     @BindView(R.id.btn_perfil_alumno_encamino)
@@ -54,23 +56,24 @@ public class AlumnoPerfilActivity extends AppCompatActivity {
         realm=Realm.getDefaultInstance();
         bundle = getIntent().getExtras();
         code=bundle.getString(Constantes.LLAVE_ALUMNO_CODIGO);
+        Util.showLog("Se supone que recibe "+bundle.getString(Constantes.LLAVE_ALUMNO_CODIGO));
         alumnoPerfil=conseguirAlumnos(code);
         asignarValoresDelAlumno(alumnoPerfil);
         checkForUserType();
     }
 
-    public Alumnos conseguirAlumnos(String code) {
-        return realm.where(Alumnos.class).equalTo(Constantes.LLAVE_ALUMNO_CODIGO,code).findFirst();
+    public Alumnos conseguirAlumnos(String codigo) {
+        return realm.where(Alumnos.class).equalTo(Constantes.LLAVE_ALUMNO_CODIGO,codigo).findFirst();
     }
 
     private void asignarValoresDelAlumno(Alumnos alumno) {
-        tv_alumno_perfil_nombre.append(alumno.getNombreCompletoAlumno());
-        tv_alumno_perfil_edad.append(alumno.getEdadAlumno());
-        tv_alumno_perfil_tipo_de_sangre.append(alumno.getTipoDeSangreAlumno());
-        tv_alumno_perfil_fecha.append(alumno.getFechaNacimientoAlumno());
-        tv_alumno_perfil_telefono.append(alumno.getTelefonoAlumno());
-        tv_alumno_perfil_grupo.append(alumno.getGrupoAlumno());
-        et_alumno_perfil_codigo.setText(alumno.getCodigoAlumno());
+        tv_alumno_perfil_nombre.append(" "+alumno.getNombreCompletoAlumno());
+        tv_alumno_perfil_edad.append(" "+alumno.getEdadAlumno()+" años");
+        tv_alumno_perfil_tipo_de_sangre.append(" "+alumno.getTipoDeSangreAlumno());
+        tv_alumno_perfil_fecha.append(" "+alumno.getFechaNacimientoAlumno());
+        tv_alumno_perfil_telefono.append(" "+alumno.getTelefonoAlumno());
+        tv_alumno_perfil_grupo.append(" "+alumno.getGrupoAlumno());
+        et_alumno_perfil_codigo.setText(" "+alumno.getCodigoAlumno());
 
     }
 
@@ -108,6 +111,14 @@ public class AlumnoPerfilActivity extends AppCompatActivity {
     }
 
     private void esUnPadre() {
+    }
+    @OnClick(R.id.tv_alumno_perfil_telefono)
+    public void makeCall(){
+       // String uri = "tel:" + alumnoPerfil.getTelefonoAlumno().trim() ;
+       // Intent intent = new Intent(Intent.ACTION_CALL);
+       // intent.setData(Uri.parse(uri));
+       // startActivity(intent);
+
     }
 
 }

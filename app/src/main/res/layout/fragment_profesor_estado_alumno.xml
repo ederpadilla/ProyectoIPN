@@ -54,7 +54,8 @@
            <ImageView
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:src="@drawable/ic_camera_front"
+               android:src="@mipmap/ic_camera_front"
+               android:id="@+id/imgv_profesor_estado"
                android:layout_marginTop="10dp"/>
 
         </LinearLayout>

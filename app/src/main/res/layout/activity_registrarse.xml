@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dimen_30dp"
             android:layout_marginRight="@dimen/dimen_30dp"
-            android:inputType="textCapSentences"
+            android:inputType="textCapWords"
             android:imeOptions="actionNext"
             android:maxLines="1"
             android:textColorHint="@color/white"

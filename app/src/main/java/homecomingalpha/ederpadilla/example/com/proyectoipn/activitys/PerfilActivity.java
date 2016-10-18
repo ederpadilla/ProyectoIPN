@@ -40,11 +40,14 @@ public class PerfilActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     @BindView(R.id.tv_perfil_name)
     TextView tv_perfil_name;
+    @BindView(R.id.tv_cerrarsion)
+    TextView tv_cerrarSesion;
     private List<Alumnos> alumnosList;
     private AlumnosAdapter alumnosAdapter;
     private User user;
     private Bundle bundle;
     private Realm realm;
+    private String idObtenido;
 
 
     @Override
@@ -54,12 +57,18 @@ public class PerfilActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         recViewInit();
         realm = Realm.getDefaultInstance();
-        //user = new User("Eder","5532453223","eder.padilla97@gmail.com","12341231",1);
-        checkForUserType();
+        bundle=getIntent().getExtras();
+        idObtenido=bundle.getString(Constantes.LLAVE_USUARIO_ID);
+        user=conseguirUsuario(idObtenido);
+        checkForUserType(user);
     }
 
-    private void checkForUserType() {
-        if (Util.getSharerPreferencesUserType(getApplicationContext())==Constantes.USUARIO_PROFESOR){
+    private User conseguirUsuario(String idd) {
+        return realm.where(User.class).equalTo(Constantes.LLAVE_USUARIO_ID,idd).findFirst();
+    }
+
+    private void checkForUserType(User user) {
+        if (user.getTipoDeUuario()==Constantes.USUARIO_PROFESOR){
             usuarioTipoProfesor();
         }else {
             usuarioTipoPadreMadre();
@@ -122,6 +131,14 @@ public class PerfilActivity extends AppCompatActivity {
                 PerfilActivity.this.finish();
             }
         });
+    }
+    @OnClick(R.id.tv_cerrarsion)
+    public void cerrarSesion(){
+        Util.borrarSharedPreferences(getApplicationContext());
+        Intent intent = new Intent(PerfilActivity.this,
+                SplashActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @OnClick(R.id.fab)

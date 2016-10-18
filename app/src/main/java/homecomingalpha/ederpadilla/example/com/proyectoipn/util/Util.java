@@ -125,4 +125,11 @@ public class Util {
         SharedPreferences sharedPreferences = context.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
         return sharedPreferences.getInt(Constantes.LLAVE_TIPO_DE_USUARIO,3);
     }
+
+    public static void borrarSharedPreferences(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(Constantes.LLAVE_LOGIN, 0);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.commit();
+    }
 }

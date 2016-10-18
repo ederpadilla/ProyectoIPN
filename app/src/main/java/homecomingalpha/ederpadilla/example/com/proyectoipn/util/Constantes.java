@@ -28,6 +28,8 @@ public class Constantes {
     public static final String LLAVE_TIPO_DE_USUARIO="TIPO DE USUARIO";
     public static final String LLAVE_CONTRASEÑA="PASS";
     public static final String LLAVE_ALUMNO_CODIGO="CODIGO";
+    public static final String LLAVE_LOGIN_MAIL="email";
+    public static final String LLAVE_USUARIO_ID="id";
 
     public static final String EMPTYFIELD="CAMPO VACIO";
 }

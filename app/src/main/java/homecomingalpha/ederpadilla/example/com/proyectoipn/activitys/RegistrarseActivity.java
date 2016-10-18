@@ -145,7 +145,6 @@ public class RegistrarseActivity extends AppCompatActivity {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(user);
         realm.commitTransaction();
-
     }
     private User usuarioConParametros(){
         String id = Util.randomInt(0,1000)+"";

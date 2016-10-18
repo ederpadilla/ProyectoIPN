@@ -80,7 +80,7 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
                if (tipoDeSangre.equals("")){
                    Util.showToast(getApplicationContext(),"Falta especificar el tipo de sangre");
                }else {
-                 generarCodigo();
+                 crearAlumno(asignarValoresRealesAlumno());
                    Intent intent = new Intent(AgregarAlumnoActivity.this,
                            PerfilActivity.class);
                    startActivity(intent);
@@ -142,11 +142,13 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
     return codigo;
     }
     private Alumnos asignarValoresRealesAlumno(){
-        String nombre,edad,tipodesangre,fecha,telefono,grupo;
+        String nombre,edad,fecha,telefono,grupo;
         nombre=et_agregar_alumno_nombre.getText().toString();
         edad=et_agregar_alumno_edad.getText().toString();
-
-        Alumnos alumnoCreado= new Alumnos();
+        fecha=et_agregar_alumno_fecha.getText().toString();
+        telefono=et_agregar_alumno_telefono.getText().toString();
+        grupo=et_agregar_alumno_grupo.getText().toString();
+        Alumnos alumnoCreado= new Alumnos(nombre,edad,fecha,tipoDeSangre,telefono,grupo,generarCodigo());
         return alumnoCreado;
     }
     private void crearAlumno(Alumnos alumnos){

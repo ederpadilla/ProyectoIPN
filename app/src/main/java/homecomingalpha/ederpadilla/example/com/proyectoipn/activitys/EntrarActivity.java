@@ -4,27 +4,28 @@ import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.R;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.models.User;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Constantes;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Util;
+import io.realm.Realm;
 
 public class EntrarActivity extends AppCompatActivity {
     @BindView(R.id.login_et_mail)
     TextInputEditText et_mail;
     @BindView(R.id.login_et_password)
     TextInputEditText et_password;
+    Realm realm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entrar);
         ButterKnife.bind(this);
+        realm=Realm.getDefaultInstance();
     }
     @OnClick(R.id.btn_login)
     public void entrar(){
@@ -49,12 +50,19 @@ public class EntrarActivity extends AppCompatActivity {
             if (Util.isValidEmail(et_mail.getText().toString())!=1){
                 Util.showToast(getApplicationContext(),getString(R.string.invalid_mail));
             }else{
+                Util.saveSharedPreferences(getApplicationContext(),buscarUsuario());
                 Intent intent = new Intent(EntrarActivity.this,
                         PerfilActivity.class);
+                intent.putExtra(Constantes.LLAVE_USUARIO_ID,buscarUsuario().getId());
                 startActivity(intent);
                 finish();
             }
         }
+    }
+
+    private User buscarUsuario() {
+        User userFound = realm.where(User.class).equalTo(Constantes.LLAVE_LOGIN_MAIL,et_mail.getText().toString()).findFirst();
+       return userFound;
     }
 
     @Override

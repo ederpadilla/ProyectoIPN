@@ -108,7 +108,6 @@ public class AlumnoPerfilActivity extends AppCompatActivity {
         esUnProfesor();
     }
     }
-
     private void esUnProfesor() {
     }
 
@@ -116,18 +115,5 @@ public class AlumnoPerfilActivity extends AppCompatActivity {
     }
     @OnClick(R.id.tv_alumno_perfil_telefono)
     public void makeCall(){
-        if (getApplicationContext().checkSelfPermission(Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-            Intent callIntent = new Intent(Intent.ACTION_CALL);
-            callIntent.setData(Uri.parse("tel:" + tv_alumno_perfil_telefono.getText().toString()));
-            callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(callIntent);
-        }
-        Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:" + tv_alumno_perfil_telefono.getText().toString()));
-        callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(callIntent);
-
     }
-
-
 }

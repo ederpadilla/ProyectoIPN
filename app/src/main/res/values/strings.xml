@@ -54,4 +54,7 @@
 	<string name="persona_check_out">Nombre</string>
 	<string name="estado_de_salida_del_niño">El estado de la salida del niño es :</string>
 	<string name="actualizar">Actualizar</string>
+	<string name="user_not_found">Usuario no encontrado</string>
+	<string name="estudiante_no_encontrado">Estudiante no encontrado</string>
+	<string name="fecha_de_nacimiento">Fecha de nacimiento:</string>
 </resources>

@@ -1,6 +1,8 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.activitys;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -114,11 +116,18 @@ public class AlumnoPerfilActivity extends AppCompatActivity {
     }
     @OnClick(R.id.tv_alumno_perfil_telefono)
     public void makeCall(){
-       // String uri = "tel:" + alumnoPerfil.getTelefonoAlumno().trim() ;
-       // Intent intent = new Intent(Intent.ACTION_CALL);
-       // intent.setData(Uri.parse(uri));
-       // startActivity(intent);
+        if (getApplicationContext().checkSelfPermission(Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + tv_alumno_perfil_telefono.getText().toString()));
+            callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(callIntent);
+        }
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:" + tv_alumno_perfil_telefono.getText().toString()));
+        callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(callIntent);
 
     }
+
 
 }

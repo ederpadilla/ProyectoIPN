@@ -37,6 +37,7 @@
             android:inputType="textCapWords"
             android:imeOptions="actionNext"
             android:maxLines="1"
+            android:textSize="18sp"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:hint="@string/nombre" />
@@ -57,6 +58,8 @@
             android:inputType="number"
             android:imeOptions="actionNext"
             android:maxLines="1"
+            android:textSize="18sp"
+            android:maxLength="12"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:hint="@string/telefono" />
@@ -78,6 +81,7 @@
             android:inputType="textEmailAddress"
             android:imeOptions="actionNext"
             android:maxLines="1"
+            android:textSize="18sp"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:hint="@string/email" />
@@ -99,6 +103,7 @@
             android:inputType="textPassword"
             android:imeOptions="actionDone"
             android:maxLines="1"
+            android:textSize="18sp"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:hint="@string/pass" />
@@ -113,6 +118,7 @@
         android:layout_marginRight="@dimen/dimen_30dp"
         android:text="@string/tipo_de_usuario"
         android:elevation="16dp"
+        android:textSize="16sp"
         app:ms_background_color="@color/colorPrimary"
         app:ms_arrow_tint="@color/colorAccent"
         app:ms_text_color="@color/colorAccent" />

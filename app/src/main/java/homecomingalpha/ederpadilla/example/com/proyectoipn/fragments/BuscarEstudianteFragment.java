@@ -8,12 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.R;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.activitys.PerfilActivity;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.adapters.AlumnosAdapter;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.models.Alumnos;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.models.User;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Constantes;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Util;
 import io.realm.Realm;
@@ -46,30 +50,37 @@ public class BuscarEstudianteFragment extends DialogFragment {
     @OnClick(R.id.btn_fragment_buscar)
     public void buscarAlumno()
     {
-
-        Util.showLog("Se encuentra "+conseguirAlumnos(fragment_et_codigo_buscar.getText().toString().trim().toUpperCase()));
-
-            ((PerfilActivity)getActivity()).alumnosList.add(conseguirAlumnos(fragment_et_codigo_buscar.getText().toString().trim().toUpperCase()));
-
-        if (((PerfilActivity)getActivity()).alumnosList.size()<1){
+        if (conseguirAlumnos(fragment_et_codigo_buscar.getText().toString())==null){
+                Util.showToast(getActivity().getApplicationContext(),getString(R.string.estudiante_no_encontrado));
+        }else {
+            obtenerListaDeLaActividad().add(conseguirAlumnos(fragment_et_codigo_buscar.getText().toString().trim().toUpperCase()));
+        if (obtenerListaDeLaActividad().size()<1){
 
         }else{
             RealmList<Alumnos> alumnosRealmList= new RealmList<>();
-            for (int i=0;i<((PerfilActivity)getActivity()).alumnosList.size();i++){
-                alumnosRealmList.add((((PerfilActivity) getActivity()).alumnosList.get(i)));
+            for (int i=0;i<obtenerListaDeLaActividad().size();i++){
+                alumnosRealmList.add(obtenerListaDeLaActividad().get(i));
             }
-            ((PerfilActivity)getActivity()).alumnosAdapter.notifyDataSetChanged();
-
+            obtenerAdapterDeLaActividad().notifyDataSetChanged();
             realm.beginTransaction();
-            ((PerfilActivity)getActivity()).user.setAlumnosRealmList(alumnosRealmList);
-            realm.copyToRealmOrUpdate(((PerfilActivity)getActivity()).user);
+            obtenerUsuarioDelaActividad().setAlumnosRealmList(alumnosRealmList);
+            realm.copyToRealmOrUpdate(obtenerUsuarioDelaActividad());
             realm.commitTransaction();
-
         }
         dismiss();
+            }
 
     }
     public Alumnos conseguirAlumnos(String codigo) {
         return realm.where(Alumnos.class).equalTo(Constantes.LLAVE_ALUMNO_CODIGO,codigo).findFirst();
+    }
+    public List<Alumnos> obtenerListaDeLaActividad(){
+        return ((PerfilActivity)getActivity()).alumnosList;
+    }
+    public AlumnosAdapter obtenerAdapterDeLaActividad(){
+        return ((PerfilActivity)getActivity()).alumnosAdapter;
+    }
+    public User obtenerUsuarioDelaActividad(){
+        return ((PerfilActivity)getActivity()).user;
     }
 }

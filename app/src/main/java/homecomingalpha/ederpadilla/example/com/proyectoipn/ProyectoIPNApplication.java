@@ -21,7 +21,6 @@ public class ProyectoIPNApplication extends Application {
         RealmConfiguration config = new RealmConfiguration.Builder(this)
                 .deleteRealmIfMigrationNeeded()
                 .build();
-
         Realm.setDefaultConfiguration(config);
     }
 }

@@ -158,10 +158,7 @@ public class RegistrarseActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(RegistrarseActivity.this,
-                MainActivity.class);
-        startActivity(intent);
-        finish();
+        checkTogoBack();
     }
     private void createUser(User user){
     Realm realm =Realm.getDefaultInstance();
@@ -229,6 +226,21 @@ public class RegistrarseActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             img_photo.setImageBitmap(imageBitmap);
+        }
+    }
+    private void checkTogoBack(){
+        SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
+        if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
+            Intent intent = new Intent(RegistrarseActivity.this,
+                    PerfilActivity.class);
+            startActivity(intent);
+            finish();
+
+        }else{
+            Intent intent = new Intent(RegistrarseActivity.this,
+                    MainActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 }

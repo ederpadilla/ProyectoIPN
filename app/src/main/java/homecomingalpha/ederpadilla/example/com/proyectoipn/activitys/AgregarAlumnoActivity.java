@@ -82,12 +82,17 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
                if (tipoDeSangre.equals("")){
                    Util.showToast(getApplicationContext(),"Falta especificar el tipo de sangre");
                }else {
+                   if (Util.isValidPhoneNumber(
+                           et_agregar_alumno_telefono.getText().toString())==Constantes.INPUT_OK){
                  crearAlumno(asignarValoresRealesAlumno());
                    Util.showLog("Se crea "+asignarValoresRealesAlumno().toString());
                    Intent intent = new Intent(AgregarAlumnoActivity.this,
                            PerfilActivity.class);
                    startActivity(intent);
                    finish();
+                   }else{
+                       Util.showToast(getApplicationContext(),getString(R.string.telefono_invalido));
+                   }
                }
                }
     }

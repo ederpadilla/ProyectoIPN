@@ -51,18 +51,27 @@ public class EntrarActivity extends AppCompatActivity {
             if (Util.isValidEmail(et_mail.getText().toString())!=1){
                 Util.showToast(getApplicationContext(),getString(R.string.invalid_mail));
             }else{
-                Util.saveSharedPreferences(getApplicationContext(),buscarUsuario());
-                Intent intent = new Intent(EntrarActivity.this,
-                        PerfilActivity.class);
-                intent.putExtra(Constantes.LLAVE_USUARIO_ID,buscarUsuario().getId());
-                startActivity(intent);
-                finish();
+                if (buscarUsuario()==null){
+                    Util.showToast(getApplicationContext(),getString(R.string.user_not_found));
+                    }else {
+                            if (buscarUsuario().getContraseña().equals(et_password.getText().toString())){
+                        Util.saveSharedPreferences(getApplicationContext(), buscarUsuario());
+                        Intent intent = new Intent(EntrarActivity.this,
+                                PerfilActivity.class);
+                        intent.putExtra(Constantes.LLAVE_USUARIO_ID, buscarUsuario().getId());
+                        startActivity(intent);
+                        finish();}else {
+                                Util.showToast(getApplicationContext(),"Contraseña incorrecta");}
+                    }
+                }
             }
-        }
+
+
     }
     private User buscarUsuario() {
-        User userFound = realm.where(User.class).equalTo(Constantes.LLAVE_LOGIN_MAIL,et_mail.getText().toString()).findFirst();
-       return userFound;
+        User userFound = realm.where(User.class).equalTo(
+                Constantes.LLAVE_LOGIN_MAIL,et_mail.getText().toString()).findFirst();
+        return userFound;
     }
     @Override
     public void onBackPressed() {

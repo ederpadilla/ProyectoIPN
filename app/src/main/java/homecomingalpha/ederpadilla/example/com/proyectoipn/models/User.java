@@ -1,5 +1,7 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.models;
 
+import java.util.Arrays;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -16,10 +18,18 @@ public class User extends RealmObject {
     private int tipoDeUuario;
     private byte[]bytes;
     private RealmList<Alumnos> alumnosRealmList;
+    private String imageUrl;
     @PrimaryKey
     String id;
 
     public User() {
+    }
+
+    public User(String nombre, String id, String imageUrl,int tipoDeUuario) {
+        this.nombre = nombre;
+        this.id = id;
+        this.tipoDeUuario=tipoDeUuario;
+        this.imageUrl = imageUrl;
     }
 
     public User(String nombre, String telefono, String email, String contraseña, int tipoDeUuario, byte[] bytes, RealmList<Alumnos> alumnosRealmList, String id) {
@@ -124,6 +134,14 @@ public class User extends RealmObject {
         this.alumnosRealmList = alumnosRealmList;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -133,6 +151,7 @@ public class User extends RealmObject {
                 ", contraseña='" + contraseña + '\'' +
                 ", tipoDeUuario=" + tipoDeUuario +
                 ", alumnosRealmList=" + alumnosRealmList +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", id='" + id + '\'' +
                 '}';
     }

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="homecomingalpha.ederpadilla.example.com.proyectoipn">
+
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:name=".ProyectoIPNApplication"
         android:allowBackup="true"
@@ -23,28 +27,39 @@
         <activity
             android:name=".activitys.SplashActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activitys.EntrarActivity"
             android:noHistory="true"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".activitys.PerfilActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activitys.AlumnoPerfilActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activitys.AgregarAlumnoActivity"
+            android:screenOrientation="portrait"></activity>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity
-            android:name=".activitys.PerfilActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activitys.AlumnoPerfilActivity"
-            android:screenOrientation="portrait"  />
-        <activity android:name=".activitys.AgregarAlumnoActivity"
-            android:screenOrientation="portrait" >
+        <activity android:name=".activitys.FaceboolLoginActivity"
+            android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
     </application>

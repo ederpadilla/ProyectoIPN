@@ -20,6 +20,7 @@ public class Constantes {
     public static final int INPUT_FIELD_OK=1;
     public static final int USUARIO_PADRE_MADRE=0;
     public static final int USUARIO_PROFESOR=1;
+    public static final int USUARIO_SIN_DEFINIR=3;
     public static final String LLAVE_LOGIN="LLAVE_LOGIN";
     public static final String LLAVE_NOMBRE="NOMBRE";
     public static final String LLAVE_TELEFONO="TELEFONO";

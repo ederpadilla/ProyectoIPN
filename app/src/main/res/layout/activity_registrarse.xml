@@ -118,7 +118,6 @@
         android:layout_marginRight="@dimen/dimen_30dp"
         android:text="@string/tipo_de_usuario"
         android:elevation="16dp"
-        android:textSize="16sp"
         app:ms_background_color="@color/colorPrimary"
         app:ms_arrow_tint="@color/colorAccent"
         app:ms_text_color="@color/colorAccent" />

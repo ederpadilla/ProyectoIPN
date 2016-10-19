@@ -11,8 +11,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ import homecomingalpha.ederpadilla.example.com.proyectoipn.fragments.BuscarEstud
 import homecomingalpha.ederpadilla.example.com.proyectoipn.models.Alumnos;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.models.User;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Constantes;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.util.DownloadImage;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Util;
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -72,11 +76,24 @@ public class PerfilActivity extends AppCompatActivity {
     }
 
     private void checkForUserType(User user) {
-        if (user.getTipoDeUuario()==Constantes.USUARIO_PROFESOR){
-            usuarioTipoProfesor();
-        }else {
-            usuarioTipoPadreMadre();
+        switch (user.getTipoDeUuario()){
+            case Constantes.USUARIO_PADRE_MADRE:
+                usuarioTipoPadreMadre();
+                break;
+            case Constantes.USUARIO_PROFESOR:
+                usuarioTipoProfesor();
+                break;
+            case Constantes.USUARIO_SIN_DEFINIR:
+                usuarioDeFacebook();
+                break;
         }
+
+    }
+
+    private void usuarioDeFacebook() {
+        tv_tipo.setText("Necesitas editar tu perfil antes de todo");
+        new DownloadImage(cimgv_profile).execute(user.getImageUrl());
+        floatingActionButton.setVisibility(View.GONE);
     }
 
     private void usuarioTipoProfesor() {
@@ -138,9 +155,12 @@ public class PerfilActivity extends AppCompatActivity {
     }
     @OnClick(R.id.tv_cerrarsion)
     public void cerrarSesion(){
+        if(AccessToken.getCurrentAccessToken()!=null){
+            LoginManager.getInstance().logOut();
+        }
         Util.borrarSharedPreferences(getApplicationContext());
         Intent intent = new Intent(PerfilActivity.this,
-                SplashActivity.class);
+                FaceboolLoginActivity.class);
         startActivity(intent);
         finish();
     }

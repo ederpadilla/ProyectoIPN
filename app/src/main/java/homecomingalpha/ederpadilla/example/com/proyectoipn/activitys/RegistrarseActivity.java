@@ -67,6 +67,10 @@ public class RegistrarseActivity extends AppCompatActivity {
         if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
             editarPerfil(buscarUsuario());
             btn_crearcuenta.setText(getString(R.string.actualizar));
+            if (buscarUsuario().getTipoDeUuario()==3){
+                spinner.setVisibility(View.VISIBLE);
+                spinnerAdapter();
+            }
 
         }else{
             spinner.setVisibility(View.VISIBLE);
@@ -179,6 +183,7 @@ public class RegistrarseActivity extends AppCompatActivity {
         usuarioActualizado.setTelefono(nuevoTelefono);
         usuarioActualizado.setEmail(nuevoMail);
         usuarioActualizado.setContraseña(nuevaContraseña);
+        usuarioActualizado.setTipoDeUuario(tipoDeUsuario);
         realm.copyToRealmOrUpdate(usuarioActualizado);
         realm.commitTransaction();
     }

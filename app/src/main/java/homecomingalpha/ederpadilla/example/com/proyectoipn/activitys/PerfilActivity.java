@@ -157,6 +157,7 @@ public class PerfilActivity extends AppCompatActivity {
     public void cerrarSesion(){
         if(AccessToken.getCurrentAccessToken()!=null){
             LoginManager.getInstance().logOut();
+            Util.borrarSharedPreferences(getApplicationContext());
         }
         Util.borrarSharedPreferences(getApplicationContext());
         Intent intent = new Intent(PerfilActivity.this,

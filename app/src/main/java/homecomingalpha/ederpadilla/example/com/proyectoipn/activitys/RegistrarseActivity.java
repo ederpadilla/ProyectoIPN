@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -16,7 +17,9 @@ import android.widget.Button;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -205,16 +208,20 @@ public class RegistrarseActivity extends AppCompatActivity {
     }
     @OnClick(R.id.img_photo)
     public void takePic(){
-       // if (requestPermission()) {
-       //     Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-       //     startActivityForResult(intent, Constantes.REQUEST_IMAGE_CAPTURE);
-       // }
+        if (requestPermission()) {
+            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+            startActivityForResult(intent, Constantes.REQUEST_IMAGE_CAPTURE);
+        }
     }
-    public boolean requestPermission() {
+
+    private boolean requestPermission() {
+        int locationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         int cameraPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
 
         List<String> listPermissionsNeeded = new ArrayList<>();
-
+        if (locationPermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
 
         if (cameraPermission != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.CAMERA);
@@ -225,14 +232,7 @@ public class RegistrarseActivity extends AppCompatActivity {
         }
         return true;
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constantes.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            img_photo.setImageBitmap(imageBitmap);
-        }
-    }
+
     private void checkTogoBack(){
         SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
         if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
@@ -243,9 +243,70 @@ public class RegistrarseActivity extends AppCompatActivity {
 
         }else{
             Intent intent = new Intent(RegistrarseActivity.this,
-                    MainActivity.class);
+                    FaceboolLoginActivity.class);
             startActivity(intent);
             finish();
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+        switch (requestCode) {
+            case Constantes.REQUEST_PERMMISSION_STATUS: {
+
+                Map<String, Integer> perms = new HashMap<>();
+                // Initialize the map with both permissions
+
+                perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.RECORD_AUDIO, PackageManager.PERMISSION_GRANTED);
+
+                // Fill with actual results from user
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < permissions.length; i++)
+                        perms.put(permissions[i], grantResults[i]);
+                    // Check for all permissions
+                    if (perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+
+                        // process the normal flow
+                        //else any one or both the permissions are not granted
+                    } else {
+
+                        //permission is denied (this is the first time, when "never ask again" is not checked) so ask again explaining the usage of permission
+                        //show the dialog or snackbar saying its necessary and try again otherwise proceed with setup.
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)
+                                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)
+                                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                            // request again
+                            requestPermission();
+                        } else {
+                            //permission is denied (and never ask again is  checked)
+                            //shouldShowRequestPermissionRationale will return false
+                            Util.showToast(getApplicationContext(),"Permisos negados");
+                            //proceed with denied access app.
+                        }
+                        // shouldShowRequestPermissionRationale will return true
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constantes.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            img_photo.setImageBitmap(imageBitmap);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+            byte[] bitmapdata = bos.toByteArray();
+            ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
+
+
         }
     }
 }

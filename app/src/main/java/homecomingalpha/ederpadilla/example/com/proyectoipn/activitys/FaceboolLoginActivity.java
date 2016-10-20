@@ -1,6 +1,7 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.activitys;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,13 +37,26 @@ public class FaceboolLoginActivity extends AppCompatActivity {
     @BindView(R.id.fb_login_button)
     LoginButton loginButton;
     CallbackManager callbackManager;
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facebool_login);
         ButterKnife.bind(this);
-        callbackManager= CallbackManager.Factory.create();
-        facebook();
+        sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
+        checkForUserLogIn();
+    }
+
+    private void checkForUserLogIn(){
+        if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
+            callbackManager= CallbackManager.Factory.create();
+            facebook();
+            Util.borrarSharedPreferences(getApplicationContext());
+        }else {
+            Intent intent = new Intent(FaceboolLoginActivity.this,SplashActivity.class);
+            startActivity(intent);
+            FaceboolLoginActivity.this.finish();
+        }
     }
 
     private void facebook() {

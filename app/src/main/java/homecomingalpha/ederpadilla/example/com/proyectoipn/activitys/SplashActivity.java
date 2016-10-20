@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.R;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.models.User;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Constantes;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Util;
 
@@ -38,8 +39,7 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-        sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
-        checkForUserLogIn();
+        StartAnimations();
 
     }
     private void checkForUserLogIn(){
@@ -71,8 +71,10 @@ public class SplashActivity extends Activity {
 
                     /** Pause the execution of the code for 3.5 secs. **/
                     sleep(1500);
+                    User uTest = new User("Test","1","eeef@qd","111",3);
+                    Util.saveSharedPreferences(getApplicationContext(),uTest);
                     Intent intent = new Intent(SplashActivity.this,
-                            MainActivity.class);
+                            FaceboolLoginActivity.class);
                     startActivity(intent);
                     SplashActivity.this.finish();
                 } catch (InterruptedException e) {

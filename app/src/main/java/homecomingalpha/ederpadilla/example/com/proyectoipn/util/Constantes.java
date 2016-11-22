@@ -1,5 +1,8 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by ederpadilla on 10/10/16.
  */
@@ -9,7 +12,6 @@ public class Constantes {
     public static final String USERS="users";
 
 
-    public static final int REQUEST_IMAGE_CAPTURE = 100;
 
     public static final int INPUT_EMPTY_EMAIL = 0;
     public static final int INPUT_INVALID_EMAIL = -1;
@@ -30,8 +32,13 @@ public class Constantes {
     public static final String LLAVE_ALUMNO_CODIGO="codigoAlumno";
     public static final String LLAVE_LOGIN_MAIL="email";
     public static final String LLAVE_USUARIO_ID="id";
+    public static final int REQUEST_IMAGE_CAPTURE = 100;
 
     public static final int REQUEST_PERMMISSION_STATUS = 150;
 
     public static final String EMPTYFIELD="CAMPO VACIO";
+    public static final int REQUEST_CAMERA = 20;
+    public static final int SELECT_FILE = 30;
+    public static final String FIREBASE_DB_USERS = "Users";
+
 }

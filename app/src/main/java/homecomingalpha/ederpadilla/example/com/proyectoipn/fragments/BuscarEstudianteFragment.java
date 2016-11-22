@@ -22,7 +22,6 @@ import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Constantes;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Util;
 import io.realm.Realm;
 import io.realm.RealmList;
-import io.realm.RealmResults;
 
 /**
  * Created by ederpadilla on 13/10/16.
@@ -48,8 +47,7 @@ public class BuscarEstudianteFragment extends DialogFragment {
         return buscarEstudianteFragment;
     }
     @OnClick(R.id.btn_fragment_buscar)
-    public void buscarAlumno()
-    {
+    public void buscarAlumno()    {
         if (conseguirAlumnos(fragment_et_codigo_buscar.getText().toString())==null){
                 Util.showToast(getActivity().getApplicationContext(),getString(R.string.estudiante_no_encontrado));
         }else {

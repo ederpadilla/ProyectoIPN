@@ -1,8 +1,6 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.activitys;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -11,11 +9,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
@@ -67,6 +65,7 @@ public class PerfilActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
         idObtenido=Util.getSharerPreferencesUserId(getApplicationContext());
         user=conseguirUsuario(idObtenido);
+        Util.showLog("Usuario en perfil"+user);
         checkForUserType(user);
         setTextViews();
     }
@@ -160,6 +159,7 @@ public class PerfilActivity extends AppCompatActivity {
             Util.borrarSharedPreferences(getApplicationContext());
         }
         Util.borrarSharedPreferences(getApplicationContext());
+        FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(PerfilActivity.this,
                 FaceboolLoginActivity.class);
         startActivity(intent);

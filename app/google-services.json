@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "326606531713",
+    "firebase_url": "https://proyectoipn-a83a9.firebaseio.com",
+    "project_id": "proyectoipn-a83a9",
+    "storage_bucket": "proyectoipn-a83a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:326606531713:android:f71ea3cbb5cca025",
+        "android_client_info": {
+          "package_name": "ederpadilla.example.com.proyectoipn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "326606531713-g4o9aq4h5in5hj8aa1ltv1psskod6acn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ederpadilla.example.com.proyectoipn",
+            "certificate_hash": "0297FEDC4B8158E55F60AC422593A5768ED56423"
+          }
+        },
+        {
+          "client_id": "326606531713-bu999o9tu3k203db5rsgcpnu306j8fks.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq72OPdumlsPgAmTL-0lM7_NIw4cftX9I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "326606531713-bu999o9tu3k203db5rsgcpnu306j8fks.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

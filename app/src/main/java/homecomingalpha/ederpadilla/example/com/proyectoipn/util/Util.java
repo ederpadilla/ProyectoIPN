@@ -2,6 +2,9 @@ package homecomingalpha.ederpadilla.example.com.proyectoipn.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.util.Patterns;
 import android.widget.EditText;
@@ -136,5 +139,16 @@ public class Util {
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();
         editor.commit();
+    }
+
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

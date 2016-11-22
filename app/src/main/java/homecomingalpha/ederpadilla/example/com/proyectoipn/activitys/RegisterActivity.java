@@ -2,16 +2,13 @@ package homecomingalpha.ederpadilla.example.com.proyectoipn.activitys;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -49,23 +46,22 @@ import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Constantes;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Util;
 import io.realm.Realm;
 
-public class RegistrarseActivity extends AppCompatActivity {
-    @BindView(R.id.img_photo)
-    public CircularImageView img_photo;
-    @BindView(R.id.register_et_nombre)
+public class RegisterActivity extends AppCompatActivity {
+    @BindView(R.id.img_photo_register)
+    CircularImageView img_photo;
+    @BindView(R.id.register_et_nombre_register)
     TextInputEditText et_nombre;
-    @BindView(R.id.register_et_telefono)
+    @BindView(R.id.register_et_telefono_register)
     TextInputEditText et_telefono;
-    @BindView(R.id.register_et_mail)
+    @BindView(R.id.register_et_mail_register)
     TextInputEditText et_mail;
-    @BindView(R.id.register_et_password)
+    @BindView(R.id.register_et_password_register)
     TextInputEditText et_password;
-    @BindView(R.id.spinner)
+    @BindView(R.id.spinner_register)
     MaterialSpinner spinner;
-    @BindView(R.id.btn_crearcuenta)
+    @BindView(R.id.btn_crearcuenta_register)
     Button btn_crearcuenta;
-    private FirebaseAuth mAuth;
-    private DatabaseReference mFirebaseDatabase;
+
     private int tipoDeUsuario=3;
     private String userType="";
     private Realm realm;
@@ -73,21 +69,18 @@ public class RegistrarseActivity extends AppCompatActivity {
     int PERMISSION_ALL = 1;
     private List<String> permissions= new ArrayList<>();
 
-
-
+    private FirebaseAuth mAuth;
+    private DatabaseReference mFirebaseDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registrarse);
-        ButterKnife.bind(this);
-        spinner.setVisibility(View.GONE);
-        mFirebaseDatabase =FirebaseDatabase.getInstance().getReference();
+        setContentView(R.layout.activity_register);
+        ButterKnife.bind(this);spinner.setVisibility(View.GONE);
+        mFirebaseDatabase = FirebaseDatabase.getInstance().getReference();
         realm=Realm.getDefaultInstance();
         checkForUserLogIn();
+
     }
-
-
-
     private void checkForUserLogIn() {
         SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
         if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
@@ -107,13 +100,12 @@ public class RegistrarseActivity extends AppCompatActivity {
         }
 
     }
-
-    @OnClick(R.id.btn_crearcuenta)
+    @OnClick(R.id.btn_crearcuenta_register)
     public void entrar(){
         SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
         if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
             actualizarUsuario(buscarUsuario());
-            Intent intent = new Intent(RegistrarseActivity.this,
+            Intent intent = new Intent(RegisterActivity.this,
                     PerfilActivity.class);
             startActivity(intent);
             finish();
@@ -133,16 +125,16 @@ public class RegistrarseActivity extends AppCompatActivity {
 
     private void validateEmptyFields() {
         if (Util.emptyField(et_nombre)==0&&Util.emptyField(et_mail)==0&&Util.emptyField(et_password)==0
-               && Util.emptyField(et_telefono)==0){
+                && Util.emptyField(et_telefono)==0){
             Util.showToast(getApplicationContext(),getString(R.string.camposvacios));
         }else if(Util.emptyField(et_nombre)==0){
-        et_nombre.setError(getString(R.string.campo_vacio));
+            et_nombre.setError(getString(R.string.campo_vacio));
         }else if(Util.emptyField(et_mail)==0){
-        et_mail.setError(getString(R.string.campo_vacio));
+            et_mail.setError(getString(R.string.campo_vacio));
         }else if(Util.emptyField(et_password)==0){
-        et_password.setError(getString(R.string.campo_vacio));
+            et_password.setError(getString(R.string.campo_vacio));
         }else if(Util.emptyField(et_telefono)==0){
-        et_telefono.setError(getString(R.string.campo_vacio));
+            et_telefono.setError(getString(R.string.campo_vacio));
         }else if (tipoDeUsuario==3) {
             Util.showToast(getApplicationContext(),"Falta especificar el tipo de usuario");
         }else {
@@ -159,7 +151,7 @@ public class RegistrarseActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                
+
                                 //mFirebaseDatabase.child(userRegistrate.getId()).setValue(userRegistrate);
                                 //writeNewUser(userRegistrate.getId(),userRegistrate);
                                 //mDatabase.child("users").child(userId).setValue(user);
@@ -167,12 +159,12 @@ public class RegistrarseActivity extends AppCompatActivity {
 
 
                                 if (!task.isSuccessful()) {
-                                   Util.showToast(getApplicationContext(),"Estamos teniendo problemas intente mas tarde");
+                                    Util.showToast(getApplicationContext(),"Estamos teniendo problemas intente mas tarde");
                                 }else{
                                     Util.showToast(getApplicationContext(),"Se registro correctamente");
                                     userRegistrate=usuarioConParametros();
                                     createUser(userRegistrate);
-                                    Intent intent = new Intent(RegistrarseActivity.this,
+                                    Intent intent = new Intent(RegisterActivity.this,
                                             FaceboolLoginActivity.class);
                                     intent.putExtra(Constantes.LLAVE_USUARIO_ID, userRegistrate.getId());
                                     startActivity(intent);
@@ -185,7 +177,6 @@ public class RegistrarseActivity extends AppCompatActivity {
 
         }
     }
-
     private void spinnerAdapter() {
         final String profesor=getString(R.string.profesor);
         final String padre=getString(R.string.padre);
@@ -198,7 +189,7 @@ public class RegistrarseActivity extends AppCompatActivity {
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
 
                 if (item.equals(profesor)) {
-                Util.showLog("El item es profesor");
+                    Util.showLog("El item es profesor");
                     tipoDeUsuario=Constantes.USUARIO_PROFESOR;
                 }else if (item.equals(padre)){
                     tipoDeUsuario=Constantes.USUARIO_PADRE_MADRE;
@@ -210,14 +201,28 @@ public class RegistrarseActivity extends AppCompatActivity {
             }
         });
     }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         checkTogoBack();
     }
+    private void checkTogoBack(){
+        SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
+        if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
+            Intent intent = new Intent(RegisterActivity.this,
+                    PerfilActivity.class);
+            startActivity(intent);
+            //finish();
+
+        }else{
+            Intent intent = new Intent(RegisterActivity.this,
+                    FaceboolLoginActivity.class);
+            startActivity(intent);
+            //finish();
+        }
+    }
     private void createUser(User user){
-    Realm realm =Realm.getDefaultInstance();
+        Realm realm =Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(user);
         realm.commitTransaction();
@@ -255,38 +260,23 @@ public class RegistrarseActivity extends AppCompatActivity {
                 .findFirst();
         return userFound;
     }
-    @OnClick(R.id.img_photo)
-    public void cameraPic(){
+    @OnClick(R.id.img_photo_register)
+    public void tryPic(){
         if (Util.hasPermissions(getApplicationContext(),permissions.toArray(new String[permissions.size()]))){
             selectImage();
         }else{
             Util.showLog("No tiene permisos");
             String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
             if(!Util.hasPermissions(this, PERMISSIONS)){
-                ActivityCompat.requestPermissions(RegistrarseActivity.this, PERMISSIONS, PERMISSION_ALL);
+                Util.showToast(getApplicationContext(),"No ah brindado permisos de acceso a la aplicación");
             }
         }
     }
 
-    private void checkTogoBack(){
-        SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
-        if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
-            Intent intent = new Intent(RegistrarseActivity.this,
-                    PerfilActivity.class);
-            startActivity(intent);
-            //finish();
-
-        }else{
-            Intent intent = new Intent(RegistrarseActivity.this,
-                    FaceboolLoginActivity.class);
-            startActivity(intent);
-            //finish();
-        }
-    }
     private void selectImage() {
         final CharSequence[] items = { "Cámara", "Galería"};
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(RegistrarseActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
         builder.setTitle("Obtener fotografía");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
@@ -319,8 +309,8 @@ public class RegistrarseActivity extends AppCompatActivity {
         Util.showLog("Entra al activityresult");
         super.onActivityResult(requestCode, resultCode, data);
         Util.showLog("Entra despues del super");
-            if (requestCode == Constantes.REQUEST_CAMERA) {
-                if (resultCode==RESULT_OK){
+        if (requestCode == Constantes.REQUEST_CAMERA) {
+            if (resultCode==RESULT_OK){
                 File f = new File(Environment.getExternalStorageDirectory()
                         .toString());
                 for (File temp : f.listFiles()) {
@@ -336,7 +326,6 @@ public class RegistrarseActivity extends AppCompatActivity {
                     bm = BitmapFactory.decodeFile(f.getAbsolutePath(),
                             btmapOptions);
 
-                    // bm = Bitmap.createScaledBitmap(bm, 70, 70, true);
                     img_photo.setImageBitmap(bm);
 
                     String path = android.os.Environment
@@ -362,16 +351,16 @@ public class RegistrarseActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                }
-            } else if (requestCode == Constantes.SELECT_FILE) {
-                Uri selectedImageUri = data.getData();
-
-                String tempPath = getPath(selectedImageUri, RegistrarseActivity.this);
-                Bitmap bm;
-                BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
-                bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
-                img_photo.setImageBitmap(bm);
             }
+        } else if (requestCode == Constantes.SELECT_FILE) {
+            Uri selectedImageUri = data.getData();
+
+            String tempPath = getPath(selectedImageUri, RegisterActivity.this);
+            Bitmap bm;
+            BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
+            bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
+            img_photo.setImageBitmap(bm);
+        }
 
 
     }
@@ -383,6 +372,5 @@ public class RegistrarseActivity extends AppCompatActivity {
         cursor.moveToFirst();
         return cursor.getString(column_index);
     }
-
-
 }
+

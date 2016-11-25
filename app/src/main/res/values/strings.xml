@@ -58,4 +58,6 @@
     <string name="estudiante_no_encontrado">Estudiante no encontrado</string>
     <string name="fecha_de_nacimiento">Fecha de nacimiento:</string>
     <string name="contraseña_pequeña">Contraseña demasiado corta</string>
+    <string name="falta_foto">Hace falta una fotografía para registrarse</string>
+    <string name="se_registro_corrctamente">Se registro correctamente</string>
 </resources>

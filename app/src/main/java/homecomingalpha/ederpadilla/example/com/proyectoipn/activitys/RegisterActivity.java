@@ -8,20 +8,18 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.github.silvestrpredko.dotprogressbar.DotProgressBar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -72,16 +70,21 @@ public class RegisterActivity extends AppCompatActivity {
     MaterialSpinner spinner;
     @BindView(R.id.btn_crearcuenta_register)
     Button btn_crearcuenta;
+    @BindView(R.id.dot_progress_bar)
+    DotProgressBar dot_progress_bar;
 
     private int tipoDeUsuario=3;
-    private String userType="";
+    private String userImageUrl;
     private Realm realm;
-    User userRegistrate;
-    private StorageReference mStorageRef;
+    private User userRegistrate;
+    private Bitmap userProfileImage;
     int PERMISSION_ALL = 1;
     private List<String> permissions= new ArrayList<>();
 
     private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private StorageReference mStorageRef;
+    private FirebaseUser firebaseUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +92,6 @@ public class RegisterActivity extends AppCompatActivity {
         ButterKnife.bind(this);spinner.setVisibility(View.GONE);
         realm=Realm.getDefaultInstance();
         checkForUserLogIn();
-        //mStorageRef = FirebaseStorage.getInstance().getReference();
 
     }
     private void checkForUserLogIn() {
@@ -160,6 +162,8 @@ public class RegisterActivity extends AppCompatActivity {
             et_nombre.setError(getString(R.string.campo_vacio));
         }else if(Util.emptyField(et_mail)==0){
             et_mail.setError(getString(R.string.campo_vacio));
+        }else if(userProfileImage==null){
+            Util.showToast(getApplicationContext(),getString(R.string.falta_foto));
         }else if(Util.emptyField(et_password)==0){
             et_password.setError(getString(R.string.campo_vacio));
         }else if(Util.emptyField(et_telefono)==0){
@@ -178,40 +182,62 @@ public class RegisterActivity extends AppCompatActivity {
             else if (et_password.getText().toString().length()<5){
                 Util.showToast(getApplicationContext(),getString(R.string.contraseña_pequeña));
             }else {
+                btn_crearcuenta.setVisibility(View.GONE);
+                dot_progress_bar.setVisibility(View.VISIBLE);
                 mAuth.createUserWithEmailAndPassword(et_mail.getText().toString(),et_password.getText().toString())
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-
                                 Util.showLog("Task "+task.toString());
-                                //writeNewUser(userRegistrate.getId(),userRegistrate);
-                                //mDatabase.child("users").child(userId).setValue(user);
-                                //Util.saveSharedPreferences(getApplicationContext(),userRegistrate);
-
-
                                 if (!task.isSuccessful()) {
                                     Util.showToast(getApplicationContext(),"Estamos teniendo problemas intente mas tarde");
+                                    dot_progress_bar.setVisibility(View.GONE);
+                                    btn_crearcuenta.setVisibility(View.VISIBLE);
                                 }else{
-                                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                                    firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                                     if (firebaseUser != null) {
                                     }
-                                    //createUser(userRegistrate);
                                     userRegistrate=usuarioConParametros();
-                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                    DatabaseReference mFirebaseDatabase = database.getReference(Constantes.FIREBASE_DB_USERS).child(firebaseUser.getUid());
-                                    Map<String, Object> map = new HashMap<>();
-                                    map.put(Constantes.FIREBASE_DB_USER_NOMBRE,userRegistrate.getNombre());
-                                    map.put(Constantes.FIREBASE_DB_USEr_TELEFONO,userRegistrate.getTelefono());
-                                    map.put(Constantes.FIREBASE_DB_USER_EMAIL,userRegistrate.getEmail());
-                                    map.put(Constantes.FIREBASE_DB_USER_TIPO_DE_URUASIO,userRegistrate.getTipoDeUuario());
-                                    map.put(Constantes.FIREBASE_DB_USER_ID,userRegistrate.getId());
-                                    mFirebaseDatabase.updateChildren(map);
-                                    Intent intent = new Intent(RegisterActivity.this,
-                                            FaceboolLoginActivity.class);
-                                    intent.putExtra(Constantes.LLAVE_USUARIO_ID, userRegistrate.getId());
-                                    startActivity(intent);
-                                    Util.showToast(getApplicationContext(),"Se registro correctamente");
-                                    finish();
+                                    database = FirebaseDatabase.getInstance();
+
+                                    mStorageRef=FirebaseStorage.getInstance().getReferenceFromUrl(Constantes.FIREBASE_DB_USER_PORFILE_PICTURE_URL).child(firebaseUser.getUid());
+                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                    userProfileImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                    byte[] data = baos.toByteArray();
+                                    UploadTask uploadTask = mStorageRef.putBytes(data);
+                                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            Util.showLog("Fallo");
+                                            // Handle unsuccessful uploads
+                                            dot_progress_bar.setVisibility(View.GONE);
+                                            btn_crearcuenta.setVisibility(View.VISIBLE);
+                                        }
+                                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                            userImageUrl=downloadUrl.toString();
+                                            DatabaseReference mFirebaseDatabase = database.getReference(Constantes.FIREBASE_DB_USERS).child(firebaseUser.getUid());
+                                            Map<String, Object> map = new HashMap<>();
+                                            map.put(Constantes.FIREBASE_DB_USER_NOMBRE,userRegistrate.getNombre());
+                                            map.put(Constantes.FIREBASE_DB_USEr_TELEFONO,userRegistrate.getTelefono());
+                                            map.put(Constantes.FIREBASE_DB_USER_EMAIL,userRegistrate.getEmail());
+                                            map.put(Constantes.FIREBASE_DB_USER_TIPO_DE_URUASIO,userRegistrate.getTipoDeUuario());
+                                            map.put(Constantes.FIREBASE_DB_USER_ID,userRegistrate.getId());
+                                            map.put(Constantes.FIREBASE_DB_USER_PHOTO_URL,userImageUrl);
+                                            mFirebaseDatabase.updateChildren(map);
+                                            Intent intent = new Intent(RegisterActivity.this,
+                                                    FaceboolLoginActivity.class);
+                                            intent.putExtra(Constantes.LLAVE_USUARIO_ID, userRegistrate.getId());
+                                            startActivity(intent);
+                                            Util.showToast(getApplicationContext(),getString(R.string.se_registro_corrctamente));
+                                            finish();
+                                        }
+                                    });
+
                                 }
                             }
                         });
@@ -361,13 +387,12 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }
                 try {
-                    Bitmap bm;
                     BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
 
-                    bm = BitmapFactory.decodeFile(f.getAbsolutePath(),
+                    userProfileImage = BitmapFactory.decodeFile(f.getAbsolutePath(),
                             btmapOptions);
 
-                    img_photo.setImageBitmap(bm);
+                    img_photo.setImageBitmap(userProfileImage);
 
                     String path = android.os.Environment
                             .getExternalStorageDirectory()
@@ -379,7 +404,7 @@ public class RegisterActivity extends AppCompatActivity {
                             .currentTimeMillis()) + ".jpg");
                     try {
                         fOut = new FileOutputStream(file);
-                        bm.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
+                        userProfileImage.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
                         fOut.flush();
                         fOut.close();
                     } catch (FileNotFoundException e) {
@@ -397,10 +422,9 @@ public class RegisterActivity extends AppCompatActivity {
             Uri selectedImageUri = data.getData();
 
             String tempPath = getPath(selectedImageUri, RegisterActivity.this);
-            Bitmap bm;
             BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
-            bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
-            img_photo.setImageBitmap(bm);
+            userProfileImage = BitmapFactory.decodeFile(tempPath, btmapOptions);
+            img_photo.setImageBitmap(userProfileImage);
         }
 
 

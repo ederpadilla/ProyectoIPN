@@ -157,15 +157,6 @@ public class FaceboolLoginActivity extends AppCompatActivity {
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                               // if (buscarUsuario(mail).equals(null)){
-                               //     Util.showLog("Usuario no esta en realm");
-                               // }
-                               // Util.saveSharedPreferences(getApplicationContext(),buscarUsuario(mail));
-                               // Intent intent = new Intent(FaceboolLoginActivity.this,
-                               //                               PerfilActivity.class);
-                               // intent.putExtra(Constantes.LLAVE_USUARIO_ID, buscarUsuario(mail).getId());
-                               //               startActivity(intent);
-                               //               finish();
                                 if (!task.isSuccessful()) {
                                    Util.showToast(getApplicationContext(),"Usuario no registrado o contraseña incorrecta");
                                 }else{
@@ -177,7 +168,14 @@ public class FaceboolLoginActivity extends AppCompatActivity {
                                     mDatabase.addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
-                                            Util.showLog("EL valor"+dataSnapshot.getValue(User.class).toString());
+                                            User userFoundInFireBase=dataSnapshot.getValue(User.class);
+                                            Util.showLog("Usuario encontrado "+userFoundInFireBase.toString());
+                                            Util.saveSharedPreferences(getApplicationContext(),userFoundInFireBase);
+                                             Intent intent = new Intent(FaceboolLoginActivity.this,
+                                                                           PerfilActivity.class);
+                                             intent.putExtra(Constantes.LLAVE_USUARIO_ID, buscarUsuario(mail).getId());
+                                                           startActivity(intent);
+                                                           finish();
                                         }
 
                                         @Override

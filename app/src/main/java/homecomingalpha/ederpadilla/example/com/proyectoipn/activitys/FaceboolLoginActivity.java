@@ -11,6 +11,8 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -20,6 +22,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.github.silvestrpredko.dotprogressbar.DotProgressBar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -56,6 +59,10 @@ public class FaceboolLoginActivity extends AppCompatActivity {
     Realm realm;
     @BindView(R.id.fb_login_button)
     LoginButton loginButton;
+    @BindView(R.id.btn_login)
+    Button btn_login;
+    @BindView(R.id.dot_progress_bar_login)
+    DotProgressBar dot_progress_bar_login;
     CallbackManager callbackManager;
     SharedPreferences sharedPreferences;
     int PERMISSION_ALL = 1;
@@ -152,19 +159,24 @@ public class FaceboolLoginActivity extends AppCompatActivity {
             if (Util.isValidEmail(et_mail.getText().toString())!=1){
                 Util.showToast(getApplicationContext(),getString(R.string.invalid_mail));
             }else{
+                loginButton.setVisibility(View.GONE);
+                btn_login.setVisibility(View.GONE);
+                dot_progress_bar_login.setVisibility(View.VISIBLE);
                 final String mail =et_mail.getText().toString();
                 mAuth.signInWithEmailAndPassword(mail, et_password.getText().toString())
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (!task.isSuccessful()) {
+                                    loginButton.setVisibility(View.VISIBLE);
+                                    btn_login.setVisibility(View.VISIBLE);
+                                    dot_progress_bar_login.setVisibility(View.GONE);
                                    Util.showToast(getApplicationContext(),"Usuario no registrado o contraseña incorrecta");
                                 }else{
                                     Util.showToast(getApplicationContext(),"Usuario reigstrado");
                                     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                                     Util.showLog("UID "+firebaseUser.getUid());
                                     DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference(Constantes.FIREBASE_DB_USERS).child(firebaseUser.getUid());
-                                    //DatabaseReference mFirebaseDatabase = getReference(Constantes.FIREBASE_DB_USERS).child(firebaseUser.getUid());
                                     mDatabase.addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -173,14 +185,16 @@ public class FaceboolLoginActivity extends AppCompatActivity {
                                             Util.saveSharedPreferences(getApplicationContext(),userFoundInFireBase);
                                              Intent intent = new Intent(FaceboolLoginActivity.this,
                                                                            PerfilActivity.class);
-                                             intent.putExtra(Constantes.LLAVE_USUARIO_ID, buscarUsuario(mail).getId());
                                                            startActivity(intent);
                                                            finish();
                                         }
 
                                         @Override
                                         public void onCancelled(DatabaseError databaseError) {
-
+                                            Util.showToast(getApplicationContext(),getString(R.string.problemas));
+                                            loginButton.setVisibility(View.VISIBLE);
+                                            btn_login.setVisibility(View.VISIBLE);
+                                            dot_progress_bar_login.setVisibility(View.GONE);
                                         }
                                     });
                                 }
@@ -206,12 +220,7 @@ public class FaceboolLoginActivity extends AppCompatActivity {
 
 
     }
-    private User buscarUsuario(String mail) {
-        User userFound = realm.where(User.class).equalTo(
-                Constantes.LLAVE_LOGIN_MAIL,mail).findFirst();
-        Util.showLog("User found"+ userFound.toString());
-        return userFound;
-    }
+
     private void createUser(User user) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();

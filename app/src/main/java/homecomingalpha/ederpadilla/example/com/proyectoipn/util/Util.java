@@ -106,6 +106,7 @@ public class Util {
         editor.putString(Constantes.LLAVE_EMAIL,usuario.getEmail());
         editor.putInt(Constantes.LLAVE_TIPO_DE_USUARIO,usuario.getTipoDeUuario());
         editor.putString(Constantes.LLAVE_USUARIO_ID,usuario.getId());
+        editor.putString(Constantes.LLAVE_USUARIO_IMAGE_URL,usuario.getImageUrl());
         editor.commit();
     }
     public static String getSharerPreferencesUserName(Context context){
@@ -132,6 +133,17 @@ public class Util {
     public static String getSharerPreferencesUserId(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
         return sharedPreferences.getString(Constantes.LLAVE_USUARIO_ID,"");
+    }
+    public static User getUserInSharedPreferences(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
+        User userSharedPreferences = new User();
+        userSharedPreferences.setNombre(sharedPreferences.getString(Constantes.LLAVE_NOMBRE,""));
+        userSharedPreferences.setTelefono(sharedPreferences.getString(Constantes.LLAVE_TELEFONO,""));
+        userSharedPreferences.setEmail(sharedPreferences.getString(Constantes.LLAVE_EMAIL,""));
+        userSharedPreferences.setTipoDeUuario(sharedPreferences.getInt(Constantes.LLAVE_TIPO_DE_USUARIO,3));
+        userSharedPreferences.setImageUrl(sharedPreferences.getString(Constantes.LLAVE_USUARIO_IMAGE_URL,""));
+        userSharedPreferences.setId(sharedPreferences.getString(Constantes.LLAVE_USUARIO_ID,""));
+        return userSharedPreferences;
     }
     public static void borrarSharedPreferences(Context context) {
         SharedPreferences sp = context.getSharedPreferences(Constantes.LLAVE_LOGIN, 0);

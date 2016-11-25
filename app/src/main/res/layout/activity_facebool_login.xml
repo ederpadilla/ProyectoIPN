@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/tools"
     android:background="@color/colorPrimary"
     android:gravity="center"
     android:orientation="vertical"
@@ -66,14 +67,26 @@
     <Button
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/dimen_40dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="@dimen/dimen_20dp"
+        android:layout_marginRight="@dimen/dimen_20dp"
+        android:layout_marginTop="@dimen/dimen_20dp"
         android:background="@drawable/my_btn_background_ripple"
         android:text="@string/entrar"
         android:textColor="@color/white" />
+    <com.github.silvestrpredko.dotprogressbar.DotProgressBar
+        android:id="@+id/dot_progress_bar_login"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_40dp"
+        android:layout_marginLeft="@dimen/dimen_20dp"
+        android:layout_marginTop="@dimen/dimen_40dp"
+        android:visibility="gone"
+        android:layout_marginRight="@dimen/dimen_20dp"
+        custom:amount="5"
+        custom:duration="@android:integer/config_mediumAnimTime"
+        custom:endColor="@color/colorPrimary"
+        custom:startColor="@color/colorPrimaryDark"/>
     <com.facebook.login.widget.LoginButton
         android:id="@+id/fb_login_button"
         android:layout_width="match_parent"

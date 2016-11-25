@@ -60,4 +60,5 @@
     <string name="contraseña_pequeña">Contraseña demasiado corta</string>
     <string name="falta_foto">Hace falta una fotografía para registrarse</string>
     <string name="se_registro_corrctamente">Se registro correctamente</string>
+    <string name="problemas">Ocurrio un problema</string>
 </resources>

@@ -30,6 +30,7 @@ public class Constantes {
     public static final String LLAVE_ALUMNO_CODIGO="codigoAlumno";
     public static final String LLAVE_LOGIN_MAIL="email";
     public static final String LLAVE_USUARIO_ID="id";
+    public static final String LLAVE_USUARIO_IMAGE_URL = "imageUrl";
 
     public static final String EMPTYFIELD="CAMPO VACIO";
     public static final int REQUEST_CAMERA = 20;
@@ -43,6 +44,7 @@ public class Constantes {
     public static final String FIREBASE_DB_USER_PHOTO_URL = "imageUrl";
     public static final String FIREBASE_DB_USER_ID = "id";
     public static final String FIREBASE_DB_USER_PORFILE_PICTURE_URL = "gs://proyectoipn-a83a9.appspot.com";
+
 
 
 }

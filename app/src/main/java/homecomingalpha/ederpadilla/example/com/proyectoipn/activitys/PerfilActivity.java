@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -61,13 +62,14 @@ public class PerfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
         ButterKnife.bind(this);
-        recViewInit();
-        realm = Realm.getDefaultInstance();
-        idObtenido=Util.getSharerPreferencesUserId(getApplicationContext());
-        user=conseguirUsuario(idObtenido);
-        Util.showLog("Usuario en perfil"+user);
-        checkForUserType(user);
-        setTextViews();
+        //recViewInit();
+        //realm = Realm.getDefaultInstance();
+        //idObtenido=Util.getSharerPreferencesUserId(getApplicationContext());
+        //user=conseguirUsuario(idObtenido);
+        Util.showLog("Usuario en perfil"+Util.getUserInSharedPreferences(getApplicationContext()).toString());
+        user=Util.getUserInSharedPreferences(getApplicationContext());
+        //checkForUserType(user);
+        //setTextViews();
     }
 
     private User conseguirUsuario(String idd) {
@@ -222,10 +224,7 @@ public class PerfilActivity extends AppCompatActivity {
 
 
     private void setTextViews(){
-        /**  Bitmap bitmap = BitmapFactory.decodeByteArray(allEmpleados.get(i).getBytes(), 0, allEmpleados.get(i).getBytes().length);
-         botondeempleados.setImageBitmap(bitmap);*/
-        //Bitmap bitmap = BitmapFactory.decodeByteArray(user.getBytes(),0,user.getBytes().length);
-        //cimgv_profile.setImageBitmap(bitmap);
+        Glide.with(this).load(user.getImageUrl()).into(cimgv_profile);
             alumnosList.clear();
         alumnosAdapter.notifyDataSetChanged();
         tv_perfil_name.setText(user.getNombre());

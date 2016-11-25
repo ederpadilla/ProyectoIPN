@@ -24,6 +24,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -150,17 +157,34 @@ public class FaceboolLoginActivity extends AppCompatActivity {
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (buscarUsuario(mail).equals(null)){
-                                    Util.showLog("Usuario no esta en realm");
-                                }
-                                Util.saveSharedPreferences(getApplicationContext(),buscarUsuario(mail));
-                                Intent intent = new Intent(FaceboolLoginActivity.this,
-                                                              PerfilActivity.class);
-                                intent.putExtra(Constantes.LLAVE_USUARIO_ID, buscarUsuario(mail).getId());
-                                              startActivity(intent);
-                                              finish();
+                               // if (buscarUsuario(mail).equals(null)){
+                               //     Util.showLog("Usuario no esta en realm");
+                               // }
+                               // Util.saveSharedPreferences(getApplicationContext(),buscarUsuario(mail));
+                               // Intent intent = new Intent(FaceboolLoginActivity.this,
+                               //                               PerfilActivity.class);
+                               // intent.putExtra(Constantes.LLAVE_USUARIO_ID, buscarUsuario(mail).getId());
+                               //               startActivity(intent);
+                               //               finish();
                                 if (!task.isSuccessful()) {
                                    Util.showToast(getApplicationContext(),"Usuario no registrado o contraseña incorrecta");
+                                }else{
+                                    Util.showToast(getApplicationContext(),"Usuario reigstrado");
+                                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                                    Util.showLog("UID "+firebaseUser.getUid());
+                                    DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference(Constantes.FIREBASE_DB_USERS).child(firebaseUser.getUid());
+                                    //DatabaseReference mFirebaseDatabase = getReference(Constantes.FIREBASE_DB_USERS).child(firebaseUser.getUid());
+                                    mDatabase.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Util.showLog("EL valor"+dataSnapshot.getValue(User.class).toString());
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
                                 }
 
                                 // ...

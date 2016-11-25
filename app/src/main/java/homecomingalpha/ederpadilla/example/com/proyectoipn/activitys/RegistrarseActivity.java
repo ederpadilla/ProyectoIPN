@@ -128,7 +128,6 @@ public class RegistrarseActivity extends AppCompatActivity {
         et_nombre.setText(user.getNombre());
         et_mail.setText(user.getEmail());
         et_telefono.setText(user.getTelefono());
-        et_password.setText(user.getContraseña());
     }
 
     private void validateEmptyFields() {
@@ -234,7 +233,6 @@ public class RegistrarseActivity extends AppCompatActivity {
         usuarioActualizado.setNombre(nuevoNombre);
         usuarioActualizado.setTelefono(nuevoTelefono);
         usuarioActualizado.setEmail(nuevoMail);
-        usuarioActualizado.setContraseña(nuevaContraseña);
         usuarioActualizado.setTipoDeUuario(tipoDeUsuario);
         realm.copyToRealmOrUpdate(usuarioActualizado);
         realm.commitTransaction();

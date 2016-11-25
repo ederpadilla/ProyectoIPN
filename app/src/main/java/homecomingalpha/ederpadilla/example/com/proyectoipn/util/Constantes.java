@@ -18,8 +18,6 @@ public class Constantes {
     public static final int INPUT_OK = 1;
     public static final int INPUT_EMPTY_PASSWORD = 0;
     public static final int INPUT_INVALID_PHONE = 0;
-    public static final int INPUT_FIELD_EMPTY=0;
-    public static final int INPUT_FIELD_OK=1;
     public static final int USUARIO_PADRE_MADRE=0;
     public static final int USUARIO_PROFESOR=1;
     public static final int USUARIO_SIN_DEFINIR=3;
@@ -32,13 +30,17 @@ public class Constantes {
     public static final String LLAVE_ALUMNO_CODIGO="codigoAlumno";
     public static final String LLAVE_LOGIN_MAIL="email";
     public static final String LLAVE_USUARIO_ID="id";
-    public static final int REQUEST_IMAGE_CAPTURE = 100;
-
-    public static final int REQUEST_PERMMISSION_STATUS = 150;
 
     public static final String EMPTYFIELD="CAMPO VACIO";
     public static final int REQUEST_CAMERA = 20;
     public static final int SELECT_FILE = 30;
+
     public static final String FIREBASE_DB_USERS = "Users";
+    public static final String FIREBASE_DB_USER_NOMBRE = "nombre";
+    public static final String FIREBASE_DB_USEr_TELEFONO = "telefono";
+    public static final String FIREBASE_DB_USER_EMAIL = "email";
+    public static final String FIREBASE_DB_USER_TIPO_DE_URUASIO = "tipoDeUuario";
+    public static final String FIREBASE_DB_USER_ID = "id";
+
 
 }

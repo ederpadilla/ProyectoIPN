@@ -14,13 +14,12 @@ public class User extends RealmObject {
     private String nombre;
     private String telefono;
     private String email;
-    private String contraseña;
     private int tipoDeUuario;
     private byte[]bytes;
     private RealmList<Alumnos> alumnosRealmList;
     private String imageUrl;
     @PrimaryKey
-    String id;
+    private String id;
 
     public User() {
     }
@@ -36,7 +35,6 @@ public class User extends RealmObject {
         this.nombre = nombre;
         this.telefono = telefono;
         this.email = email;
-        this.contraseña = contraseña;
         this.tipoDeUuario = tipoDeUuario;
         this.bytes = bytes;
         this.alumnosRealmList = alumnosRealmList;
@@ -47,7 +45,6 @@ public class User extends RealmObject {
         this.nombre = nombre;
         this.telefono = telefono;
         this.email = email;
-        this.contraseña = contraseña;
         this.tipoDeUuario = tipoDeUuario;
         this.alumnosRealmList = alumnosRealmList;
         this.id = id;
@@ -57,7 +54,6 @@ public class User extends RealmObject {
         this.nombre = nombre;
         this.telefono = telefono;
         this.email = email;
-        this.contraseña = contraseña;
         this.tipoDeUuario = tipoDeUuario;
         this.id = id;
     }
@@ -66,7 +62,6 @@ public class User extends RealmObject {
         this.nombre = nombre;
         this.telefono = telefono;
         this.email = email;
-        this.contraseña = contraseña;
         this.tipoDeUuario = tipoDeUuario;
     }
 
@@ -102,13 +97,6 @@ public class User extends RealmObject {
         this.email = email;
     }
 
-    public String getContraseña() {
-        return contraseña;
-    }
-
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
-    }
 
     public int getTipoDeUuario() {
         return tipoDeUuario;
@@ -148,7 +136,6 @@ public class User extends RealmObject {
                 "nombre='" + nombre + '\'' +
                 ", telefono='" + telefono + '\'' +
                 ", email='" + email + '\'' +
-                ", contraseña='" + contraseña + '\'' +
                 ", tipoDeUuario=" + tipoDeUuario +
                 ", alumnosRealmList=" + alumnosRealmList +
                 ", imageUrl='" + imageUrl + '\'' +

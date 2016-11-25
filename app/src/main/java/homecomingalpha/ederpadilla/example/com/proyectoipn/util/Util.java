@@ -104,7 +104,6 @@ public class Util {
         editor.putString(Constantes.LLAVE_NOMBRE,usuario.getNombre());
         editor.putString(Constantes.LLAVE_TELEFONO,usuario.getTelefono());
         editor.putString(Constantes.LLAVE_EMAIL,usuario.getEmail());
-        editor.putString(Constantes.LLAVE_CONTRASEÑA,usuario.getContraseña());
         editor.putInt(Constantes.LLAVE_TIPO_DE_USUARIO,usuario.getTipoDeUuario());
         editor.putString(Constantes.LLAVE_USUARIO_ID,usuario.getId());
         editor.commit();

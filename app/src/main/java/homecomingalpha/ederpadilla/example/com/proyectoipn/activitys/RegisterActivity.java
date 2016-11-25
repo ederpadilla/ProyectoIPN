@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -17,25 +18,35 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,19 +77,19 @@ public class RegisterActivity extends AppCompatActivity {
     private String userType="";
     private Realm realm;
     User userRegistrate;
+    private StorageReference mStorageRef;
     int PERMISSION_ALL = 1;
     private List<String> permissions= new ArrayList<>();
 
     private FirebaseAuth mAuth;
-    private DatabaseReference mFirebaseDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);spinner.setVisibility(View.GONE);
-        mFirebaseDatabase = FirebaseDatabase.getInstance().getReference();
         realm=Realm.getDefaultInstance();
         checkForUserLogIn();
+        //mStorageRef = FirebaseStorage.getInstance().getReference();
 
     }
     private void checkForUserLogIn() {
@@ -102,17 +113,36 @@ public class RegisterActivity extends AppCompatActivity {
     }
     @OnClick(R.id.btn_crearcuenta_register)
     public void entrar(){
-        SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
-        if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
-            actualizarUsuario(buscarUsuario());
-            Intent intent = new Intent(RegisterActivity.this,
-                    PerfilActivity.class);
-            startActivity(intent);
-            finish();
+        //img_photo.setDrawingCacheEnabled(true);
+        //img_photo.buildDrawingCache();
+        //Bitmap bitmap = img_photo.getDrawingCache();
+        //ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        //byte[] data = baos.toByteArray();
+        //UploadTask uploadTask = mStorageRef.putBytes(data);
+        //uploadTask.addOnFailureListener(new OnFailureListener() {
+        //    @Override
+        //    public void onFailure(@NonNull Exception exception) {
+        //        // Handle unsuccessful uploads
+        //    }
+        //}).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        //    @Override
+        //    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+        //        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+        //        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+        //    }
+        //});
+      SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
+      if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
+          actualizarUsuario(buscarUsuario());
+          Intent intent = new Intent(RegisterActivity.this,
+                  PerfilActivity.class);
+          startActivity(intent);
+          finish();
 
-        }else{
-            validateEmptyFields();
-        }
+      }else{
+          validateEmptyFields();
+      }
 
     }
 
@@ -120,7 +150,6 @@ public class RegisterActivity extends AppCompatActivity {
         et_nombre.setText(user.getNombre());
         et_mail.setText(user.getEmail());
         et_telefono.setText(user.getTelefono());
-        et_password.setText(user.getContraseña());
     }
 
     private void validateEmptyFields() {
@@ -145,14 +174,16 @@ public class RegisterActivity extends AppCompatActivity {
                     Util.showToast(getApplicationContext(),getString(R.string.telefono_invalido));
                 }
 
+            }
+            else if (et_password.getText().toString().length()<5){
+                Util.showToast(getApplicationContext(),getString(R.string.contraseña_pequeña));
             }else {
-                mAuth.createUserWithEmailAndPassword(et_mail.getText().toString(), et_password.getText().toString())
+                mAuth.createUserWithEmailAndPassword(et_mail.getText().toString(),et_password.getText().toString())
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
 
-
-                                //mFirebaseDatabase.child(userRegistrate.getId()).setValue(userRegistrate);
+                                Util.showLog("Task "+task.toString());
                                 //writeNewUser(userRegistrate.getId(),userRegistrate);
                                 //mDatabase.child("users").child(userId).setValue(user);
                                 //Util.saveSharedPreferences(getApplicationContext(),userRegistrate);
@@ -161,13 +192,25 @@ public class RegisterActivity extends AppCompatActivity {
                                 if (!task.isSuccessful()) {
                                     Util.showToast(getApplicationContext(),"Estamos teniendo problemas intente mas tarde");
                                 }else{
-                                    Util.showToast(getApplicationContext(),"Se registro correctamente");
+                                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                                    if (firebaseUser != null) {
+                                    }
+                                    //createUser(userRegistrate);
                                     userRegistrate=usuarioConParametros();
-                                    createUser(userRegistrate);
+                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                    DatabaseReference mFirebaseDatabase = database.getReference(Constantes.FIREBASE_DB_USERS).child(firebaseUser.getUid());
+                                    Map<String, Object> map = new HashMap<>();
+                                    map.put(Constantes.FIREBASE_DB_USER_NOMBRE,userRegistrate.getNombre());
+                                    map.put(Constantes.FIREBASE_DB_USEr_TELEFONO,userRegistrate.getTelefono());
+                                    map.put(Constantes.FIREBASE_DB_USER_EMAIL,userRegistrate.getEmail());
+                                    map.put(Constantes.FIREBASE_DB_USER_TIPO_DE_URUASIO,userRegistrate.getTipoDeUuario());
+                                    map.put(Constantes.FIREBASE_DB_USER_ID,userRegistrate.getId());
+                                    mFirebaseDatabase.updateChildren(map);
                                     Intent intent = new Intent(RegisterActivity.this,
                                             FaceboolLoginActivity.class);
                                     intent.putExtra(Constantes.LLAVE_USUARIO_ID, userRegistrate.getId());
                                     startActivity(intent);
+                                    Util.showToast(getApplicationContext(),"Se registro correctamente");
                                     finish();
                                 }
                             }
@@ -234,12 +277,10 @@ public class RegisterActivity extends AppCompatActivity {
         String nuevoNombre =et_nombre.getText().toString();
         String nuevoTelefono=et_telefono.getText().toString();
         String nuevoMail=et_mail.getText().toString();
-        String nuevaContraseña=et_password.getText().toString();
         realm.beginTransaction();
         usuarioActualizado.setNombre(nuevoNombre);
         usuarioActualizado.setTelefono(nuevoTelefono);
         usuarioActualizado.setEmail(nuevoMail);
-        usuarioActualizado.setContraseña(nuevaContraseña);
         usuarioActualizado.setTipoDeUuario(tipoDeUsuario);
         realm.copyToRealmOrUpdate(usuarioActualizado);
         realm.commitTransaction();

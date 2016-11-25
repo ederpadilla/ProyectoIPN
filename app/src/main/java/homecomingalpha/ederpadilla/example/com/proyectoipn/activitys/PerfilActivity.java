@@ -68,6 +68,7 @@ public class PerfilActivity extends AppCompatActivity {
         //user=conseguirUsuario(idObtenido);
         Util.showLog("Usuario en perfil"+Util.getUserInSharedPreferences(getApplicationContext()).toString());
         user=Util.getUserInSharedPreferences(getApplicationContext());
+        Glide.with(this).load(user.getImageUrl()).into(cimgv_profile);
         //checkForUserType(user);
         //setTextViews();
     }
@@ -224,7 +225,6 @@ public class PerfilActivity extends AppCompatActivity {
 
 
     private void setTextViews(){
-        Glide.with(this).load(user.getImageUrl()).into(cimgv_profile);
             alumnosList.clear();
         alumnosAdapter.notifyDataSetChanged();
         tv_perfil_name.setText(user.getNombre());

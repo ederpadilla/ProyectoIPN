@@ -25,7 +25,9 @@ import com.facebook.login.widget.LoginButton;
 import com.github.silvestrpredko.dotprogressbar.DotProgressBar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -39,7 +41,9 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,6 +71,10 @@ public class FaceboolLoginActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     int PERMISSION_ALL = 1;
     private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseUser firebaseUser;
+    private User facebookUser;
+    private AccessToken accessToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +83,22 @@ public class FaceboolLoginActivity extends AppCompatActivity {
         getPermition();
         sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
         checkForUserLogIn();
+    }
+    private void authListernerSettings(){
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Util.showLog("onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Util.showLog("onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
     }
 
     private void checkForUserLogIn(){
@@ -96,20 +120,21 @@ public class FaceboolLoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Util.showLog("On succes!!!!!");
-                AccessToken accessToken = loginResult.getAccessToken();
+                accessToken = loginResult.getAccessToken();
                 GraphRequest graphRequest = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         Gson gson = new Gson();
                         FacebookUserResponse facebookUserResponse =
                                 gson.fromJson(object.toString(),FacebookUserResponse.class);
-                         User usuario = new User(facebookUserResponse.getName(),facebookUserResponse.getId(),
+                         facebookUser = new User(facebookUserResponse.getName(),facebookUserResponse.getId(),
                          facebookUserResponse.getPicture().getData().getUrl(),3);
-                         createUser(usuario);
-                         Intent intent = new Intent(FaceboolLoginActivity.this,PerfilActivity.class);
-                         Util.saveSharedPreferences(getApplicationContext(),usuario);
-                        startActivity(intent);
-                        finish();
+                        handleFacebookAccessToken(accessToken);
+                         //createUser(usuario);
+                         //Intent intent = new Intent(FaceboolLoginActivity.this,PerfilActivity.class);
+                         //Util.saveSharedPreferences(getApplicationContext(),usuario);
+                         //startActivity(intent);
+                         //finish();
                     }
                 });
                 Bundle parametros = new Bundle();
@@ -130,6 +155,44 @@ public class FaceboolLoginActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void handleFacebookAccessToken(AccessToken token) {
+        Util.showLog( "handleFacebookAccessToken:" + token);
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Util.showLog("signInWithCredential:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Util.showLog("signInWithCredential"+ task.getException());
+                            Util.showToast(getApplicationContext(), "Facebook Authentication failed.");
+                        }else {
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                            DatabaseReference mFirebaseDatabase = database.getReference(Constantes.FIREBASE_DB_USERS).child(firebaseUser.getUid());
+                            Map<String, Object> map = new HashMap<>();
+                            map.put(Constantes.FIREBASE_DB_USER_NOMBRE,facebookUser.getNombre());
+                            map.put(Constantes.FIREBASE_DB_USEr_TELEFONO,facebookUser.getTelefono());
+                            map.put(Constantes.FIREBASE_DB_USER_EMAIL,facebookUser.getEmail());
+                            map.put(Constantes.FIREBASE_DB_USER_TIPO_DE_URUASIO,facebookUser.getTipoDeUuario());
+                            map.put(Constantes.FIREBASE_DB_USER_ID,facebookUser.getId());
+                            map.put(Constantes.FIREBASE_DB_USER_PHOTO_URL,facebookUser.getImageUrl());
+                            map.put(Constantes.FIREBASE_DB_USER_LIST,facebookUser.getAlumnosRealmList());
+                            mFirebaseDatabase.updateChildren(map);
+
+
+                            Util.showLog("signInWithCredential:onComplete:" + task.isSuccessful());
+                        }
+
+                        // ...
+                    }
+                });
     }
 
     @Override
@@ -174,7 +237,7 @@ public class FaceboolLoginActivity extends AppCompatActivity {
                                    Util.showToast(getApplicationContext(),"Usuario no registrado o contraseña incorrecta");
                                 }else{
                                     Util.showToast(getApplicationContext(),"Usuario reigstrado");
-                                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                                    firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                                     Util.showLog("UID "+firebaseUser.getUid());
                                     DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference(Constantes.FIREBASE_DB_USERS).child(firebaseUser.getUid());
                                     mDatabase.addValueEventListener(new ValueEventListener() {
@@ -203,6 +266,7 @@ public class FaceboolLoginActivity extends AppCompatActivity {
                             }
                         });
             }
+
           //      if (buscarUsuario()==null){
           //          Util.showToast(getApplicationContext(),getString(R.string.user_not_found));
           //      }else {
@@ -220,6 +284,7 @@ public class FaceboolLoginActivity extends AppCompatActivity {
 
 
     }
+
 
     private void createUser(User user) {
         Realm realm = Realm.getDefaultInstance();

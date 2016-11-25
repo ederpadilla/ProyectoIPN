@@ -42,6 +42,7 @@ public class Constantes {
     public static final String FIREBASE_DB_USER_EMAIL = "email";
     public static final String FIREBASE_DB_USER_TIPO_DE_URUASIO = "tipoDeUuario";
     public static final String FIREBASE_DB_USER_PHOTO_URL = "imageUrl";
+    public static final String FIREBASE_DB_USER_LIST = "alumnosRealmList";
     public static final String FIREBASE_DB_USER_ID = "id";
     public static final String FIREBASE_DB_USER_PORFILE_PICTURE_URL = "gs://proyectoipn-a83a9.appspot.com";
 

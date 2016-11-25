@@ -228,6 +228,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             map.put(Constantes.FIREBASE_DB_USER_TIPO_DE_URUASIO,userRegistrate.getTipoDeUuario());
                                             map.put(Constantes.FIREBASE_DB_USER_ID,userRegistrate.getId());
                                             map.put(Constantes.FIREBASE_DB_USER_PHOTO_URL,userImageUrl);
+                                            map.put(Constantes.FIREBASE_DB_USER_LIST,userRegistrate.getAlumnosRealmList());
                                             mFirebaseDatabase.updateChildren(map);
                                             Intent intent = new Intent(RegisterActivity.this,
                                                     FaceboolLoginActivity.class);

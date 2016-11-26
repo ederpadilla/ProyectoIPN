@@ -62,14 +62,11 @@ public class PerfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
         ButterKnife.bind(this);
-        //recViewInit();
-        //realm = Realm.getDefaultInstance();
-        //idObtenido=Util.getSharerPreferencesUserId(getApplicationContext());
-        //user=conseguirUsuario(idObtenido);
+        recViewInit();
         Util.showLog("Usuario en perfil"+Util.getUserInSharedPreferences(getApplicationContext()).toString());
         user=Util.getUserInSharedPreferences(getApplicationContext());
         Glide.with(this).load(user.getImageUrl()).into(cimgv_profile);
-        //checkForUserType(user);
+        checkForUserType(user);
         //setTextViews();
     }
 
@@ -94,12 +91,12 @@ public class PerfilActivity extends AppCompatActivity {
 
     private void usuarioDeFacebook() {
         tv_tipo.setText("Necesitas editar tu perfil antes de todo");
-        new DownloadImage(cimgv_profile).execute(user.getImageUrl());
+       // new DownloadImage(cimgv_profile).execute(user.getImageUrl());
         floatingActionButton.setVisibility(View.GONE);
     }
 
     private void usuarioTipoProfesor() {
-    getAllAlumnosinRealm();
+    //getAllAlumnosinRealm();
 
     }
 

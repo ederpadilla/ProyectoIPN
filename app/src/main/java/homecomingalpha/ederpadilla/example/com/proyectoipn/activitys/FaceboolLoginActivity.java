@@ -130,11 +130,7 @@ public class FaceboolLoginActivity extends AppCompatActivity {
                          facebookUser = new User(facebookUserResponse.getName(),facebookUserResponse.getId(),
                          facebookUserResponse.getPicture().getData().getUrl(),3);
                         handleFacebookAccessToken(accessToken);
-                         //createUser(usuario);
-                         //Intent intent = new Intent(FaceboolLoginActivity.this,PerfilActivity.class);
-                         //Util.saveSharedPreferences(getApplicationContext(),usuario);
-                         //startActivity(intent);
-                         //finish();
+
                     }
                 });
                 Bundle parametros = new Bundle();
@@ -185,9 +181,11 @@ public class FaceboolLoginActivity extends AppCompatActivity {
                             map.put(Constantes.FIREBASE_DB_USER_PHOTO_URL,facebookUser.getImageUrl());
                             map.put(Constantes.FIREBASE_DB_USER_LIST,facebookUser.getAlumnosRealmList());
                             mFirebaseDatabase.updateChildren(map);
-
-
                             Util.showLog("signInWithCredential:onComplete:" + task.isSuccessful());
+                            Intent intent = new Intent(FaceboolLoginActivity.this,PerfilActivity.class);
+                            Util.saveSharedPreferences(getApplicationContext(),facebookUser);
+                            startActivity(intent);
+                            finish();
                         }
 
                         // ...
@@ -266,20 +264,6 @@ public class FaceboolLoginActivity extends AppCompatActivity {
                             }
                         });
             }
-
-          //      if (buscarUsuario()==null){
-          //          Util.showToast(getApplicationContext(),getString(R.string.user_not_found));
-          //      }else {
-          //          if (buscarUsuario().getContraseña().equals(et_password.getText().toString())){
-          //              Util.saveSharedPreferences(getApplicationContext(), buscarUsuario());
-          //              Intent intent = new Intent(FaceboolLoginActivity.this,
-          //                      PerfilActivity.class);
-          //              intent.putExtra(Constantes.LLAVE_USUARIO_ID, buscarUsuario().getId());
-          //              startActivity(intent);
-          //              finish();}else {
-          //              Util.showToast(getApplicationContext(),"Contraseña incorrecta");}
-          //      }
-          //  }
         }
 
 

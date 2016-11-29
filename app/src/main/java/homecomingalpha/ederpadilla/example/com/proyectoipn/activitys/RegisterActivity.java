@@ -115,25 +115,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
     @OnClick(R.id.btn_crearcuenta_register)
     public void entrar(){
-        //img_photo.setDrawingCacheEnabled(true);
-        //img_photo.buildDrawingCache();
-        //Bitmap bitmap = img_photo.getDrawingCache();
-        //ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        //byte[] data = baos.toByteArray();
-        //UploadTask uploadTask = mStorageRef.putBytes(data);
-        //uploadTask.addOnFailureListener(new OnFailureListener() {
-        //    @Override
-        //    public void onFailure(@NonNull Exception exception) {
-        //        // Handle unsuccessful uploads
-        //    }
-        //}).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-        //    @Override
-        //    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-        //        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-        //        Uri downloadUrl = taskSnapshot.getDownloadUrl();
-        //    }
-        //});
       SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
       if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
           actualizarUsuario(buscarUsuario());
@@ -422,7 +403,7 @@ public class RegisterActivity extends AppCompatActivity {
         } else if (requestCode == Constantes.SELECT_FILE) {
             Uri selectedImageUri = data.getData();
 
-            String tempPath = getPath(selectedImageUri, RegisterActivity.this);
+            String tempPath = Util.getPath(selectedImageUri, RegisterActivity.this);
             BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
             userProfileImage = BitmapFactory.decodeFile(tempPath, btmapOptions);
             img_photo.setImageBitmap(userProfileImage);
@@ -430,13 +411,6 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     }
-    public String getPath(Uri uri, Activity activity) {
-        String[] projection = { MediaStore.MediaColumns.DATA };
-        Cursor cursor = activity
-                .managedQuery(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
+
 }
 

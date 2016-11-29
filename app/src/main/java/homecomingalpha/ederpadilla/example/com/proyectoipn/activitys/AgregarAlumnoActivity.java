@@ -1,7 +1,15 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.activitys;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextWatcher;
@@ -9,7 +17,14 @@ import android.text.TextWatcher;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -38,6 +53,8 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
     TextInputEditText et_agregar_alumno_grupo;
     private String tipoDeSangre="";
     private Realm realm;
+    private Bitmap studentProfileImage;
+    private List<String> permissions= new ArrayList<>();
 
 
     @Override
@@ -48,19 +65,20 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
         spinnerAdapter();
         realm= Realm.getDefaultInstance();
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    public void backActivity(){
         Intent intent = new Intent(AgregarAlumnoActivity.this,PerfilActivity.class);
         startActivity(intent);
         finish();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+       backActivity();
+    }
     @OnClick(R.id.img_arrow_back)
     public void goBack(){
-        Intent intent = new Intent(AgregarAlumnoActivity.this,PerfilActivity.class);
-        startActivity(intent);
-        finish();
+      backActivity();
     }
     @OnClick(R.id.btn_agregar_estudiante)
     public void agregarAlumno(){
@@ -71,13 +89,15 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
 
         String nombre,edad,fecha,telefono,grupo;
             if (
-                Util.emptyField(et_agregar_alumno_nombre)==0&&
-                Util.emptyField(et_agregar_alumno_edad)==0&&
-                Util.emptyField(et_agregar_alumno_fecha)==0&&
-                Util.emptyField(et_agregar_alumno_grupo)==0&&
+                Util.emptyField(et_agregar_alumno_nombre)==0||
+                Util.emptyField(et_agregar_alumno_edad)==0||
+                Util.emptyField(et_agregar_alumno_fecha)==0||
+                Util.emptyField(et_agregar_alumno_grupo)==0||
                 Util.emptyField(et_agregar_alumno_telefono)==0){
                 Util.showToast(getApplicationContext(),getString(R.string.camposvacios));
 
+            }else if (studentProfileImage==null){
+                Util.showToast(getApplicationContext(),getString(R.string.falta_foto_alumno));
             }else{
                if (tipoDeSangre.equals("")){
                    Util.showToast(getApplicationContext(),"Falta especificar el tipo de sangre");
@@ -164,5 +184,105 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
         realm.copyToRealmOrUpdate(alumnos);
         realm.commitTransaction();
     }
+    @OnClick(R.id.cimv_estudiante_perfil)
+    public void setPicture(){
+        if (Util.hasPermissions(getApplicationContext(),permissions.toArray(new String[permissions.size()]))){
+            selectImage();
+        }else{
+            Util.showLog("No tiene permisos");
+            String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+            if(!Util.hasPermissions(this, PERMISSIONS)){
+                Util.showToast(getApplicationContext(),"No ah brindado permisos de acceso a la aplicación");
+            }
+        }
+    }
 
-}
+    private void selectImage() {
+        final CharSequence[] items = { "Cámara", "Galería"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(AgregarAlumnoActivity.this);
+        builder.setTitle("Obtener fotografía");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("Cámara")) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    File f = new File(android.os.Environment
+                            .getExternalStorageDirectory(), "temp.jpg");
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                    Util.showLog("antes del start de camara");
+                    startActivityForResult(intent, Constantes.REQUEST_CAMERA);
+                } else if (items[item].equals("Galería")) {
+                    Intent intent = new Intent(
+                            Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    startActivityForResult(
+                            Intent.createChooser(intent, "Select File"),
+                            Constantes.SELECT_FILE);
+                }
+            }
+        });
+        builder.show();
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Util.showLog("Entra al activityresult");
+        super.onActivityResult(requestCode, resultCode, data);
+        Util.showLog("Entra despues del super");
+        if (requestCode == Constantes.REQUEST_CAMERA) {
+            if (resultCode==RESULT_OK){
+                File f = new File(Environment.getExternalStorageDirectory()
+                        .toString());
+                for (File temp : f.listFiles()) {
+                    if (temp.getName().equals("temp.jpg")) {
+                        f = temp;
+                        break;
+                    }
+                }
+                try {
+                    BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
+
+                    studentProfileImage = BitmapFactory.decodeFile(f.getAbsolutePath(),
+                            btmapOptions);
+
+                    cimv_estudiante_perfil.setImageBitmap(studentProfileImage);
+
+                    String path = android.os.Environment
+                            .getExternalStorageDirectory()
+                            + File.separator
+                            + "Phoenix" + File.separator + "default";
+                    f.delete();
+                    OutputStream fOut = null;
+                    File file = new File(path, String.valueOf(System
+                            .currentTimeMillis()) + ".jpg");
+                    try {
+                        fOut = new FileOutputStream(file);
+                        studentProfileImage.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
+                        fOut.flush();
+                        fOut.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } else if (requestCode == Constantes.SELECT_FILE&&resultCode==RESULT_OK) {
+            Uri selectedImageUri = data.getData();
+
+            String tempPath = Util.getPath(selectedImageUri, AgregarAlumnoActivity.this);
+            BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
+            studentProfileImage = BitmapFactory.decodeFile(tempPath, btmapOptions);
+            cimv_estudiante_perfil.setImageBitmap(studentProfileImage);
+            }
+        }
+
+
+    }
+
+

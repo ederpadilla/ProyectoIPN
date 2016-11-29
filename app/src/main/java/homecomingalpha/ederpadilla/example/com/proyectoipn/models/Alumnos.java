@@ -2,6 +2,7 @@ package homecomingalpha.ederpadilla.example.com.proyectoipn.models;
 
 import java.util.Arrays;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -19,6 +20,7 @@ public class Alumnos extends RealmObject {
     private String fotoAlumnoUrl;
     private byte[]bytes;
     private String idDelProfesor;
+    private RealmList<User> usersList;
     @PrimaryKey
     private String codigoAlumno;
 
@@ -29,6 +31,20 @@ public class Alumnos extends RealmObject {
         this.nombreCompletoAlumno = nombreCompleto;
         this.edadAlumno = edad;
         this.fechaNacimientoAlumno = fechaNacimiento;
+    }
+
+    public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String fotoAlumnoUrl, byte[] bytes, String idDelProfesor, RealmList<User> usersList, String codigoAlumno) {
+        this.nombreCompletoAlumno = nombreCompletoAlumno;
+        this.edadAlumno = edadAlumno;
+        this.fechaNacimientoAlumno = fechaNacimientoAlumno;
+        this.tipoDeSangreAlumno = tipoDeSangreAlumno;
+        this.telefonoAlumno = telefonoAlumno;
+        this.grupoAlumno = grupoAlumno;
+        this.fotoAlumnoUrl = fotoAlumnoUrl;
+        this.bytes = bytes;
+        this.idDelProfesor = idDelProfesor;
+        this.usersList = usersList;
+        this.codigoAlumno = codigoAlumno;
     }
 
     public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String fotoAlumnoUrl, byte[] bytes, String idDelProfesor, String codigoAlumno) {
@@ -168,19 +184,28 @@ public class Alumnos extends RealmObject {
         this.fotoAlumnoUrl = fotoAlumnoUrl;
     }
 
+    public RealmList<User> getUsersList() {
+        return usersList;
+    }
+
+    public void setUsersList(RealmList<User> usersList) {
+        this.usersList = usersList;
+    }
+
     @Override
     public String toString() {
         return "Alumnos{" +
-                "nombreCompletoAlumno='" + nombreCompletoAlumno + '\'' +
-                ", edadAlumno='" + edadAlumno + '\'' +
-                ", fechaNacimientoAlumno='" + fechaNacimientoAlumno + '\'' +
-                ", tipoDeSangreAlumno='" + tipoDeSangreAlumno + '\'' +
-                ", telefonoAlumno='" + telefonoAlumno + '\'' +
-                ", grupoAlumno='" + grupoAlumno + '\'' +
-                ", fotoAlumnoUrl='" + fotoAlumnoUrl + '\'' +
-                ", bytes=" + Arrays.toString(bytes) +
+                "codigoAlumno='" + codigoAlumno + '\'' +
+                ", usersList=" + usersList +
                 ", idDelProfesor='" + idDelProfesor + '\'' +
-                ", codigoAlumno='" + codigoAlumno + '\'' +
+                ", bytes=" + Arrays.toString(bytes) +
+                ", fotoAlumnoUrl='" + fotoAlumnoUrl + '\'' +
+                ", grupoAlumno='" + grupoAlumno + '\'' +
+                ", telefonoAlumno='" + telefonoAlumno + '\'' +
+                ", tipoDeSangreAlumno='" + tipoDeSangreAlumno + '\'' +
+                ", fechaNacimientoAlumno='" + fechaNacimientoAlumno + '\'' +
+                ", edadAlumno='" + edadAlumno + '\'' +
+                ", nombreCompletoAlumno='" + nombreCompletoAlumno + '\'' +
                 '}';
     }
 }

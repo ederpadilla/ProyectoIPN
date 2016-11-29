@@ -1,9 +1,13 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.util.Patterns;
@@ -161,5 +165,13 @@ public class Util {
             }
         }
         return true;
+    }
+    public static String getPath(Uri uri, Activity activity) {
+        String[] projection = { MediaStore.MediaColumns.DATA };
+        Cursor cursor = activity
+                .managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
     }
 }

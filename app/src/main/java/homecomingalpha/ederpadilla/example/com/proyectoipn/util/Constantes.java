@@ -46,6 +46,16 @@ public class Constantes {
     public static final String FIREBASE_DB_USER_ID = "id";
     public static final String FIREBASE_DB_USER_PORFILE_PICTURE_URL = "gs://proyectoipn-a83a9.appspot.com";
 
-
+    public static final String FIREBASE_DB_STUDENTS = "Estudiantes";
+    public static final String FIREBASE_DB_STUDENTS_NAME = "nombreCompletoAlumno";
+    public static final String FIREBASE_DB_STUDENTS_AGE = "edadAlumno";
+    public static final String FIREBASE_DB_STUDENTS_BIRTHDATE = "fechaNacimientoAlumno";
+    public static final String FIREBASE_DB_STUDENTS_BLODTYPE = "tipoDeSangreAlumno";
+    public static final String FIREBASE_DB_STUDENTS_PHONE = "telefonoAlumno";
+    public static final String FIREBASE_DB_STUDENTS_GROUP_ = "grupoAlumno";
+    public static final String FIREBASE_DB_STUDENTS_PHOTO_URL = "fotoAlumnoUrl";
+    public static final String FIREBASE_DB_STUDENTS_USERID= "idDelProfesor";
+    public static final String FIREBASE_DB_STUDENTS_USERLIST= "usersList";
+    public static final String FIREBASE_DB_STUDENTS_CODE= "codigoAlumno";
 
 }

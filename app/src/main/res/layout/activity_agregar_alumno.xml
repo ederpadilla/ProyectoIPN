@@ -1,162 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_agregar_alumno"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:background="@color/colorPrimary"
     tools:context="homecomingalpha.ederpadilla.example.com.proyectoipn.activitys.AgregarAlumnoActivity">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:src="@mipmap/ic_arrow_back"
         android:id="@+id/img_arrow_back"
-        android:clickable="true"/>
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_25dp"
+        android:clickable="true"
+        android:src="@mipmap/ic_arrow_back" />
     <com.mikhaellopez.circularimageview.CircularImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:src="@mipmap/ic_photo_camera"
         android:id="@+id/cimv_estudiante_perfil"
-        app:civ_border_color="#EEEEEE"
-        app:civ_border_width="9dp"/>
+        android:layout_width="@dimen/dimen_100dp"
+        android:layout_height="@dimen/dimen_100dp"
+        android:layout_gravity="center"
+        app:civ_border_color="@color/red"
+        app:civ_border_width="3dp"
+        android:src="@drawable/com_facebook_profile_picture_blank_square" />
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="@dimen/dimen_15dp"
         android:textColorHint="@color/white">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/et_agregar_alumno_nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:hint="@string/nombre"
-            android:imeOptions="actionNext"
+            android:layout_marginLeft="@dimen/dimen_30dp"
+            android:layout_marginRight="@dimen/dimen_30dp"
             android:inputType="textCapWords"
+            android:imeOptions="actionNext"
             android:textSize="15sp"
             android:maxLines="1"
+            android:textColorHint="@color/white"
             android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:hint="@string/nombre" />
 
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:textColorHint="@color/white">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/et_agregar_alumno_edad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="@dimen/dimen_30dp"
+            android:layout_marginRight="@dimen/dimen_30dp"
+            android:inputType="number"
             android:textSize="15sp"
-            android:hint="@string/edad"
             android:maxLength="2"
             android:imeOptions="actionNext"
-            android:inputType="number"
             android:maxLines="1"
+            android:textColorHint="@color/white"
             android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:hint="@string/edad" />
 
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/dimen_5dp"
+
         android:textColorHint="@color/white">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/et_agregar_alumno_fecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:hint="@string/fecha"
+            android:layout_marginLeft="@dimen/dimen_30dp"
+            android:layout_marginRight="@dimen/dimen_30dp"
+            android:inputType="date"
             android:textSize="15sp"
             android:maxLength="10"
             android:imeOptions="actionNext"
-            android:inputType="date"
             android:maxLines="1"
+            android:textColorHint="@color/white"
             android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:hint="@string/fecha" />
 
      </android.support.design.widget.TextInputLayout>
     <com.jaredrummler.materialspinner.MaterialSpinner
       android:id="@+id/agregar_alumno_spinner_sangre"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="@string/tipo_de_sangre"
+        android:layout_marginLeft="@dimen/dimen_10dp"
+        android:elevation="10dp"
       app:ms_background_color="@color/colorPrimary"
       app:ms_text_color="@color/colorAccent"
       android:textSize="15sp"
-        android:elevation="10dp"
-      android:layout_marginLeft="10dp" />
+        android:text="@string/tipo_de_sangre" />
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/dimen_5dp"
         android:textColorHint="@color/white">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/et_agregar_alumno_telefono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:hint="@string/telefono"
+            android:layout_marginLeft="@dimen/dimen_30dp"
+            android:layout_marginRight="@dimen/dimen_30dp"
+            android:inputType="number"
             android:textSize="15sp"
             android:maxLength="12"
             android:imeOptions="actionNext"
-            android:inputType="number"
             android:maxLines="1"
+            android:textColorHint="@color/white"
             android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:hint="@string/telefono" />
 
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/dimen_5dp"
         android:textColorHint="@color/white">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/et_agregar_alumno_grupo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:hint="@string/grupo"
+            android:layout_marginLeft="@dimen/dimen_30dp"
+            android:layout_marginRight="@dimen/dimen_30dp"
+            android:inputType="textCapCharacters"
             android:textSize="15sp"
             android:maxLength="3"
             android:imeOptions="actionDone"
-            android:inputType="textCapCharacters"
             android:maxLines="1"
+            android:textColorHint="@color/white"
             android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:hint="@string/grupo" />
 
     </android.support.design.widget.TextInputLayout>
     <Button
         android:id="@+id/btn_agregar_estudiante"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/dimen_40dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="@dimen/dimen_20dp"
+        android:layout_marginRight="@dimen/dimen_20dp"
+        android:layout_marginTop="@dimen/dimen_20dp"
         android:background="@drawable/my_btn_background_ripple"
-        android:text="@string/agregar_alumno"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:text="@string/agregar_alumno" />
 
 </LinearLayout>

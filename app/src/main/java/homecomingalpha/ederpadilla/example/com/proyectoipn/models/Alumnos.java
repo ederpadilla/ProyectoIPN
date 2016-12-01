@@ -47,6 +47,18 @@ public class Alumnos extends RealmObject {
         this.codigoAlumno = codigoAlumno;
     }
 
+    public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String fotoAlumnoUrl, String idDelProfesor, String codigoAlumno) {
+        this.nombreCompletoAlumno = nombreCompletoAlumno;
+        this.edadAlumno = edadAlumno;
+        this.fechaNacimientoAlumno = fechaNacimientoAlumno;
+        this.tipoDeSangreAlumno = tipoDeSangreAlumno;
+        this.telefonoAlumno = telefonoAlumno;
+        this.grupoAlumno = grupoAlumno;
+        this.fotoAlumnoUrl = fotoAlumnoUrl;
+        this.idDelProfesor = idDelProfesor;
+        this.codigoAlumno = codigoAlumno;
+    }
+
     public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String fotoAlumnoUrl, byte[] bytes, String idDelProfesor, String codigoAlumno) {
         this.nombreCompletoAlumno = nombreCompletoAlumno;
         this.edadAlumno = edadAlumno;

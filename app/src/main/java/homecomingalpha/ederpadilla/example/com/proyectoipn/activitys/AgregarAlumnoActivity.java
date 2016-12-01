@@ -8,15 +8,29 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.Button;
 
+import com.github.silvestrpredko.dotprogressbar.DotProgressBar;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -24,7 +38,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -51,10 +68,21 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
     TextInputEditText et_agregar_alumno_telefono;
     @BindView(R.id.et_agregar_alumno_grupo)
     TextInputEditText et_agregar_alumno_grupo;
+    @BindView(R.id.dot_progress_bar_student)
+    DotProgressBar dotProgressBar;
+    @BindView(R.id.btn_agregar_estudiante)
+    Button btn_agregar_estudiante;
     private String tipoDeSangre="";
     private Realm realm;
     private Bitmap studentProfileImage;
     private List<String> permissions= new ArrayList<>();
+
+    private String studentImageUrl;
+
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private StorageReference mStorageRef;
+    private FirebaseUser firebaseUser;
 
 
     @Override
@@ -63,8 +91,19 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_agregar_alumno);
         ButterKnife.bind(this);
         spinnerAdapter();
+        firebaseInit();
         realm= Realm.getDefaultInstance();
     }
+
+    private void firebaseInit() {
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+        }
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    }
+
     public void backActivity(){
         Intent intent = new Intent(AgregarAlumnoActivity.this,PerfilActivity.class);
         startActivity(intent);
@@ -104,17 +143,62 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
                }else {
                    if (Util.isValidPhoneNumber(
                            et_agregar_alumno_telefono.getText().toString())==Constantes.INPUT_OK){
-                 crearAlumno(asignarValoresRealesAlumno());
-                   Util.showLog("Se crea "+asignarValoresRealesAlumno().toString());
-                   Intent intent = new Intent(AgregarAlumnoActivity.this,
-                           PerfilActivity.class);
-                   startActivity(intent);
-                   finish();
+                       btn_agregar_estudiante.setVisibility(View.GONE);
+                       dotProgressBar.setVisibility(View.VISIBLE);
+                       writeInFireBase(asignarValoresRealesAlumno(firebaseUser));
+                 //crearAlumno(asignarValoresRealesAlumno());
+                  // Util.showLog("Se crea "+asignarValoresRealesAlumno().toString());
+                  // Intent intent = new Intent(AgregarAlumnoActivity.this,
+                  //         PerfilActivity.class);
+                  // startActivity(intent);
+                  // finish();
                    }else{
                        Util.showToast(getApplicationContext(),getString(R.string.telefono_invalido));
                    }
                }
                }
+    }
+    private void writeInFireBase(final Alumnos alumnos){
+        mStorageRef= FirebaseStorage.getInstance().getReferenceFromUrl(Constantes.FIREBASE_DB_STUDENTS_PORFILE_PICTURE_URL).child(alumnos.getCodigoAlumno());
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        studentProfileImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+        UploadTask uploadTask = mStorageRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+            Util.showToast(getApplicationContext(),getString(R.string.problemas));
+                dotProgressBar.setVisibility(View.GONE);
+                btn_agregar_estudiante.setVisibility(View.VISIBLE);
+            }
+        }
+        ).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                studentImageUrl=downloadUrl.toString();
+                DatabaseReference mFirebaseDatabase = database.getReference(Constantes.FIREBASE_DB_STUDENTS).child(alumnos.getCodigoAlumno());
+                Map<String, Object> map = new HashMap<>();
+                map.put(Constantes.FIREBASE_DB_STUDENTS_NAME,alumnos.getNombreCompletoAlumno());
+                map.put(Constantes.FIREBASE_DB_STUDENTS_AGE,alumnos.getEdadAlumno());
+                map.put(Constantes.FIREBASE_DB_STUDENTS_BIRTHDATE,alumnos.getFechaNacimientoAlumno());
+                map.put(Constantes.FIREBASE_DB_STUDENTS_BLODTYPE,alumnos.getTipoDeSangreAlumno());
+                map.put(Constantes.FIREBASE_DB_STUDENTS_PHONE,alumnos.getTelefonoAlumno());
+                map.put(Constantes.FIREBASE_DB_STUDENTS_GROUP,alumnos.getGrupoAlumno());
+                map.put(Constantes.FIREBASE_DB_STUDENTS_PHOTO_URL,studentImageUrl);
+                map.put(Constantes.FIREBASE_DB_STUDENTS_USERID,alumnos.getIdDelProfesor());
+                map.put(Constantes.FIREBASE_DB_STUDENTS_USERLIST,alumnos.getUsersList());
+                map.put(Constantes.FIREBASE_DB_STUDENTS_CODE,alumnos.getCodigoAlumno());
+                mFirebaseDatabase.updateChildren(map);
+                 Intent intent = new Intent(AgregarAlumnoActivity.this,
+                         PerfilActivity.class);
+                 startActivity(intent);
+                 finish();
+
+            }
+        });
+
+
     }
 
     private void spinnerAdapter() {
@@ -169,14 +253,14 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
         Util.showLog(codigo);
     return codigo;
     }
-    private Alumnos asignarValoresRealesAlumno(){
+    private Alumnos asignarValoresRealesAlumno(FirebaseUser firebaseUser){
         String nombre,edad,fecha,telefono,grupo;
         nombre=et_agregar_alumno_nombre.getText().toString();
         edad=et_agregar_alumno_edad.getText().toString();
         fecha=et_agregar_alumno_fecha.getText().toString();
         telefono=et_agregar_alumno_telefono.getText().toString();
         grupo=et_agregar_alumno_grupo.getText().toString();
-        Alumnos alumnoCreado= new Alumnos(nombre,edad,fecha,tipoDeSangre,telefono,grupo,Util.getSharerPreferencesUserId(getApplicationContext()),generarCodigo());
+        Alumnos alumnoCreado= new Alumnos(nombre,edad,fecha,tipoDeSangre,telefono,grupo,firebaseUser.getUid(),generarCodigo());
         return alumnoCreado;
     }
     private void crearAlumno(Alumnos alumnos){

@@ -242,7 +242,6 @@ public class FaceboolLoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             User userFoundInFireBase=dataSnapshot.getValue(User.class);
-                                            Util.showLog("Usuario encontrado "+userFoundInFireBase.toString());
                                             Util.saveSharedPreferences(getApplicationContext(),userFoundInFireBase);
                                              Intent intent = new Intent(FaceboolLoginActivity.this,
                                                                            PerfilActivity.class);

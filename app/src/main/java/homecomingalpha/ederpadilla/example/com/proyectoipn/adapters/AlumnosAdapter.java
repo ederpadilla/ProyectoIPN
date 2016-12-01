@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class AlumnosAdapter extends RecyclerView.Adapter<AlumnosAdapter.Titulare
     public TitularesViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View itemView = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item_estudiante, viewGroup, false);
+        context=viewGroup.getContext();
         itemView.setOnClickListener(this);
         TitularesViewHolder tvh = new TitularesViewHolder(itemView);
         return tvh;
@@ -47,7 +49,7 @@ public class AlumnosAdapter extends RecyclerView.Adapter<AlumnosAdapter.Titulare
     @Override
     public void onBindViewHolder(TitularesViewHolder viewHolder, int pos) {
         Alumnos item = alumnosList.get(pos);
-        viewHolder.bindTitular(item);
+        viewHolder.bindTitular(item,context);
 
 
     }
@@ -92,11 +94,15 @@ public class AlumnosAdapter extends RecyclerView.Adapter<AlumnosAdapter.Titulare
             ButterKnife.bind(this, itemView);
         }
 
-        public void bindTitular(Alumnos alumno) {
+        public void bindTitular(Alumnos alumno,Context context) {
 
                 tv_nombre.append(" "+alumno.getNombreCompletoAlumno());
                 tv_edad.append(" "+alumno.getEdadAlumno()+" años");
                 tv_fecha_de_nacimiento.append(" "+alumno.getFechaNacimientoAlumno());
+            Glide
+                    .with(context)
+                    .load(alumno.getFotoAlumnoUrl())
+                    .into(cimv_estudiante_perfil);
         }
 
 

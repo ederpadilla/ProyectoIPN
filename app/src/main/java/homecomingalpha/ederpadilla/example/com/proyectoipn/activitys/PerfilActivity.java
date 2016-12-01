@@ -15,10 +15,19 @@ import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +64,10 @@ public class PerfilActivity extends AppCompatActivity {
     private Realm realm;
     private String idObtenido;
     public RealmList<Alumnos> alumnosRealmList;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
+    private FirebaseUser firebaseUser;
+    private List<Alumnos> alumnosFiltrados;
 
 
     @Override
@@ -62,11 +75,54 @@ public class PerfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
         ButterKnife.bind(this);
+        alumnosFiltrados = new ArrayList<>();
         recViewInit();
         Util.showLog("Usuario en perfil"+Util.getUserInSharedPreferences(getApplicationContext()).toString());
         user=Util.getUserInSharedPreferences(getApplicationContext());
         Glide.with(this).load(user.getImageUrl()).into(cimgv_profile);
         checkForUserType(user);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        final List<Alumnos> alumnosList = new ArrayList<>();
+        DatabaseReference mDatabaseReference= FirebaseDatabase.getInstance().getReference(Constantes.FIREBASE_DB_STUDENTS);
+        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot child : dataSnapshot.getChildren()) {
+                    String edadAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_NAME).getValue().toString();
+                    String fechaNacimientoAlumo=child.child(Constantes.FIREBASE_DB_STUDENTS_BIRTHDATE).getValue().toString();
+                    String tipoDeSangreAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_BLODTYPE).getValue().toString();
+                    String telefonoAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_PHONE).getValue().toString();
+                    String grupoAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_GROUP).getValue().toString();
+                    String fotoAlumnoUrl=child.child(Constantes.FIREBASE_DB_STUDENTS_PHOTO_URL).getValue().toString();
+                    String idDelProfesor=child.child(Constantes.FIREBASE_DB_STUDENTS_USERID).getValue().toString();
+                    String codigoAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_CODE).getValue().toString();
+                    String nombreCompleto = child.child(Constantes.FIREBASE_DB_STUDENTS_NAME).getValue().toString();
+                    Alumnos alunmno = new Alumnos(nombreCompleto,edadAlumno,fechaNacimientoAlumo,tipoDeSangreAlumno,telefonoAlumno,grupoAlumno,fotoAlumnoUrl,idDelProfesor,codigoAlumno);
+                    alumnosList.add(alunmno);
+
+                }
+                Log.e("LISTA "," "+alumnosList.toString());
+                for (Alumnos alumnos: alumnosList){
+                    if (alumnos.getIdDelProfesor().equals(firebaseUser.getUid())){
+                        alumnosFiltrados.add(alumnos);
+                    }
+                }
+                if (alumnosFiltrados.size()<1){
+
+                }else{
+                    alumnosAdapter.notifyDataSetChanged();
+                }
+                Util.showLog("Busqued filtrada"+alumnosFiltrados);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+       // Query myTopPostsQuery = mDatabase;
+       // myTopPostsQuery.orderByChild(Constantes.FIREBASE_DB_STUDENTS_USERID).equalTo(firebaseUser.getUid());
+       // Util.showLog("El query "+myTopPostsQuery);
         //setTextViews();
     }
 
@@ -121,7 +177,7 @@ public class PerfilActivity extends AppCompatActivity {
         recyclerView.getItemAnimator().setAddDuration(800);
         recyclerView.getItemAnimator().setRemoveDuration(800);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        alumnosAdapter= new AlumnosAdapter(alumnosList,this);
+        alumnosAdapter= new AlumnosAdapter(alumnosFiltrados,this);
         recyclerView.setAdapter(alumnosAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
             @Override
@@ -205,7 +261,7 @@ public class PerfilActivity extends AppCompatActivity {
         Util.showLog("no esta agarrando ni madres");
         }else {
             Util.showLog("Esta entrando pa aca");
-            alumnosRealmList = alumnosRealmList = new RealmList<>();
+            alumnosRealmList = new RealmList<>();
             alumnosAdapter.notifyDataSetChanged();
 
             for (int i = 0; i < alumnosList.size(); i++) {

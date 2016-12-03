@@ -1,22 +1,20 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.models;
 
-import java.util.Arrays;
+import java.util.List;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by ederpadilla on 10/10/16.
  */
 
-public class User extends RealmObject {
+public class User {
     private String nombre;
     private String telefono;
     private String email;
     private int tipoDeUuario;
     private byte[]bytes;
-    private RealmList<Alumnos> alumnosRealmList;
+    private List<Alumnos> alumnosRealmList;
     private String imageUrl;
     @PrimaryKey
     private String id;
@@ -31,7 +29,7 @@ public class User extends RealmObject {
         this.imageUrl = imageUrl;
     }
 
-    public User(String nombre, String telefono, String email, String contraseña, int tipoDeUuario, byte[] bytes, RealmList<Alumnos> alumnosRealmList, String id) {
+    public User(String nombre, String telefono, String email, String contraseña, int tipoDeUuario, byte[] bytes, List<Alumnos> alumnosRealmList, String id) {
         this.nombre = nombre;
         this.telefono = telefono;
         this.email = email;
@@ -41,7 +39,7 @@ public class User extends RealmObject {
         this.id = id;
     }
 
-    public User(String nombre, String telefono, String email, String contraseña, int tipoDeUuario, RealmList<Alumnos> alumnosRealmList, String id) {
+    public User(String nombre, String telefono, String email, String contraseña, int tipoDeUuario, List<Alumnos> alumnosRealmList, String id) {
         this.nombre = nombre;
         this.telefono = telefono;
         this.email = email;
@@ -114,11 +112,11 @@ public class User extends RealmObject {
         this.id = id;
     }
 
-    public RealmList<Alumnos> getAlumnosRealmList() {
+    public List<Alumnos> getAlumnosRealmList() {
         return alumnosRealmList;
     }
 
-    public void setAlumnosRealmList(RealmList<Alumnos> alumnosRealmList) {
+    public void setAlumnosRealmList(List<Alumnos> alumnosRealmList) {
         this.alumnosRealmList = alumnosRealmList;
     }
 

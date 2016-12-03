@@ -13,7 +13,6 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 
@@ -37,11 +36,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -73,7 +70,6 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
     @BindView(R.id.btn_agregar_estudiante)
     Button btn_agregar_estudiante;
     private String tipoDeSangre="";
-    private Realm realm;
     private Bitmap studentProfileImage;
     private List<String> permissions= new ArrayList<>();
 
@@ -92,7 +88,6 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         spinnerAdapter();
         firebaseInit();
-        realm= Realm.getDefaultInstance();
     }
 
     private void firebaseInit() {
@@ -262,11 +257,6 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
         grupo=et_agregar_alumno_grupo.getText().toString();
         Alumnos alumnoCreado= new Alumnos(nombre,edad,fecha,tipoDeSangre,telefono,grupo,firebaseUser.getUid(),generarCodigo());
         return alumnoCreado;
-    }
-    private void crearAlumno(Alumnos alumnos){
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(alumnos);
-        realm.commitTransaction();
     }
     @OnClick(R.id.cimv_estudiante_perfil)
     public void setPicture(){

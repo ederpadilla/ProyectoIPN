@@ -48,30 +48,23 @@ public class BuscarEstudianteFragment extends DialogFragment {
     }
     @OnClick(R.id.btn_fragment_buscar)
     public void buscarAlumno()    {
-        if (conseguirAlumnos(fragment_et_codigo_buscar.getText().toString())==null){
-                Util.showToast(getActivity().getApplicationContext(),getString(R.string.estudiante_no_encontrado));
-        }else {
-            obtenerListaDeLaActividad().add(conseguirAlumnos(fragment_et_codigo_buscar.getText().toString().trim().toUpperCase()));
-        if (obtenerListaDeLaActividad().size()<1){
+      // if (conseguirAlumnos(fragment_et_codigo_buscar.getText().toString())==null){
+      //         Util.showToast(getActivity().getApplicationContext(),getString(R.string.estudiante_no_encontrado));
+      // }else {
+      //     obtenerListaDeLaActividad().add(conseguirAlumnos(fragment_et_codigo_buscar.getText().toString().trim().toUpperCase()));
+      // if (obtenerListaDeLaActividad().size()<1){
 
-        }else{
-            RealmList<Alumnos> alumnosRealmList= new RealmList<>();
-            for (int i=0;i<obtenerListaDeLaActividad().size();i++){
-                alumnosRealmList.add(obtenerListaDeLaActividad().get(i));
-            }
-            obtenerAdapterDeLaActividad().notifyDataSetChanged();
-            realm.beginTransaction();
-            obtenerUsuarioDelaActividad().setAlumnosRealmList(alumnosRealmList);
-            realm.copyToRealmOrUpdate(obtenerUsuarioDelaActividad());
-            realm.commitTransaction();
-        }
-        dismiss();
-            }
+      // }else{
+      //     for (int i=0;i<obtenerListaDeLaActividad().size();i++){
+      //     }
+      //     obtenerAdapterDeLaActividad().notifyDataSetChanged();
+
+      // }
+      // dismiss();
+      //     }
 
     }
-    public Alumnos conseguirAlumnos(String codigo) {
-        return realm.where(Alumnos.class).equalTo(Constantes.LLAVE_ALUMNO_CODIGO,codigo).findFirst();
-    }
+
     public List<Alumnos> obtenerListaDeLaActividad(){
         return ((PerfilActivity)getActivity()).alumnosList;
     }

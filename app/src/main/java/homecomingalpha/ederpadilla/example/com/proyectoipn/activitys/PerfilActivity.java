@@ -20,14 +20,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,7 +60,7 @@ public class PerfilActivity extends AppCompatActivity {
     public User user;
     private Realm realm;
     private String idObtenido;
-    public RealmList<Alumnos> alumnosRealmList;
+    public List<Alumnos> alumnosRealmList;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private FirebaseUser firebaseUser;
@@ -102,7 +99,6 @@ public class PerfilActivity extends AppCompatActivity {
                     alumnosList.add(alunmno);
 
                 }
-                Log.e("LISTA "," "+alumnosList.toString());
                 for (Alumnos alumnos: alumnosList){
                     if (alumnos.getIdDelProfesor().equals(firebaseUser.getUid())){
                         alumnosFiltrados.add(alumnos);
@@ -111,6 +107,9 @@ public class PerfilActivity extends AppCompatActivity {
                 if (alumnosFiltrados.size()<1){
 
                 }else{
+                    DatabaseReference myRef = database.getReference(Constantes.FIREBASE_DB_USERS).child(firebaseUser.getUid()).child(Constantes.FIREBASE_DB_USER_LIST);
+                    myRef.setValue(alumnosFiltrados);
+                    Util.showLog("La referencia es "+myRef);
                     alumnosAdapter.notifyDataSetChanged();
                 }
                 Util.showLog("Busqued filtrada"+alumnosFiltrados);
@@ -126,9 +125,7 @@ public class PerfilActivity extends AppCompatActivity {
         //setTextViews();
     }
 
-    private User conseguirUsuario(String idd) {
-        return realm.where(User.class).equalTo(Constantes.LLAVE_USUARIO_ID,idd).findFirst();
-    }
+
 
     private void checkForUserType(User user) {
         switch (user.getTipoDeUuario()){
@@ -246,37 +243,6 @@ public class PerfilActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(),"buscar niño");
 
     }
-    public void getAllAlumnosinRealm(){
-            alumnosList.clear();
-
-       RealmResults<Alumnos> todosLosAlumnos = realm.where(Alumnos.class).findAll();
-       Util.showLog("Todos los alumnos que hay "+todosLosAlumnos);
-       for (Alumnos alumnos : todosLosAlumnos) {
-           if (alumnos.getIdDelProfesor().equals(user.getId())){
-           alumnosList.add(alumnos);
-           }
-
-       }
-        if (alumnosList.size()<1){
-        Util.showLog("no esta agarrando ni madres");
-        }else {
-            Util.showLog("Esta entrando pa aca");
-            alumnosRealmList = new RealmList<>();
-            alumnosAdapter.notifyDataSetChanged();
-
-            for (int i = 0; i < alumnosList.size(); i++) {
-                alumnosRealmList.add(alumnosList.get(i));
-                Util.showLog("Lista"+alumnosList.get(i));
-            }
-            alumnosAdapter.notifyDataSetChanged();
-            realm.beginTransaction();
-            user.setAlumnosRealmList(alumnosRealmList);
-            realm.copyToRealmOrUpdate(user);
-            realm.commitTransaction();
-        }
-    }
-
-
     private void setTextViews(){
             alumnosList.clear();
         alumnosAdapter.notifyDataSetChanged();

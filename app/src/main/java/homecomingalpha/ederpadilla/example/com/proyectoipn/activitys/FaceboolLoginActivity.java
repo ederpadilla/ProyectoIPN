@@ -269,12 +269,8 @@ public class FaceboolLoginActivity extends AppCompatActivity {
     }
 
 
-    private void createUser(User user) {
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(user);
-        realm.commitTransaction();
-    }
+
+
     @OnClick(R.id.tv_registrarse)
     public void registrarse(){
         Intent intent = new Intent(FaceboolLoginActivity.this,RegisterActivity.class);

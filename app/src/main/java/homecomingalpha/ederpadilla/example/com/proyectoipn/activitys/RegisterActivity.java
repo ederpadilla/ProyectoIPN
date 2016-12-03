@@ -97,13 +97,9 @@ public class RegisterActivity extends AppCompatActivity {
     private void checkForUserLogIn() {
         SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
         if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
-            editarPerfil(buscarUsuario());
+
             btn_crearcuenta.setText(getString(R.string.actualizar));
-            if (buscarUsuario().getTipoDeUuario()==3){
-                spinner.setVisibility(View.VISIBLE);
-                spinnerAdapter();
-                mAuth = FirebaseAuth.getInstance();
-            }
+
 
         }else{
 
@@ -117,7 +113,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void entrar(){
       SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
       if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
-          actualizarUsuario(buscarUsuario());
+
           Intent intent = new Intent(RegisterActivity.this,
                   PerfilActivity.class);
           startActivity(intent);
@@ -272,27 +268,7 @@ public class RegisterActivity extends AppCompatActivity {
             //finish();
         }
     }
-    private void createUser(User user){
-        Realm realm =Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(user);
-        realm.commitTransaction();
-    }
-    private void actualizarUsuario(User usuarioActualizado){
-        usuarioActualizado=realm.where(User.class)
-                .equalTo(Constantes.LLAVE_USUARIO_ID,buscarUsuario().getId())
-                .findFirst();
-        String nuevoNombre =et_nombre.getText().toString();
-        String nuevoTelefono=et_telefono.getText().toString();
-        String nuevoMail=et_mail.getText().toString();
-        realm.beginTransaction();
-        usuarioActualizado.setNombre(nuevoNombre);
-        usuarioActualizado.setTelefono(nuevoTelefono);
-        usuarioActualizado.setEmail(nuevoMail);
-        usuarioActualizado.setTipoDeUuario(tipoDeUsuario);
-        realm.copyToRealmOrUpdate(usuarioActualizado);
-        realm.commitTransaction();
-    }
+
     private User usuarioConParametros(){
         String id = Util.randomInt(0,1000)+"";
         String nombre=et_nombre.getText().toString();
@@ -303,12 +279,7 @@ public class RegisterActivity extends AppCompatActivity {
         Util.showLog("EL usuario que se crea "+user.toString());
         return user;
     }
-    private User buscarUsuario() {
-        User userFound = realm.where(User.class).
-                equalTo(Constantes.LLAVE_USUARIO_ID,Util.getSharerPreferencesUserId(getApplicationContext()))
-                .findFirst();
-        return userFound;
-    }
+
     @OnClick(R.id.img_photo_register)
     public void tryPic(){
         if (Util.hasPermissions(getApplicationContext(),permissions.toArray(new String[permissions.size()]))){

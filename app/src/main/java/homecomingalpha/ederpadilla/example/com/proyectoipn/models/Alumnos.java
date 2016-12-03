@@ -1,16 +1,15 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.models;
 
 import java.util.Arrays;
+import java.util.List;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by ederpadilla on 12/10/16.
  */
 
-public class Alumnos extends RealmObject {
+public class Alumnos  {
     private String nombreCompletoAlumno;
     private String edadAlumno;
     private String fechaNacimientoAlumno;
@@ -20,7 +19,7 @@ public class Alumnos extends RealmObject {
     private String fotoAlumnoUrl;
     private byte[]bytes;
     private String idDelProfesor;
-    private RealmList<User> usersList;
+    private List<User> usersList;
     @PrimaryKey
     private String codigoAlumno;
 
@@ -33,7 +32,7 @@ public class Alumnos extends RealmObject {
         this.fechaNacimientoAlumno = fechaNacimiento;
     }
 
-    public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String fotoAlumnoUrl, byte[] bytes, String idDelProfesor, RealmList<User> usersList, String codigoAlumno) {
+    public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String fotoAlumnoUrl, byte[] bytes, String idDelProfesor, List<User> usersList, String codigoAlumno) {
         this.nombreCompletoAlumno = nombreCompletoAlumno;
         this.edadAlumno = edadAlumno;
         this.fechaNacimientoAlumno = fechaNacimientoAlumno;
@@ -196,11 +195,11 @@ public class Alumnos extends RealmObject {
         this.fotoAlumnoUrl = fotoAlumnoUrl;
     }
 
-    public RealmList<User> getUsersList() {
+    public List<User> getUsersList() {
         return usersList;
     }
 
-    public void setUsersList(RealmList<User> usersList) {
+    public void setUsersList(List<User> usersList) {
         this.usersList = usersList;
     }
 

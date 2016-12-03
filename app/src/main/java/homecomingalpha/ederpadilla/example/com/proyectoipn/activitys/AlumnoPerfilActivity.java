@@ -1,16 +1,11 @@
 package homecomingalpha.ederpadilla.example.com.proyectoipn.activitys;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -59,14 +54,11 @@ public class AlumnoPerfilActivity extends AppCompatActivity {
         bundle = getIntent().getExtras();
         code=bundle.getString(Constantes.LLAVE_ALUMNO_CODIGO);
         Util.showLog("Se supone que recibe "+bundle.getString(Constantes.LLAVE_ALUMNO_CODIGO));
-        alumnoPerfil=conseguirAlumnos(code);
         asignarValoresDelAlumno(alumnoPerfil);
         checkForUserType();
     }
 
-    public Alumnos conseguirAlumnos(String codigo) {
-        return realm.where(Alumnos.class).equalTo(Constantes.LLAVE_ALUMNO_CODIGO,codigo).findFirst();
-    }
+
 
     private void asignarValoresDelAlumno(Alumnos alumno) {
         tv_alumno_perfil_nombre.append(" "+alumno.getNombreCompletoAlumno());

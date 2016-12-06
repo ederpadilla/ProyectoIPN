@@ -18,10 +18,7 @@ import homecomingalpha.ederpadilla.example.com.proyectoipn.activitys.PerfilActiv
 import homecomingalpha.ederpadilla.example.com.proyectoipn.adapters.AlumnosAdapter;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.models.Alumnos;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.models.User;
-import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Constantes;
-import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Util;
 import io.realm.Realm;
-import io.realm.RealmList;
 
 /**
  * Created by ederpadilla on 13/10/16.

@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.github.silvestrpredko.dotprogressbar.DotProgressBar;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,22 +54,31 @@ import io.realm.Realm;
 public class AgregarAlumnoActivity extends AppCompatActivity {
     @BindView(R.id.cimv_estudiante_perfil)
     CircularImageView cimv_estudiante_perfil;
+
     @BindView(R.id.et_agregar_alumno_nombre)
     TextInputEditText et_agregar_alumno_nombre;
+
     @BindView(R.id.et_agregar_alumno_edad)
     TextInputEditText et_agregar_alumno_edad;
+
     @BindView(R.id.et_agregar_alumno_fecha)
-    TextInputEditText et_agregar_alumno_fecha;
+    EditText et_agregar_alumno_fecha;
+
     @BindView(R.id.agregar_alumno_spinner_sangre)
     MaterialSpinner spinner;
+
     @BindView(R.id.et_agregar_alumno_telefono)
     TextInputEditText et_agregar_alumno_telefono;
+
     @BindView(R.id.et_agregar_alumno_grupo)
     TextInputEditText et_agregar_alumno_grupo;
+
     @BindView(R.id.dot_progress_bar_student)
     DotProgressBar dotProgressBar;
+
     @BindView(R.id.btn_agregar_estudiante)
     Button btn_agregar_estudiante;
+
     private String tipoDeSangre="";
     private Bitmap studentProfileImage;
     private List<String> permissions= new ArrayList<>();
@@ -89,7 +99,6 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
         spinnerAdapter();
         firebaseInit();
     }
-
     private void firebaseInit() {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
@@ -358,5 +367,4 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
 
 
     }
-
 

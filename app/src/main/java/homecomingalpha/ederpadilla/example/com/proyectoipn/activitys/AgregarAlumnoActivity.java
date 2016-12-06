@@ -149,6 +149,7 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
                            et_agregar_alumno_telefono.getText().toString())==Constantes.INPUT_OK){
                        btn_agregar_estudiante.setVisibility(View.GONE);
                        dotProgressBar.setVisibility(View.VISIBLE);
+                       Util.showLog("Se escribira "+asignarValoresRealesAlumno(firebaseUser));
                        writeInFireBase(asignarValoresRealesAlumno(firebaseUser));
                  //crearAlumno(asignarValoresRealesAlumno());
                   // Util.showLog("Se crea "+asignarValoresRealesAlumno().toString());

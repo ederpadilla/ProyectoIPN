@@ -61,10 +61,10 @@ public class PerfilActivity extends AppCompatActivity {
     private Realm realm;
     private String idObtenido;
     public List<Alumnos> alumnosRealmList;
-    private FirebaseDatabase database;
+    public FirebaseDatabase database;
     private DatabaseReference databaseReference;
-    private FirebaseUser firebaseUser;
-    private List<Alumnos> alumnosFiltrados;
+    public FirebaseUser firebaseUser;
+    public List<Alumnos> alumnosFiltrados;
 
 
     @Override
@@ -77,52 +77,10 @@ public class PerfilActivity extends AppCompatActivity {
         Util.showLog("Usuario en perfil"+Util.getUserInSharedPreferences(getApplicationContext()).toString());
         user=Util.getUserInSharedPreferences(getApplicationContext());
         Glide.with(this).load(user.getImageUrl()).into(cimgv_profile);
-        checkForUserType(user);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        final List<Alumnos> alumnosList = new ArrayList<>();
-        DatabaseReference mDatabaseReference= FirebaseDatabase.getInstance().getReference(Constantes.FIREBASE_DB_STUDENTS);
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot child : dataSnapshot.getChildren()) {
-                    String edadAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_NAME).getValue().toString();
-                    String fechaNacimientoAlumo=child.child(Constantes.FIREBASE_DB_STUDENTS_BIRTHDATE).getValue().toString();
-                    String tipoDeSangreAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_BLODTYPE).getValue().toString();
-                    String telefonoAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_PHONE).getValue().toString();
-                    String grupoAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_GROUP).getValue().toString();
-                    String fotoAlumnoUrl=child.child(Constantes.FIREBASE_DB_STUDENTS_PHOTO_URL).getValue().toString();
-                    String idDelProfesor=child.child(Constantes.FIREBASE_DB_STUDENTS_USERID).getValue().toString();
-                    String codigoAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_CODE).getValue().toString();
-                    String nombreCompleto = child.child(Constantes.FIREBASE_DB_STUDENTS_NAME).getValue().toString();
-                    Alumnos alunmno = new Alumnos(nombreCompleto,edadAlumno,fechaNacimientoAlumo,tipoDeSangreAlumno,telefonoAlumno,grupoAlumno,fotoAlumnoUrl,idDelProfesor,codigoAlumno);
-                    alumnosList.add(alunmno);
-
-                }
-                for (Alumnos alumnos: alumnosList){
-                    if (alumnos.getIdDelProfesor().equals(firebaseUser.getUid())){
-                        alumnosFiltrados.add(alumnos);
-                    }
-                }
-                if (alumnosFiltrados.size()<1){
-
-                }else{
-                    DatabaseReference myRef = database.getReference(Constantes.FIREBASE_DB_USERS).child(firebaseUser.getUid()).child(Constantes.FIREBASE_DB_USER_LIST);
-                    myRef.setValue(alumnosFiltrados);
-                    Util.showLog("La referencia es "+myRef);
-                    alumnosAdapter.notifyDataSetChanged();
-                }
-                Util.showLog("Busqued filtrada"+alumnosFiltrados);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-       // Query myTopPostsQuery = mDatabase;
-       // myTopPostsQuery.orderByChild(Constantes.FIREBASE_DB_STUDENTS_USERID).equalTo(firebaseUser.getUid());
-       // Util.showLog("El query "+myTopPostsQuery);
-        //setTextViews();
+        alumnosList = new ArrayList<>();
+        checkForUserType(user);
     }
 
 
@@ -149,12 +107,73 @@ public class PerfilActivity extends AppCompatActivity {
     }
 
     private void usuarioTipoProfesor() {
-    //getAllAlumnosinRealm();
+        DatabaseReference mDatabaseReference= FirebaseDatabase.getInstance().getReference(Constantes.FIREBASE_DB_STUDENTS);
+        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot child : dataSnapshot.getChildren()) {
+                    String edadAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_AGE).getValue().toString();
+                    String fechaNacimientoAlumo=child.child(Constantes.FIREBASE_DB_STUDENTS_BIRTHDATE).getValue().toString();
+                    String tipoDeSangreAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_BLODTYPE).getValue().toString();
+                    String telefonoAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_PHONE).getValue().toString();
+                    String grupoAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_GROUP).getValue().toString();
+                    String fotoAlumnoUrl=child.child(Constantes.FIREBASE_DB_STUDENTS_PHOTO_URL).getValue().toString();
+                    String idDelProfesor=child.child(Constantes.FIREBASE_DB_STUDENTS_USERID).getValue().toString();
+                    String codigoAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_CODE).getValue().toString();
+                    String nombreCompleto = child.child(Constantes.FIREBASE_DB_STUDENTS_NAME).getValue().toString();
+                    Alumnos alunmno = new Alumnos(nombreCompleto,edadAlumno,fechaNacimientoAlumo,tipoDeSangreAlumno,telefonoAlumno,grupoAlumno,fotoAlumnoUrl,idDelProfesor,codigoAlumno);
+                    alumnosList.add(alunmno);
+                }
+                for (Alumnos alumnos: alumnosList){
+                    if (alumnos.getIdDelProfesor().equals(firebaseUser.getUid())){
+                        alumnosFiltrados.add(alumnos);
+                    }
+                }
+                if (alumnosFiltrados.size()<1){
 
+                }else{
+                    DatabaseReference myRef = database.getReference(Constantes.FIREBASE_DB_USERS).child(firebaseUser.getUid()).child(Constantes.FIREBASE_DB_USER_LIST);
+                    myRef.setValue(alumnosFiltrados);
+                    alumnosAdapter.notifyDataSetChanged();
+                }
+                Util.showLog("Busqued filtrada"+alumnosFiltrados);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void usuarioTipoPadreMadre() {
-        alumnosAdapter.notifyDataSetChanged();
+        DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference(Constantes.FIREBASE_DB_USERS).child(firebaseUser.getUid());
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User userFoundInFireBase=dataSnapshot.getValue(User.class);
+              try {
+                  List<Alumnos> hijosEnFirebase= userFoundInFireBase.getAlumnosRealmList();
+                  Util.showLog("Lista "+hijosEnFirebase.toString());
+                  if (hijosEnFirebase.equals(null)){
+
+                  }else{
+                      for (int i = 0 ; i<hijosEnFirebase.size();i++)
+                          alumnosFiltrados.add(hijosEnFirebase.get(i));
+                  }
+              }catch (Exception e){
+
+              }
+
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+
+            }
+        });
     }
 
     @OnClick(R.id.tv_editar_perfil)
@@ -231,10 +250,6 @@ public class PerfilActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
                 break;
-              //  Alumnos alumnos = new Alumnos("Brenda Morales Peña", "40 años","2/02/1894");
-              //  alumnosList.add(0,alumnos);
-              //  alumnosAdapter.notifyDataSetChanged();
-              //  break;
         }
 
     }

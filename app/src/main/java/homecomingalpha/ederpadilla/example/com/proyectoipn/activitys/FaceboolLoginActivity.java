@@ -251,7 +251,7 @@ public class FaceboolLoginActivity extends AppCompatActivity {
 
                                         @Override
                                         public void onCancelled(DatabaseError databaseError) {
-                                            Util.showToast(getApplicationContext(),getString(R.string.problemas));
+                                            //Util.showToast(getApplicationContext(),getString(R.string.problemas));
                                             loginButton.setVisibility(View.VISIBLE);
                                             btn_login.setVisibility(View.VISIBLE);
                                             dot_progress_bar_login.setVisibility(View.GONE);

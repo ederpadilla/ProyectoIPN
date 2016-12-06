@@ -62,4 +62,5 @@
 	<string name="problemas">Ocurrio un problema</string>
 	<string name="edad_simple">Edad:</string>
 	<string name="contraseña_pequeña">Contraseña demasiado corta</string>
+	<string name="alumno_encontrado">Alumno encontrado</string>
 </resources>

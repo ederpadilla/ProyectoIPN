@@ -81,6 +81,7 @@ public class PerfilActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         alumnosList = new ArrayList<>();
         checkForUserType(user);
+        setTextViews();
     }
 
 
@@ -259,14 +260,8 @@ public class PerfilActivity extends AppCompatActivity {
 
     }
     private void setTextViews(){
-            alumnosList.clear();
-        alumnosAdapter.notifyDataSetChanged();
         tv_perfil_name.setText(user.getNombre());
         String tipoEnString="";
-        for (int i =0 ;i<user.getAlumnosRealmList().size();i++)
-            alumnosList.add(user.getAlumnosRealmList().get(i));
-        alumnosAdapter.notifyDataSetChanged();
-        Util.showLog("Lista es "+user.getAlumnosRealmList());
         switch (user.getTipoDeUuario()){
             case Constantes.USUARIO_PADRE_MADRE:
                 tipoEnString="Padre o madre de alumno";

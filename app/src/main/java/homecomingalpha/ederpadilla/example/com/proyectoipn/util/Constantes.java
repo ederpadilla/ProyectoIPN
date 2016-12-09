@@ -22,6 +22,7 @@ public class Constantes {
     public static final int USUARIO_PROFESOR=1;
     public static final int USUARIO_SIN_DEFINIR=3;
     public static final String LLAVE_LOGIN="LLAVE_LOGIN";
+    public static final String LLAVE_LOG="LLAVE_LOG";
     public static final String LLAVE_NOMBRE="NOMBRE";
     public static final String LLAVE_TELEFONO="TELEFONO";
     public static final String LLAVE_EMAIL="EMAIL";
@@ -60,4 +61,6 @@ public class Constantes {
     public static final String FIREBASE_DB_STUDENTS_USERLIST= "usersList";
     public static final String FIREBASE_DB_STUDENTS_CODE= "codigoAlumno";
 
+    public static final String NOMBRE ="nombre" ;
+    public static final String LLAVE_KEEP = "KEEP";
 }

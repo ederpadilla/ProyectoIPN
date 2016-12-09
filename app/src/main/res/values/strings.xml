@@ -2,7 +2,7 @@
 <resources>
 	<string name="crearcuenta">Crear cuenta</string>
 	<string name="tipo_de_sangre">Tipo de sangre</string>
-	<string name="fecha_simple">Fecha:</string>
+	<string name="fecha_simple">Fecha : </string>
 	<string name="actualizar">Actualizar</string>
 	<string name="grupo">Grupo</string>
 	<string name="B_POSITIVO_TIPODESANGRE">B+</string>

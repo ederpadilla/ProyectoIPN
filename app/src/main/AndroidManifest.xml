@@ -14,7 +14,7 @@
     <application
         android:name=".ProyectoIPNApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_cruzaxul_color"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
@@ -27,7 +27,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activitys.SplashActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activitys.EntrarActivity"
             android:noHistory="true"
@@ -54,11 +60,7 @@
         <activity
             android:name=".activitys.FaceboolLoginActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activitys.RegisterActivity"
             android:screenOrientation="portrait">

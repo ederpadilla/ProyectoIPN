@@ -82,7 +82,7 @@ public class FaceboolLoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         getPermition();
         sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
-        checkForUserLogIn();
+        //checkForUserLogIn();
     }
     private void authListernerSettings(){
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -102,7 +102,7 @@ public class FaceboolLoginActivity extends AppCompatActivity {
     }
 
     private void checkForUserLogIn(){
-        mAuth = FirebaseAuth.getInstance();
+
         if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
             callbackManager= CallbackManager.Factory.create();
             facebook();
@@ -224,6 +224,7 @@ public class FaceboolLoginActivity extends AppCompatActivity {
                 btn_login.setVisibility(View.GONE);
                 dot_progress_bar_login.setVisibility(View.VISIBLE);
                 final String mail =et_mail.getText().toString();
+                mAuth = FirebaseAuth.getInstance();
                 mAuth.signInWithEmailAndPassword(mail, et_password.getText().toString())
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -245,6 +246,10 @@ public class FaceboolLoginActivity extends AppCompatActivity {
                                             Util.saveSharedPreferences(getApplicationContext(),userFoundInFireBase);
                                              Intent intent = new Intent(FaceboolLoginActivity.this,
                                                                            PerfilActivity.class);
+                                            SharedPreferences mSharedPreferences=  getSharedPreferences(Constantes.LLAVE_KEEP, 0);
+                                            SharedPreferences.Editor editor = mSharedPreferences.edit();
+                                            editor.putString(Constantes.NOMBRE, "user");
+                                            editor.commit();
                                                            startActivity(intent);
                                                            finish();
                                         }
@@ -283,9 +288,7 @@ public class FaceboolLoginActivity extends AppCompatActivity {
         permissions.add(Manifest.permission.CAMERA);
         permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         if (hasPermissions(getApplicationContext(),permissions.toArray(new String[permissions.size()]))){
-            Util.showLog("Tiene permisos");
         }else{
-            Util.showLog("No tiene permisos");
             String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
             if(!hasPermissions(this, PERMISSIONS)){
                 ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);

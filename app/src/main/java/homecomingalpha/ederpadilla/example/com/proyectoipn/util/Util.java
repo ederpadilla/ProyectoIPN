@@ -155,6 +155,12 @@ public class Util {
         editor.clear();
         editor.commit();
     }
+    public static void borrarKEEP(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(Constantes.LLAVE_KEEP, 0);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.commit();
+    }
 
     public static boolean hasPermissions(Context context, String... permissions) {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
@@ -165,6 +171,13 @@ public class Util {
             }
         }
         return true;
+    }
+    public static void saveLogIn(Context context){
+        //To save
+        SharedPreferences settings = context.getSharedPreferences("YOUR_PREF_NAME", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("SNOW_DENSITY",1);
+        editor.commit();
     }
     public static String getPath(Uri uri, Activity activity) {
         String[] projection = { MediaStore.MediaColumns.DATA };

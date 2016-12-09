@@ -50,7 +50,7 @@ public class AlumnosAdapter extends RecyclerView.Adapter<AlumnosAdapter.Titulare
     public void onBindViewHolder(TitularesViewHolder viewHolder, int pos) {
         Alumnos item = alumnosList.get(pos);
         viewHolder.bindTitular(item,context);
-
+        viewHolder.getAdapterPosition();
 
     }
 
@@ -67,9 +67,12 @@ public class AlumnosAdapter extends RecyclerView.Adapter<AlumnosAdapter.Titulare
      * y se encarga de aparecer o desaparecer el contenido*/
     @Override
     public void onClick(View view) {
-        if (listener != null)
+        if (listener != null) {
+            TitularesViewHolder titularesViewHolder = new TitularesViewHolder(view);
             listener.onClick(view);
-        TitularesViewHolder titularesViewHolder = new TitularesViewHolder(view);
+        }
+
+
 
 
     }

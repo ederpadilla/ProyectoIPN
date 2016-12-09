@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -35,11 +34,8 @@ import homecomingalpha.ederpadilla.example.com.proyectoipn.fragments.BuscarEstud
 import homecomingalpha.ederpadilla.example.com.proyectoipn.models.Alumnos;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.models.User;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Constantes;
-import homecomingalpha.ederpadilla.example.com.proyectoipn.util.DownloadImage;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Util;
 import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmResults;
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
 public class PerfilActivity extends AppCompatActivity {
@@ -73,7 +69,6 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
         ButterKnife.bind(this);
         alumnosFiltrados = new ArrayList<>();
-        recViewInit();
         Util.showLog("Usuario en perfil"+Util.getUserInSharedPreferences(getApplicationContext()).toString());
         user=Util.getUserInSharedPreferences(getApplicationContext());
         Glide.with(this).load(user.getImageUrl()).into(cimgv_profile);
@@ -81,6 +76,7 @@ public class PerfilActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         alumnosList = new ArrayList<>();
         checkForUserType(user);
+        recViewInit();
         setTextViews();
     }
 
@@ -109,9 +105,12 @@ public class PerfilActivity extends AppCompatActivity {
 
     private void usuarioTipoProfesor() {
         DatabaseReference mDatabaseReference= FirebaseDatabase.getInstance().getReference(Constantes.FIREBASE_DB_STUDENTS);
+        Util.showLog(mDatabaseReference.toString()+"");
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Util.showLog("Entra al dta snapchot" );
                 for(DataSnapshot child : dataSnapshot.getChildren()) {
                     String edadAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_AGE).getValue().toString();
                     String fechaNacimientoAlumo=child.child(Constantes.FIREBASE_DB_STUDENTS_BIRTHDATE).getValue().toString();
@@ -128,6 +127,7 @@ public class PerfilActivity extends AppCompatActivity {
                 for (Alumnos alumnos: alumnosList){
                     if (alumnos.getIdDelProfesor().equals(firebaseUser.getUid())){
                         alumnosFiltrados.add(alumnos);
+                        alumnosAdapter.notifyDataSetChanged();
                     }
                 }
                 if (alumnosFiltrados.size()<1){
@@ -135,7 +135,7 @@ public class PerfilActivity extends AppCompatActivity {
                 }else{
                     DatabaseReference myRef = database.getReference(Constantes.FIREBASE_DB_USERS).child(firebaseUser.getUid()).child(Constantes.FIREBASE_DB_USER_LIST);
                     myRef.setValue(alumnosFiltrados);
-                    alumnosAdapter.notifyDataSetChanged();
+
                 }
                 Util.showLog("Busqued filtrada"+alumnosFiltrados);
             }
@@ -160,7 +160,9 @@ public class PerfilActivity extends AppCompatActivity {
                   }else{
                       for (int i = 0 ; i<hijosEnFirebase.size();i++)
                           alumnosFiltrados.add(hijosEnFirebase.get(i));
+
                   }
+                  alumnosAdapter.notifyDataSetChanged();
               }catch (Exception e){
 
               }
@@ -179,7 +181,6 @@ public class PerfilActivity extends AppCompatActivity {
 
     @OnClick(R.id.tv_editar_perfil)
     public void editPerfil(){
-        super.onBackPressed();
         Intent intent = new Intent(PerfilActivity.this,
                 RegistrarseActivity.class);
         startActivity(intent);
@@ -188,7 +189,7 @@ public class PerfilActivity extends AppCompatActivity {
 
     /**Iniciamos el reciclerview*/
     private void recViewInit() {
-        alumnosList= new ArrayList<Alumnos>();
+        alumnosList= new ArrayList<Alumnos>(0);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new SlideInLeftAnimator());
         recyclerView.getItemAnimator().setAddDuration(800);
@@ -215,13 +216,14 @@ public class PerfilActivity extends AppCompatActivity {
         alumnosAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("Perfil activity", "Pulsado el elemento " + recyclerView.getChildAdapterPosition(v));
-                Alumnos alumno = alumnosList.get(recyclerView.getChildAdapterPosition(v));
+                //Util.showLog("la view es "+alumnosFiltrados.get(recyclerView.getChildAdapterPosition(v)));
+               Alumnos alumno = alumnosFiltrados.get(recyclerView.getChildAdapterPosition(v));
+               getBoyInFirebase(alumno.getCodigoAlumno());
                 Intent intent = new Intent(PerfilActivity.this,
-                            AlumnoPerfilActivity.class);
-                intent.putExtra(Constantes.LLAVE_ALUMNO_CODIGO,alumno.getCodigoAlumno());
-                startActivity(intent);
-                PerfilActivity.this.finish();
+                           AlumnoPerfilActivity.class);
+               intent.putExtra(Constantes.LLAVE_ALUMNO_CODIGO,alumno.getCodigoAlumno());
+               startActivity(intent);
+               PerfilActivity.this.finish();
             }
         });
     }
@@ -229,9 +231,9 @@ public class PerfilActivity extends AppCompatActivity {
     public void cerrarSesion(){
         if(AccessToken.getCurrentAccessToken()!=null){
             LoginManager.getInstance().logOut();
-            Util.borrarSharedPreferences(getApplicationContext());
+            Util.borrarKEEP(getApplicationContext());
         }
-        Util.borrarSharedPreferences(getApplicationContext());
+        Util.borrarKEEP(getApplicationContext());
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(PerfilActivity.this,
                 FaceboolLoginActivity.class);
@@ -272,6 +274,26 @@ public class PerfilActivity extends AppCompatActivity {
                 break;
         }
     }
+    public void getBoyInFirebase(String codigo){
+        DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference(Constantes.FIREBASE_DB_STUDENTS).child(codigo);
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Alumnos boyInFireBase=dataSnapshot.getValue(Alumnos.class);
+                Intent intent = new Intent(PerfilActivity.this,
+                        AlumnoPerfilActivity.class);
+                intent.putExtra(Constantes.FIREBASE_DB_STUDENTS_CODE,boyInFireBase.getCodigoAlumno());
+                startActivity(intent);
+                finish();
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //Util.showToast(getApplicationContext(),getString(R.string.problemas));
+
+            }
+        });
+
+    }
 
 }

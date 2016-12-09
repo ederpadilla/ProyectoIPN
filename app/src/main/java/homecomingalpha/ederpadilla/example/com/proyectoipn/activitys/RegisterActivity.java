@@ -90,45 +90,15 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);spinner.setVisibility(View.GONE);
-        realm=Realm.getDefaultInstance();
-        checkForUserLogIn();
+        spinner.setVisibility(View.VISIBLE);
+        spinnerAdapter();
+        mAuth = FirebaseAuth.getInstance();
 
-    }
-    private void checkForUserLogIn() {
-        SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
-        if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
-
-            btn_crearcuenta.setText(getString(R.string.actualizar));
-
-
-        }else{
-
-            spinner.setVisibility(View.VISIBLE);
-            spinnerAdapter();
-            mAuth = FirebaseAuth.getInstance();
-        }
 
     }
     @OnClick(R.id.btn_crearcuenta_register)
     public void entrar(){
-      SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
-      if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
-
-          Intent intent = new Intent(RegisterActivity.this,
-                  PerfilActivity.class);
-          startActivity(intent);
-          finish();
-
-      }else{
           validateEmptyFields();
-      }
-
-    }
-
-    private void editarPerfil(User user) {
-        et_nombre.setText(user.getNombre());
-        et_mail.setText(user.getEmail());
-        et_telefono.setText(user.getTelefono());
     }
 
     private void validateEmptyFields() {
@@ -254,19 +224,10 @@ public class RegisterActivity extends AppCompatActivity {
         checkTogoBack();
     }
     private void checkTogoBack(){
-        SharedPreferences sharedPreferences =this.getSharedPreferences(Constantes.LLAVE_LOGIN,0);
-        if (sharedPreferences.contains(Constantes.LLAVE_NOMBRE)){
-            Intent intent = new Intent(RegisterActivity.this,
-                    PerfilActivity.class);
-            startActivity(intent);
-            //finish();
-
-        }else{
             Intent intent = new Intent(RegisterActivity.this,
                     FaceboolLoginActivity.class);
             startActivity(intent);
-            //finish();
-        }
+            finish();
     }
 
     private User usuarioConParametros(){

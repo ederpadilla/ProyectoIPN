@@ -18,8 +18,11 @@ public class Alumnos  {
     private String grupoAlumno;
     private String fotoAlumnoUrl;
     private byte[]bytes;
+    private int estado;
+    private String fechaHora;
     private String idDelProfesor;
     private List<User> usersList;
+    private String personaQueRecogera;
     @PrimaryKey
     private String codigoAlumno;
 
@@ -46,6 +49,35 @@ public class Alumnos  {
         this.codigoAlumno = codigoAlumno;
     }
 
+    public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String fotoAlumnoUrl, int estado, String fechaHora, String idDelProfesor, String personaQueRecogera, String codigoAlumno) {
+        this.nombreCompletoAlumno = nombreCompletoAlumno;
+        this.edadAlumno = edadAlumno;
+        this.fechaNacimientoAlumno = fechaNacimientoAlumno;
+        this.tipoDeSangreAlumno = tipoDeSangreAlumno;
+        this.telefonoAlumno = telefonoAlumno;
+        this.grupoAlumno = grupoAlumno;
+        this.fotoAlumnoUrl = fotoAlumnoUrl;
+        this.estado = estado;
+        this.fechaHora = fechaHora;
+        this.idDelProfesor = idDelProfesor;
+        this.personaQueRecogera = personaQueRecogera;
+        this.codigoAlumno = codigoAlumno;
+    }
+
+    public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String fotoAlumnoUrl, int estado, String idDelProfesor, String codigoAlumno) {
+        this.nombreCompletoAlumno = nombreCompletoAlumno;
+        this.edadAlumno = edadAlumno;
+        this.fechaNacimientoAlumno = fechaNacimientoAlumno;
+        this.tipoDeSangreAlumno = tipoDeSangreAlumno;
+        this.telefonoAlumno = telefonoAlumno;
+        this.grupoAlumno = grupoAlumno;
+        this.fotoAlumnoUrl = fotoAlumnoUrl;
+        this.estado = estado;
+        this.idDelProfesor = idDelProfesor;
+        this.usersList = usersList;
+        this.codigoAlumno = codigoAlumno;
+    }
+
     public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String fotoAlumnoUrl, String idDelProfesor, String codigoAlumno) {
         this.nombreCompletoAlumno = nombreCompletoAlumno;
         this.edadAlumno = edadAlumno;
@@ -58,18 +90,7 @@ public class Alumnos  {
         this.codigoAlumno = codigoAlumno;
     }
 
-    public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String fotoAlumnoUrl, byte[] bytes, String idDelProfesor, String codigoAlumno) {
-        this.nombreCompletoAlumno = nombreCompletoAlumno;
-        this.edadAlumno = edadAlumno;
-        this.fechaNacimientoAlumno = fechaNacimientoAlumno;
-        this.tipoDeSangreAlumno = tipoDeSangreAlumno;
-        this.telefonoAlumno = telefonoAlumno;
-        this.grupoAlumno = grupoAlumno;
-        this.fotoAlumnoUrl = fotoAlumnoUrl;
-        this.bytes = bytes;
-        this.idDelProfesor = idDelProfesor;
-        this.codigoAlumno = codigoAlumno;
-    }
+
 
     public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String idDelProfesor, String codigoAlumno) {
         this.nombreCompletoAlumno = nombreCompletoAlumno;
@@ -82,38 +103,7 @@ public class Alumnos  {
         this.codigoAlumno = codigoAlumno;
     }
 
-    public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, byte[] bytes, String idDelProfesor, String codigoAlumno) {
-        this.nombreCompletoAlumno = nombreCompletoAlumno;
-        this.edadAlumno = edadAlumno;
-        this.fechaNacimientoAlumno = fechaNacimientoAlumno;
-        this.tipoDeSangreAlumno = tipoDeSangreAlumno;
-        this.telefonoAlumno = telefonoAlumno;
-        this.grupoAlumno = grupoAlumno;
-        this.bytes = bytes;
-        this.idDelProfesor = idDelProfesor;
-        this.codigoAlumno = codigoAlumno;
-    }
 
-    public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String codigoAlumno) {
-        this.nombreCompletoAlumno = nombreCompletoAlumno;
-        this.edadAlumno = edadAlumno;
-        this.fechaNacimientoAlumno = fechaNacimientoAlumno;
-        this.tipoDeSangreAlumno = tipoDeSangreAlumno;
-        this.telefonoAlumno = telefonoAlumno;
-        this.grupoAlumno = grupoAlumno;
-        this.codigoAlumno = codigoAlumno;
-    }
-
-    public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, byte[] bytes, String codigoAlumno) {
-        this.nombreCompletoAlumno = nombreCompletoAlumno;
-        this.edadAlumno = edadAlumno;
-        this.fechaNacimientoAlumno = fechaNacimientoAlumno;
-        this.tipoDeSangreAlumno = tipoDeSangreAlumno;
-        this.telefonoAlumno = telefonoAlumno;
-        this.grupoAlumno = grupoAlumno;
-        this.bytes = bytes;
-        this.codigoAlumno = codigoAlumno;
-    }
 
     public String getIdDelProfesor() {
         return idDelProfesor;
@@ -203,13 +193,30 @@ public class Alumnos  {
         this.usersList = usersList;
     }
 
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    public String getFechaHora() {
+        return fechaHora;
+    }
+
+    public void setFechaHora(String fechaHora) {
+        this.fechaHora = fechaHora;
+    }
+
     @Override
     public String toString() {
         return "Alumnos{" +
                 "codigoAlumno='" + codigoAlumno + '\'' +
                 ", usersList=" + usersList +
                 ", idDelProfesor='" + idDelProfesor + '\'' +
-                ", bytes=" + Arrays.toString(bytes) +
+                ", fechaHora='" + fechaHora + '\'' +
+                ", estado=" + estado +
                 ", fotoAlumnoUrl='" + fotoAlumnoUrl + '\'' +
                 ", grupoAlumno='" + grupoAlumno + '\'' +
                 ", telefonoAlumno='" + telefonoAlumno + '\'' +

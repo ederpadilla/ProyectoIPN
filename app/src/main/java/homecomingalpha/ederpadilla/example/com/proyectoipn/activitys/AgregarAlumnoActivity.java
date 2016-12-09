@@ -193,6 +193,7 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
                 map.put(Constantes.FIREBASE_DB_STUDENTS_PHOTO_URL,studentImageUrl);
                 map.put(Constantes.FIREBASE_DB_STUDENTS_USERID,alumnos.getIdDelProfesor());
                 map.put(Constantes.FIREBASE_DB_STUDENTS_USERLIST,alumnos.getUsersList());
+                map.put(Constantes.FIREBASE_DB_STUDENTS_STATE,0);
                 map.put(Constantes.FIREBASE_DB_STUDENTS_CODE,alumnos.getCodigoAlumno());
                 mFirebaseDatabase.updateChildren(map);
                  Intent intent = new Intent(AgregarAlumnoActivity.this,

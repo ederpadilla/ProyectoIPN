@@ -58,6 +58,7 @@ public class Constantes {
     public static final String FIREBASE_DB_STUDENTS_GROUP = "grupoAlumno";
     public static final String FIREBASE_DB_STUDENTS_PHOTO_URL = "fotoAlumnoUrl";
     public static final String FIREBASE_DB_STUDENTS_USERID= "idDelProfesor";
+    public static final String FIREBASE_DB_STUDENTS_STATE= "estado";
     public static final String FIREBASE_DB_STUDENTS_USERLIST= "usersList";
     public static final String FIREBASE_DB_STUDENTS_CODE= "codigoAlumno";
 

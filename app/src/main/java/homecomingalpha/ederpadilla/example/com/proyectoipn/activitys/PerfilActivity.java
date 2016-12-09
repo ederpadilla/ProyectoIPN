@@ -69,14 +69,13 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
         ButterKnife.bind(this);
         alumnosFiltrados = new ArrayList<>();
-        Util.showLog("Usuario en perfil"+Util.getUserInSharedPreferences(getApplicationContext()).toString());
+        recViewInit();
         user=Util.getUserInSharedPreferences(getApplicationContext());
         Glide.with(this).load(user.getImageUrl()).into(cimgv_profile);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance();
         alumnosList = new ArrayList<>();
         checkForUserType(user);
-        recViewInit();
         setTextViews();
     }
 
@@ -121,7 +120,8 @@ public class PerfilActivity extends AppCompatActivity {
                     String idDelProfesor=child.child(Constantes.FIREBASE_DB_STUDENTS_USERID).getValue().toString();
                     String codigoAlumno=child.child(Constantes.FIREBASE_DB_STUDENTS_CODE).getValue().toString();
                     String nombreCompleto = child.child(Constantes.FIREBASE_DB_STUDENTS_NAME).getValue().toString();
-                    Alumnos alunmno = new Alumnos(nombreCompleto,edadAlumno,fechaNacimientoAlumo,tipoDeSangreAlumno,telefonoAlumno,grupoAlumno,fotoAlumnoUrl,idDelProfesor,codigoAlumno);
+                    int stado= Integer.parseInt(child.child(Constantes.FIREBASE_DB_STUDENTS_STATE).getValue().toString());
+                    Alumnos alunmno = new Alumnos(nombreCompleto,edadAlumno,fechaNacimientoAlumo,tipoDeSangreAlumno,telefonoAlumno,grupoAlumno,fotoAlumnoUrl,stado,idDelProfesor,codigoAlumno);
                     alumnosList.add(alunmno);
                 }
                 for (Alumnos alumnos: alumnosList){
@@ -182,7 +182,8 @@ public class PerfilActivity extends AppCompatActivity {
     @OnClick(R.id.tv_editar_perfil)
     public void editPerfil(){
         Intent intent = new Intent(PerfilActivity.this,
-                RegistrarseActivity.class);
+                EditUserProfileActivity.class);
+        intent.putExtra(Constantes.FIREBASE_DB_STUDENTS_USERID,firebaseUser.getUid());
         startActivity(intent);
         finish();
     }

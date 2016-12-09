@@ -59,13 +59,11 @@
 
         <activity
             android:name=".activitys.FaceboolLoginActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".activitys.RegisterActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activitys.RegisterActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activitys.EditUserProfileActivity"></activity>
     </application>
 
 </manifest>

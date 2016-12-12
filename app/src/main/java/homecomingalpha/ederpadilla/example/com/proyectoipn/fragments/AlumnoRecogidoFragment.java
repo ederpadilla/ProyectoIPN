@@ -10,6 +10,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.R;
+import homecomingalpha.ederpadilla.example.com.proyectoipn.activitys.AlumnoPerfilActivity;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.models.Alumnos;
 
 /**
@@ -25,7 +26,6 @@ public class AlumnoRecogidoFragment extends DialogFragment {
     TextView fecha;
     @BindView(R.id.fragment_alumno_recogido_hora)
     TextView hora;
-    Alumnos alumno;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,13 +33,14 @@ public class AlumnoRecogidoFragment extends DialogFragment {
         /** Inflamos nuestra vista */
         View view = inflater.inflate(R.layout.fragment_alumno_recogido, container, false);
         ButterKnife.bind(this, view);
+        setValues();
         return view;
     }
     public void setValues(){
-        nombre.setText(alumno.getNombreCompletoAlumno()+getString(R.string.se_retiro_de_la_escuela));
-        persona_que_recogio.setText(alumno.getPersonaQueRecogio());
-        fecha.setText(alumno.getFecha());
-        hora.setText(alumno.getHora());
+        nombre.setText(((AlumnoPerfilActivity)getActivity()).alumnoPerfil.getNombreCompletoAlumno()+getString(R.string.se_retiro_de_la_escuela));
+        persona_que_recogio.setText(((AlumnoPerfilActivity)getActivity()).alumnoPerfil.getPersonaQueRecogio());
+        fecha.setText(((AlumnoPerfilActivity)getActivity()).alumnoPerfil.getFecha());
+        hora.setText(((AlumnoPerfilActivity)getActivity()).alumnoPerfil.getHora());
     }
     public static AlumnoRecogidoFragment newInstance() {
       AlumnoRecogidoFragment alumnoRecogidoFragment = new AlumnoRecogidoFragment();

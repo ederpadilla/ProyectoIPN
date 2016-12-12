@@ -15,55 +15,49 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.R;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.activitys.AlumnoPerfilActivity;
-import homecomingalpha.ederpadilla.example.com.proyectoipn.activitys.EditUserProfileActivity;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.models.Alumnos;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Constantes;
 import homecomingalpha.ederpadilla.example.com.proyectoipn.util.Util;
 
 /**
- * Created by ederpadilla on 09/12/16.
+ * Created by ederpadilla on 11/12/16.
  */
 
-public class CheckOutFragment extends DialogFragment {
-    @BindView(R.id.fragment_et__persona_check_out)
-    EditText personaQueHaraCheckOut;
-    String nombre;
-    String fecha;
-    String hora;
+public class ExternoRecogeraFragment extends DialogFragment {
+    @BindView(R.id.fragment_et__personaexterna)
+    EditText nombrePersonQuerecogera;
+    @BindView(R.id.tv_quien)
+    TextView tv_quien;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         /** Inflamos nuestra vista */
-        View view = inflater.inflate(R.layout.fragment_checkout_alumno, container, false);
+        View view = inflater.inflate(R.layout.fragment_persona_externa, container, false);
         ButterKnife.bind(this, view);
+        tv_quien.setText(getString(R.string.nombre_de_la_persona_que_ira)+((AlumnoPerfilActivity)getActivity()).alumnoPerfil.getNombreCompletoAlumno()+"?");
         return view;
     }
-
-    public void setValues() {
-
-    }
-
-    @OnClick(R.id.btn_checkout)
-    public void checkOut(){
-        if (personaQueHaraCheckOut.getText().toString().equals(null)){
-            Util.showToast(getActivity(),getString(R.string.personaquerecoge));
+    @OnClick(R.id.btn_enviar)
+    public void enviar(){
+        if (nombrePersonQuerecogera.getText().toString()==""){
+            Util.showToast(getActivity(),getString(R.string.importante_decir_quien));
         }else{
             DatabaseReference referenciaEstadoAlumno = ((AlumnoPerfilActivity)getActivity()).database.getReference(Constantes.FIREBASE_DB_STUDENTS).child(((AlumnoPerfilActivity)getActivity()).alumnoPerfil.getCodigoAlumno()).child(Constantes.FIREBASE_DB_STUDENTS_STATE);
-            referenciaEstadoAlumno.setValue(Constantes.STUDENT_STATE_NOT_IN_SCHOOL);
+            referenciaEstadoAlumno.setValue(Constantes.STUDET_STATE_SOMEONE_ELSE);
             DatabaseReference referenciaFechalumno = ((AlumnoPerfilActivity)getActivity()).database.getReference(Constantes.FIREBASE_DB_STUDENTS).child(((AlumnoPerfilActivity)getActivity()).alumnoPerfil.getCodigoAlumno()).child(Constantes.FIREBASE_DB_STUDENTS_DATE);
             referenciaFechalumno.setValue(((AlumnoPerfilActivity)getActivity()).getDate());
             DatabaseReference referenciaHoraAlumno = ((AlumnoPerfilActivity)getActivity()).database.getReference(Constantes.FIREBASE_DB_STUDENTS).child(((AlumnoPerfilActivity)getActivity()).alumnoPerfil.getCodigoAlumno()).child(Constantes.FIREBASE_DB_STUDENTS_HOUR);
             referenciaHoraAlumno.setValue(((AlumnoPerfilActivity)getActivity()).getHour());
-            DatabaseReference referenciaPersonaRecogeraAlumno = ((AlumnoPerfilActivity)getActivity()).database.getReference(Constantes.FIREBASE_DB_STUDENTS).child(((AlumnoPerfilActivity)getActivity()).alumnoPerfil.getCodigoAlumno()).child(Constantes.FIREBASE_DB_STUDENTS_WHO_GET_IT);
-            referenciaPersonaRecogeraAlumno.setValue(personaQueHaraCheckOut.getText().toString());
-            Util.showToast(getActivity(),getString(R.string.serealizoelcheckout));
+            DatabaseReference referenciaPersonaRecogeraAlumno = ((AlumnoPerfilActivity)getActivity()).database.getReference(Constantes.FIREBASE_DB_STUDENTS).child(((AlumnoPerfilActivity)getActivity()).alumnoPerfil.getCodigoAlumno()).child(Constantes.FIREBASE_DB_STUDENTS_PERSON_WHOS_GONNA_GET_IT);
+            referenciaPersonaRecogeraAlumno.setValue(nombrePersonQuerecogera.getText().toString());
+            Util.showToast(getActivity(),getString(R.string.se_le_aviso_al_profesor_que_alguien_mas_ira));
             dismiss();
         }
-    }
-    public static CheckOutFragment newInstance() {
-    CheckOutFragment checkOutFragment = new CheckOutFragment();
-    return checkOutFragment;
-    }
 
+    }
+    public static ExternoRecogeraFragment newInstance() {
+        ExternoRecogeraFragment externoRecogeraFragment = new ExternoRecogeraFragment();
+        return externoRecogeraFragment;
+    }
 }

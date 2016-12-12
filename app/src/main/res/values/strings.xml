@@ -64,7 +64,16 @@
     <string name="contraseña_pequeña">Contraseña demasiado corta</string>
     <string name="alumno_encontrado">Alumno encontrado</string>
     <string name="ya_va_en_camino">Ya van en camino a la escuela</string>
-    <string name="etsa_retrasado">Se encuentra retrasado</string>
+    <string name="etsa_retrasado">Se tiene un contratiempo</string>
     <string name="alguien_mas_recogera">Alguien mas recogerá a </string>
     <string name="se_retiro_de_la_escuela"> se retiro de la escuela con</string>
+    <string name="personaquerecoge">Ingrese nombre de persona que esta realizando checkout</string>
+    <string name="enviar">Enviar</string>
+    <string name="nombre_de_la_persona_que_ira">¿Quién irá por </string>
+    <string name="importante_decir_quien">Es importante especificar quien ira por el alumno</string>
+    <string name="se_le_aviso_al_profesor_que_alguien_mas_ira">Se le aviso al profesor que alguien mas recogerá a su hij@</string>
+    <string name="se_le_aviso_al_profesor_que_va_tarde">Se le aviso al profesor que llegará tarde</string>
+    <string name="se_le_aviso_al_profesor_que_va_en_camino">Se le aviso al profesor que ya va en camino</string>
+    <string name="serealizoelcheckout">Se realizo el checkout</string>
+    <string name="sin_definir">Estudiante sin registros</string>
 </resources>

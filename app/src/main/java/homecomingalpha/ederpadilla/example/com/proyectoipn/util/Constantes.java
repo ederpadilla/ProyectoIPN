@@ -69,4 +69,9 @@ public class Constantes {
 
     public static final String NOMBRE ="nombre" ;
     public static final String LLAVE_KEEP = "KEEP";
+    public static final int STUDENT_STATE_NOT_IN_SCHOOL = 0;
+    public static final int STUDET_STATE_SOMEONE_ELSE = 1;
+    public static final int STUDENT_STATE_LATE = 2;
+    public static final int STUDENT_STATE_ON_MY_WAY = 3;
+    public static final int STUDENT_STATE_NOT_YET = 4;
 }

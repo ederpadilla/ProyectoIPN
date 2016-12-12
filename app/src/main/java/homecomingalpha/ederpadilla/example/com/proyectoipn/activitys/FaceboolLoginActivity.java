@@ -287,9 +287,10 @@ public class FaceboolLoginActivity extends AppCompatActivity {
         List<String> permissions= new ArrayList<>();
         permissions.add(Manifest.permission.CAMERA);
         permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        permissions.add(Manifest.permission.CALL_PHONE);
         if (hasPermissions(getApplicationContext(),permissions.toArray(new String[permissions.size()]))){
         }else{
-            String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+            String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA,Manifest.permission.CALL_PHONE};
             if(!hasPermissions(this, PERMISSIONS)){
                 ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
             }

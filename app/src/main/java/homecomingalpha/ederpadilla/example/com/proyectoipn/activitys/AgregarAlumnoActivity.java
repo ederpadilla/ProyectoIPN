@@ -193,7 +193,11 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
                 map.put(Constantes.FIREBASE_DB_STUDENTS_PHOTO_URL,studentImageUrl);
                 map.put(Constantes.FIREBASE_DB_STUDENTS_USERID,alumnos.getIdDelProfesor());
                 map.put(Constantes.FIREBASE_DB_STUDENTS_USERLIST,alumnos.getUsersList());
-                map.put(Constantes.FIREBASE_DB_STUDENTS_STATE,0);
+                map.put(Constantes.FIREBASE_DB_STUDENTS_STATE,Constantes.STUDENT_STATE_NOT_YET);
+                map.put(Constantes.FIREBASE_DB_STUDENTS_PERSON_WHOS_GONNA_GET_IT,alumnos.getPersonaQueRecogera());
+                map.put(Constantes.FIREBASE_DB_STUDENTS_WHO_GET_IT,alumnos.getPersonaQueRecogio());
+                map.put(Constantes.FIREBASE_DB_STUDENTS_DATE,alumnos.getFecha());
+                map.put(Constantes.FIREBASE_DB_STUDENTS_HOUR,alumnos.getHora());
                 map.put(Constantes.FIREBASE_DB_STUDENTS_CODE,alumnos.getCodigoAlumno());
                 mFirebaseDatabase.updateChildren(map);
                  Intent intent = new Intent(AgregarAlumnoActivity.this,
@@ -295,7 +299,6 @@ public class AgregarAlumnoActivity extends AppCompatActivity {
                     File f = new File(android.os.Environment
                             .getExternalStorageDirectory(), "temp.jpg");
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                    Util.showLog("antes del start de camara");
                     startActivityForResult(intent, Constantes.REQUEST_CAMERA);
                 } else if (items[item].equals("Galería")) {
                     Intent intent = new Intent(

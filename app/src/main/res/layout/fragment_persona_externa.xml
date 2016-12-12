@@ -28,9 +28,10 @@
                 android:textAlignment="center"
                 android:textSize="15sp"
                 android:textStyle="bold"
+                android:id="@+id/tv_quien"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/white"
-                android:text="@string/buscar_estudiante"/>
+                android:text="@string/nombre_de_la_persona_que_ira"/>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,14 +39,14 @@
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp">
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/fragment_et_codigo_buscar"
+                    android:id="@+id/fragment_et__personaexterna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/codigo"
+                    android:hint="@string/persona_check_out"
+                    android:inputType="textCapWords"
                     android:textAlignment="center"
                     android:imeOptions="actionDone"
                     app:paddingStart="10dp"
-                    android:inputType="textCapCharacters"
                     android:maxLines="1"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -56,13 +57,13 @@
 
         </LinearLayout>
         <Button
-            android:id="@+id/btn_fragment_buscar"
+            android:id="@+id/btn_enviar"
             android:layout_width="100dp"
             android:layout_height="25dp"
             android:layout_gravity="center"
             android:layout_marginTop="45dp"
             android:background="@drawable/my_red_btn_ripple"
-            android:text="@string/buscar"
+            android:text="@string/enviar"
             android:textColor="@color/white"
             android:textStyle="bold"/>
 

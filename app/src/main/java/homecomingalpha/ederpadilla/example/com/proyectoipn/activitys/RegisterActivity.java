@@ -333,14 +333,14 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         } else if (requestCode == Constantes.SELECT_FILE) {
-            Uri selectedImageUri = data.getData();
-
-            String tempPath = Util.getPath(selectedImageUri, RegisterActivity.this);
-            BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
-            userProfileImage = BitmapFactory.decodeFile(tempPath, btmapOptions);
-            img_photo.setImageBitmap(userProfileImage);
+            if (resultCode == RESULT_OK) {
+                Uri selectedImageUri = data.getData();
+                String tempPath = Util.getPath(selectedImageUri, RegisterActivity.this);
+                BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
+                userProfileImage = BitmapFactory.decodeFile(tempPath, btmapOptions);
+                img_photo.setImageBitmap(userProfileImage);
+            }
         }
-
 
     }
 

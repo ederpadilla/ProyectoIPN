@@ -59,8 +59,13 @@ public class Constantes {
     public static final String FIREBASE_DB_STUDENTS_PHOTO_URL = "fotoAlumnoUrl";
     public static final String FIREBASE_DB_STUDENTS_USERID= "idDelProfesor";
     public static final String FIREBASE_DB_STUDENTS_STATE= "estado";
+    public static final String FIREBASE_DB_STUDENTS_PERSON_WHOS_GONNA_GET_IT= "personaQueRecogera";
+    public static final String FIREBASE_DB_STUDENTS_DATE= "fecha";
+    public static final String FIREBASE_DB_STUDENTS_HOUR= "hora";
+    public static final String FIREBASE_DB_STUDENTS_WHO_GET_IT= "personaQueRecogio";
     public static final String FIREBASE_DB_STUDENTS_USERLIST= "usersList";
     public static final String FIREBASE_DB_STUDENTS_CODE= "codigoAlumno";
+
 
     public static final String NOMBRE ="nombre" ;
     public static final String LLAVE_KEEP = "KEEP";

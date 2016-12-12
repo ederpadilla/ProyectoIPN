@@ -30,16 +30,8 @@
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/white"
-                android:text="@string/estado_de_salida_del_niño"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/white"
-                android:text="Alguien mas lo recogera"/>
+                android:id="@+id/fragment_alguien_mas_recogera_a_nombre"
+                android:text="@string/alguien_mas_recogera"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,14 +41,31 @@
                 android:layout_marginTop="10dp"
                 android:textColor="@color/white"
                 android:text="Joan Jose Franciso"
-                android:id="@+id/tv_recogido_por"/>
-
+                android:id="@+id/fragment_alguien_mas_recogera_recogido_por"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:id="@+id/fragment_alguien_mas_recogera_fecha"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:textSize="15sp"
+                android:textAlignment="center"
+                android:text="15/02/2016"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:textStyle="bold"
+                android:id="@+id/fragment_alguien_mas_recogera_hora"
+                android:textSize="15sp"
+                android:textAlignment="center"
+                android:text="13:10"/>
            <ImageView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:src="@mipmap/ic_camera_front"
-               android:id="@+id/imgv_profesor_estado"
-               android:layout_marginTop="10dp"/>
+               android:layout_width="@dimen/dimen_40dp"
+               android:layout_height="@dimen/dimen_40dp"
+               android:src="@mipmap/ic_camera_front"/>
 
         </LinearLayout>
 

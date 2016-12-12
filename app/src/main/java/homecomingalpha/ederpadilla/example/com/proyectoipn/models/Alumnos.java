@@ -19,10 +19,12 @@ public class Alumnos  {
     private String fotoAlumnoUrl;
     private byte[]bytes;
     private int estado;
-    private String fechaHora;
     private String idDelProfesor;
     private List<User> usersList;
     private String personaQueRecogera;
+    private String fecha;
+    private String hora;
+    private String personaQueRecogio;
     @PrimaryKey
     private String codigoAlumno;
 
@@ -49,20 +51,7 @@ public class Alumnos  {
         this.codigoAlumno = codigoAlumno;
     }
 
-    public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String fotoAlumnoUrl, int estado, String fechaHora, String idDelProfesor, String personaQueRecogera, String codigoAlumno) {
-        this.nombreCompletoAlumno = nombreCompletoAlumno;
-        this.edadAlumno = edadAlumno;
-        this.fechaNacimientoAlumno = fechaNacimientoAlumno;
-        this.tipoDeSangreAlumno = tipoDeSangreAlumno;
-        this.telefonoAlumno = telefonoAlumno;
-        this.grupoAlumno = grupoAlumno;
-        this.fotoAlumnoUrl = fotoAlumnoUrl;
-        this.estado = estado;
-        this.fechaHora = fechaHora;
-        this.idDelProfesor = idDelProfesor;
-        this.personaQueRecogera = personaQueRecogera;
-        this.codigoAlumno = codigoAlumno;
-    }
+
 
     public Alumnos(String nombreCompletoAlumno, String edadAlumno, String fechaNacimientoAlumno, String tipoDeSangreAlumno, String telefonoAlumno, String grupoAlumno, String fotoAlumnoUrl, int estado, String idDelProfesor, String codigoAlumno) {
         this.nombreCompletoAlumno = nombreCompletoAlumno;
@@ -201,12 +190,36 @@ public class Alumnos  {
         this.estado = estado;
     }
 
-    public String getFechaHora() {
-        return fechaHora;
+    public String getPersonaQueRecogera() {
+        return personaQueRecogera;
     }
 
-    public void setFechaHora(String fechaHora) {
-        this.fechaHora = fechaHora;
+    public void setPersonaQueRecogera(String personaQueRecogera) {
+        this.personaQueRecogera = personaQueRecogera;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
+    }
+
+    public String getPersonaQueRecogio() {
+        return personaQueRecogio;
+    }
+
+    public void setPersonaQueRecogio(String personaQueRecogio) {
+        this.personaQueRecogio = personaQueRecogio;
     }
 
     @Override
@@ -215,7 +228,6 @@ public class Alumnos  {
                 "codigoAlumno='" + codigoAlumno + '\'' +
                 ", usersList=" + usersList +
                 ", idDelProfesor='" + idDelProfesor + '\'' +
-                ", fechaHora='" + fechaHora + '\'' +
                 ", estado=" + estado +
                 ", fotoAlumnoUrl='" + fotoAlumnoUrl + '\'' +
                 ", grupoAlumno='" + grupoAlumno + '\'' +

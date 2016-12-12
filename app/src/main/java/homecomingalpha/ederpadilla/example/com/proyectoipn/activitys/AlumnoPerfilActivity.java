@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -15,6 +16,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,6 +65,9 @@ public class AlumnoPerfilActivity extends AppCompatActivity {
 
     @BindView(R.id.alumno_photo)
     CircularImageView foto_alumno;
+
+    @BindView(R.id.img_inform)
+    ImageView img_inform;
 
     private Alumnos alumnoPerfil;
 
@@ -144,5 +151,15 @@ public class AlumnoPerfilActivity extends AppCompatActivity {
     }
     @OnClick(R.id.tv_alumno_perfil_telefono)
     public void makeCall(){
+    }
+    public String getDate(){
+        String fecha = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
+    return fecha;
+    }
+    public String getHour(){
+        String hour;
+        Calendar now = Calendar.getInstance();
+        hour=now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE);
+        return hour;
     }
 }

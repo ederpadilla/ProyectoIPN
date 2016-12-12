@@ -20,59 +20,52 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:background="@color/colorPrimary">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:id="@+id/fragment_alumno_recogido_nombre_alumno"
                 android:textAlignment="center"
-                android:text="@string/se_retiro_de_la_escuela"/>
+                android:textSize="18sp"
+                android:id="@+id/fragment_retrasado_nombre"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:text="@string/nombre"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:textColor="@color/white"
+                android:text="@string/etsa_retrasado"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold"
-                android:textSize="16sp"
-                android:textAlignment="center"
-                android:id="@+id/fragment_alumno_recogido_persona_que_recogio"
-                android:text="Nombre"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:textAlignment="center"
-                android:text="Buenas día"/>
-            <ImageView
-                android:layout_width="@dimen/dimen_40dp"
-                android:layout_height="@dimen/dimen_40dp"
-                android:src="@mipmap/ic_check"
-                android:id="@+id/img_dialog_estado_niño"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold"
-                android:id="@+id/fragment_alumno_recogido_fecha"
-                android:textSize="16sp"
+                android:id="@+id/fragment_retrasado_fecha"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:textSize="18sp"
                 android:textAlignment="center"
                 android:text="15/02/2016"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
+                android:layout_marginTop="@dimen/dimen_5dp"
                 android:textStyle="bold"
-                android:id="@+id/fragment_alumno_recogido_hora"
-                android:textSize="16sp"
+                android:id="@+id/fragment_retrasado_hora"
+                android:textSize="18sp"
                 android:textAlignment="center"
                 android:text="13:10"/>
+            <ImageView
+                android:layout_width="@dimen/dimen_40dp"
+                android:layout_height="@dimen/dimen_40dp"
+                android:src="@mipmap/ic_time"/>
         </LinearLayout>
-
 
     </android.support.v7.widget.CardView>
 </LinearLayout>

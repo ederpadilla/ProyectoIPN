@@ -63,4 +63,8 @@
     <string name="edad_simple">Edad:</string>
     <string name="contraseña_pequeña">Contraseña demasiado corta</string>
     <string name="alumno_encontrado">Alumno encontrado</string>
+    <string name="ya_va_en_camino">Ya van en camino a la escuela</string>
+    <string name="etsa_retrasado">Se encuentra retrasado</string>
+    <string name="alguien_mas_recogera">Alguien mas recogerá a </string>
+    <string name="se_retiro_de_la_escuela"> se retiro de la escuela con</string>
 </resources>

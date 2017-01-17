@@ -62,7 +62,6 @@ public class SplashActivity extends Activity {
             public void run() {
                 try {
 
-                    /** Pause the execution of the code for 3.5 secs. **/
                     sleep(1500);
                     if(sharedPreferences.contains(Constantes.NOMBRE)){
                         Intent intent = new Intent(SplashActivity.this,PerfilActivity.class);

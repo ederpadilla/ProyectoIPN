@@ -149,7 +149,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                     mStorageRef=FirebaseStorage.getInstance().getReferenceFromUrl(Constantes.FIREBASE_DB_USER_PORFILE_PICTURE_URL).child(firebaseUser.getUid());
                                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                    userProfileImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                    userProfileImage.compress(Bitmap.CompressFormat.JPEG, 500, baos);
                                     byte[] data = baos.toByteArray();
                                     UploadTask uploadTask = mStorageRef.putBytes(data);
                                     uploadTask.addOnFailureListener(new OnFailureListener() {
